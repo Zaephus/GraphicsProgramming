@@ -13,7 +13,7 @@ for /r %%a in (*.c) do (
 
 @echo Compilation complete, proceeding to linking...
 
-g++ -mwindows -o bin/main.exe bin/*.o -L. -lglfw3 -lopengl32 -lgdi32
+g++ -o bin/main.exe bin/*.o -L. -lglfw3 -lopengl32 -lgdi32
 
 @echo Disposing of temporary files...
 

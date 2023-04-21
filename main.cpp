@@ -5,6 +5,8 @@
 #include <iostream>
 using namespace std;
 
+#include "Core/Math.h"
+
 void framebuffer_size_callback(GLFWwindow* _window, int _width, int _height) {
     glViewport(0, 0, _width, _height);
 }
@@ -16,6 +18,16 @@ void processInput(GLFWwindow* _window) {
 }
 
 int main() {
+
+    Vector2 vec = Vector2(1, 2);
+
+    cout << "Vec.x = " << vec.x << endl;
+    cout << "Magnitude = " << vec.GetMagnitude() << endl;
+
+    vec.Normalize();
+
+    cout << "New Vec.x = " << vec.x << endl;
+    cout << "New Magnitude = " << vec.GetMagnitude() << endl;
     
     if(!glfwInit()) {
         return -1;
