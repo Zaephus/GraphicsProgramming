@@ -1,0 +1,67 @@
+{
+  "format": 1,
+  "restore": {
+    "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\Graphics.csproj": {}
+  },
+  "projects": {
+    "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\Graphics.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\Graphics.csproj",
+        "projectName": "Graphics",
+        "projectPath": "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\Graphics.csproj",
+        "packagesPath": "C:\\Users\\Marc\\.nuget\\packages\\",
+        "outputPath": "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Marc\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "OpenTK": {
+              "target": "Package",
+              "version": "[4.7.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
