@@ -5,23 +5,47 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ZaephusEngine {
 
-    public class Triangle {
+    public class Hexagon {
 
         private int vertexBufferObject;
         private int vertexArrayObject;
 
         private Shader shader;
 
+        private Colour colour;
+
         public Vector3[] vertices = {
-            new Vector3(-0.5f, -0.5f, 0.0f),
-            new Vector3(0.5f, -0.5f, 0.0f),
-            new Vector3(0.0f, 0.5f, 0.0f)
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(0.5f, 0.0f, 0.0f),
+            new Vector3(0.25f, 0.433f, 0.0f),
+
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(0.25f, 0.433f, 0.0f),
+            new Vector3(-0.25f, 0.433f, 0.0f),
+
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(-0.25f, 0.433f, 0.0f),
+            new Vector3(-0.5f, 0.0f, 0.0f),
+
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(-0.5f, 0.0f, 0.0f),
+            new Vector3(-0.25f, -0.433f, 0.0f),
+
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(-0.25f, -0.433f, 0.0f),
+            new Vector3(0.25f, -0.433f, 0.0f),
+
+            new Vector3(0.0f, 0.0f, 0.0f),
+            new Vector3(0.25f, -0.433f, 0.0f),
+            new Vector3(0.5f, 0.0f, 0.0f)
         };
 
-        public Triangle() {
+        public Hexagon(Colour _colour) {
             Window.OnLoadMeshes += OnLoad;
             Window.OnRenderMeshes += OnRender;
             Window.OnUnloadMeshes += OnUnload;
+
+            colour = _colour;
         }
 
         private void OnLoad() {
@@ -44,7 +68,10 @@ namespace ZaephusEngine {
         private void OnRender() {
             shader.Use();
             GL.BindVertexArray(vertexArrayObject);
-            GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+            GL.DrawArrays(PrimitiveType.Triangles, 0, vertices.Length);
+
+            int colourLocation = GL.GetUniformLocation(shader.handle, "colour");
+            GL.Uniform4(colourLocation, colour);
         }
 
         private void OnUnload() {

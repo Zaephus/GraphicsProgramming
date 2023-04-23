@@ -5,7 +5,7 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 public class Shader : IDisposable {
 
-    private int handle;
+    public int handle;
 
     private bool hasDisposedValue = false;
 
@@ -28,6 +28,7 @@ public class Shader : IDisposable {
         GL.GetShader(vertexShader, ShaderParameter.CompileStatus, out int _vertexSuccess);
         if(_vertexSuccess == 0) {
             string infoLog = GL.GetShaderInfoLog(vertexShader);
+            Console.WriteLine("Vertex Shader Info");
             Console.WriteLine(infoLog);
         }
 
@@ -36,6 +37,7 @@ public class Shader : IDisposable {
         GL.GetShader(fragmentShader, ShaderParameter.CompileStatus, out int _fragmentSuccess);
         if(_fragmentSuccess == 0) {
             string infoLog = GL.GetShaderInfoLog(fragmentShader);
+            Console.WriteLine("Fragment Shader Info");
             Console.WriteLine(infoLog);
         }
 
@@ -49,6 +51,7 @@ public class Shader : IDisposable {
         GL.GetProgram(handle, GetProgramParameterName.LinkStatus, out int _success);
         if(_success == 0) {
             string infoLog = GL.GetProgramInfoLog(handle);
+            Console.WriteLine("General Info");
             Console.WriteLine(infoLog);
         }
 

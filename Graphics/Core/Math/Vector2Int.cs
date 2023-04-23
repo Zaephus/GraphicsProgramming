@@ -6,10 +6,36 @@ using System.Collections.Generic;
 namespace ZaephusEngine {
 
     // TODO: Add IFormattable to Vector2Int class.
+    // TODO: Add epsilon to Vector2Int class.
     public struct Vector2Int : IEquatable<Vector2Int> {
 
         public int x;
         public int y;
+
+        public int this[int _index] {
+            get {
+                switch(_index) {
+                    case 0:
+                        return x;
+                    case 1:
+                        return y;
+                    default:
+                        throw new IndexOutOfRangeException("Invalid Vector2Int index.");
+                }
+            }
+            set {
+                switch(_index) {
+                    case 0:
+                        x = value;
+                        break;
+                    case 1:
+                        y = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("Invalid Vector2Int index.");
+                }
+            }
+        }
 
         public Vector2Int(float _x, float _y) : this((int)MathF.Round(_x), (int)MathF.Round(_y)) {}
         public Vector2Int(int _x, int _y) {

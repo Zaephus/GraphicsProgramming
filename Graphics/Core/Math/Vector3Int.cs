@@ -6,11 +6,42 @@ using System.Collections.Generic;
 namespace ZaephusEngine {
 
     // TODO: Add IFormattable to Vector3Int class.
+    // TODO: Add epsilon to Vector3Int class.
     public struct Vector3Int : IEquatable<Vector3Int> {
 
         public int x;
         public int y;
         public int z;
+
+        public int this[int _index] {
+            get {
+                switch(_index) {
+                    case 0:
+                        return x;
+                    case 1:
+                        return y;
+                    case 2:
+                        return z;
+                    default:
+                        throw new IndexOutOfRangeException("Invalid Vector3Int index.");
+                }
+            }
+            set {
+                switch(_index) {
+                    case 0:
+                        x = value;
+                        break;
+                    case 1:
+                        y = value;
+                        break;
+                    case 2:
+                        z = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("Invalid Vector3Int index.");
+                }
+            }
+        }
 
         public Vector3Int(float _x, float _y) : this((int)MathF.Round(_x), (int)MathF.Round(_y), 0) {}
         public Vector3Int(float _x, float _y, float _z) : this((int)MathF.Round(_x), (int)MathF.Round(_y), (int)MathF.Round(_z)) {}

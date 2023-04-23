@@ -6,10 +6,36 @@ using System.Collections.Generic;
 namespace ZaephusEngine {
 
     // TODO: Add IFormattable to Vector2 class.
+    // TODO: Add epsilon to Vector2 class.
     public struct Vector2 : IEquatable<Vector2> {
 
         public float x;
         public float y;
+
+        public float this[int _index] {
+            get {
+                switch(_index) {
+                    case 0:
+                        return x;
+                    case 1:
+                        return y;
+                    default:
+                        throw new IndexOutOfRangeException("Invalid Vector2 index.");
+                }
+            }
+            set {
+                switch(_index) {
+                    case 0:
+                        x = value;
+                        break;
+                    case 1:
+                        y = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException("Invalid Vector2 index.");
+                }
+            }
+        }
 
         public Vector2(float _x, float _y) {
             x = _x;

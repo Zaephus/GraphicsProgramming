@@ -7,11 +7,14 @@ namespace ZaephusEngine {
 
     public class Window : GameWindow {
 
+        public static System.Action OnLoadMeshes;
+        public static System.Action OnRenderMeshes;
+        public static System.Action OnUnloadMeshes;
+
         public Colour backgroundColour = Colour.cyan;
 
-        private int vertexBufferObject;
-
-        private Triangle triangle = new Triangle();
+        // private Triangle triangle = new Triangle();
+        private Hexagon hexagon = new Hexagon(Colour.magenta);
 
         public Window(int _width, int _height, string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (_width, _height), Title = _title}) {}
 
@@ -20,10 +23,7 @@ namespace ZaephusEngine {
 
             GL.ClearColor(backgroundColour);
 
-            vertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-
-            GL.BufferData(BufferTarget.ArrayBuffer, triangle.vertices.Length * sizeof(float), triangle.vertices, BufferUsageHint.StaticDraw);
+            OnLoadMeshes?.Invoke();
 
         }
 
@@ -31,6 +31,8 @@ namespace ZaephusEngine {
             base.OnRenderFrame(_e);
 
             GL.Clear(ClearBufferMask.ColorBufferBit);
+
+            OnRenderMeshes?.Invoke();
 
             SwapBuffers();
 
@@ -50,6 +52,10 @@ namespace ZaephusEngine {
 
             GL.Viewport(0, 0, _e.Width, _e.Height);
 
+        }
+
+        protected override void OnUnload() {
+            OnUnloadMeshes?.Invoke();
         }
 
     }
