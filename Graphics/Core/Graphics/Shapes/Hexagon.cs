@@ -38,7 +38,7 @@ namespace ZaephusEngine {
             0, 6, 1
         };
 
-        public Hexagon(Colour _colour) : base() {
+        public Hexagon(Colour _colour) {
             colour = _colour;
 
             base.vertices = this.vertices;

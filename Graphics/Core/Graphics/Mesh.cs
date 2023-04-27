@@ -13,8 +13,13 @@ namespace ZaephusEngine {
 
         protected Shader shader;
 
-        public Vector3[] vertices;
-        public Colour[] vertexColours;
+        public Vector3[] vertices = new Vector3[0];
+        public Colour[] vertexColours = new Colour[0];
+        public Vector2[] uvs = new Vector2[0];
+        public Vector3[] normals = new Vector3[0];
+        public Vector3[] tangents = new Vector3[0];
+        public Vector3[] biTangents = new Vector3[0];
+
         public uint[] triangles;
 
         public Mesh() {
@@ -36,7 +41,14 @@ namespace ZaephusEngine {
             // TODO Add world position to vertex positions.
             Vertex[] vertexArray = new Vertex[vertices.Length];
             for(int i = 0; i < vertexArray.Length; i++) {
-                vertexArray[i] = new Vertex(vertices[i], vertexColours[i]);
+                vertexArray[i] = new Vertex(
+                    i < vertices.Length         ? vertices[i]       : Vector3.zero,
+                    i < vertexColours.Length    ? vertexColours[i]  : Colour.white,
+                    i < uvs.Length              ? uvs[i]            : Vector2.zero,
+                    i < normals.Length          ? normals[i]        : Vector3.zero,
+                    i < tangents.Length         ? tangents[i]       : Vector3.zero,
+                    i < biTangents.Length       ? biTangents[i]     : Vector3.zero
+                );
             }
 
             GL.BufferData(BufferTarget.ArrayBuffer, vertexArray.Length * sizeof(Vertex), vertexArray, BufferUsageHint.StaticDraw);
@@ -66,7 +78,7 @@ namespace ZaephusEngine {
             GL.VertexAttribPointer(5, 3, VertexAttribPointerType.Float, false, sizeof(Vertex), 15 * sizeof(float));
             GL.EnableVertexAttribArray(5);
 
-            shader = new Shader("Core/Graphics/Shaders/shader.vert", "Core/Graphics/Shaders/shader.frag");
+            shader = new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/Fragment.glsl");
 
         }
 

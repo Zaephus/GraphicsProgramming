@@ -58,3 +58,4 @@ C:\Users\marcc\Documents\HKU\J2.4\Graphics\GraphicsProgramming\Graphics\obj\Debu
 C:\Users\marcc\Documents\HKU\J2.4\Graphics\GraphicsProgramming\Graphics\obj\Debug\net7.0\Graphics.pdb
 C:\Users\marcc\Documents\HKU\J2.4\Graphics\GraphicsProgramming\Graphics\obj\Debug\net7.0\Graphics.genruntimeconfig.cache
 C:\Users\marcc\Documents\HKU\J2.4\Graphics\GraphicsProgramming\Graphics\obj\Debug\net7.0\ref\Graphics.dll
+C:\Users\marcc\Documents\HKU\J2.4\Graphics\GraphicsProgramming\Graphics\bin\Debug\net7.0\StbImageSharp.dll

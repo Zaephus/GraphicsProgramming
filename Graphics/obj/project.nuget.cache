@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QfKVs21nJHh/0BpFpjLx9z6bOusIl2vvDXmkbgT1FCsypL8AipLwTVsZp3Ur3rK64rPVWaJg9e93URSaQwyEEw==",
+  "dgSpecHash": "DwQYxt/xx+KGBf33401EiqHkLyNKCuKWTyQsSHYj/Itu4SAR8zCkVXXzGF7utiZEJIOjFXLeQFl7CZWFiYEqyQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\marcc\\Documents\\HKU\\J2.4\\Graphics\\GraphicsProgramming\\Graphics\\Graphics.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,7 @@
     "C:\\Users\\marcc\\.nuget\\packages\\opentk.windowing.common\\4.7.7\\opentk.windowing.common.4.7.7.nupkg.sha512",
     "C:\\Users\\marcc\\.nuget\\packages\\opentk.windowing.desktop\\4.7.7\\opentk.windowing.desktop.4.7.7.nupkg.sha512",
     "C:\\Users\\marcc\\.nuget\\packages\\opentk.windowing.graphicslibraryframework\\4.7.7\\opentk.windowing.graphicslibraryframework.4.7.7.nupkg.sha512",
+    "C:\\Users\\marcc\\.nuget\\packages\\stbimagesharp\\2.27.13\\stbimagesharp.2.27.13.nupkg.sha512",
     "C:\\Users\\marcc\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
   ],
   "logs": []
