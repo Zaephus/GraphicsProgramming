@@ -13,8 +13,8 @@ namespace ZaephusEngine {
 
         public Colour backgroundColour = Colour.cyan;
 
-        // private Triangle triangle = new Triangle();
         private Hexagon hexagon = new Hexagon(Colour.magenta);
+        // private Triangle triangle = new Triangle(Colour.green);
 
         public Window(int _width, int _height, string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (_width, _height), Title = _title}) {}
 

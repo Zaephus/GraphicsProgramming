@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\Graphics.csproj": {}
+    "C:\\Users\\marcc\\Documents\\HKU\\J2.4\\Graphics\\GraphicsProgramming\\Graphics\\Graphics.csproj": {}
   },
   "projects": {
-    "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\Graphics.csproj": {
+    "C:\\Users\\marcc\\Documents\\HKU\\J2.4\\Graphics\\GraphicsProgramming\\Graphics\\Graphics.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\Graphics.csproj",
+        "projectUniqueName": "C:\\Users\\marcc\\Documents\\HKU\\J2.4\\Graphics\\GraphicsProgramming\\Graphics\\Graphics.csproj",
         "projectName": "Graphics",
-        "projectPath": "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\Graphics.csproj",
-        "packagesPath": "C:\\Users\\Marc\\.nuget\\packages\\",
-        "outputPath": "A:\\HKU\\J2.4\\GraphProg\\GraphicsProgramming\\Graphics\\obj\\",
+        "projectPath": "C:\\Users\\marcc\\Documents\\HKU\\J2.4\\Graphics\\GraphicsProgramming\\Graphics\\Graphics.csproj",
+        "packagesPath": "C:\\Users\\marcc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marcc\\Documents\\HKU\\J2.4\\Graphics\\GraphicsProgramming\\Graphics\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Marc\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\marcc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
