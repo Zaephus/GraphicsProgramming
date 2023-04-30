@@ -9,10 +9,16 @@ layout(location = 5) in vec3 inBiTangent;
 
 out vec4 vertexColour;
 out vec2 uv;
+out vec3 normal;
+out vec3 tangent;
+out vec3 biTangent;
 
 void main() {
     gl_Position = vec4(inPosition, 1.0);
+
     vertexColour = inColour;
     uv = inUV;
-    //vertexColour = vec4(inUV, 0.0, 1.0);
+    normal = inNormal;
+    tangent = inTangent;
+    biTangent = inBiTangent;    
 }

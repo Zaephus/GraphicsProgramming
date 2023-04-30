@@ -1,7 +1,4 @@
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
 
 public class Shader : IDisposable {
 
@@ -82,6 +79,11 @@ public class Shader : IDisposable {
         if(!hasDisposedValue) {
             Console.WriteLine("GPU resource leak! Did you forget to call Dispose()?");
         }
+    }
+
+    public void SetInt(string _name, int _value) {
+        int location = GL.GetUniformLocation(handle, _name);
+        GL.Uniform1(location, _value);
     }
 
 }

@@ -1,4 +1,7 @@
-
+using OpenTK.Graphics.OpenGL4;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ZaephusEngine {
 
@@ -30,7 +33,8 @@ namespace ZaephusEngine {
             1, 3, 2
         };
 
-        Texture texture;
+        Texture texture0;
+        Texture texture1;
 
         public Quad() {
             base.vertices = this.vertices;
@@ -43,11 +47,24 @@ namespace ZaephusEngine {
         protected override void OnLoad() {
             base.OnLoad();
 
-            texture = new Texture("Textures/container.jpg");
+            texture0 = new Texture("Textures/container.png");
+            texture0.Use(TextureUnit.Texture0);
+
+            texture1 = new Texture("Textures/awesomeFace.png");
+            texture1.Use(TextureUnit.Texture1);
+
+            shader.Use();
+            shader.SetInt("texture0", 0);
+            shader.SetInt("texture1", 1);
+
         }
 
         protected override void OnRender() {
             base.OnRender();
+
+            texture0.Use(TextureUnit.Texture0);
+            texture1.Use(TextureUnit.Texture1);
+            
         }
 
         protected override void OnUnload() {

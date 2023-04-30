@@ -7,9 +7,9 @@ namespace ZaephusEngine {
 
     public class Mesh {
 
-        private int vertexBufferObject;
-        private int vertexArrayObject;
-        private int elementBufferObject;
+        protected int vertexBufferObject;
+        protected int vertexArrayObject;
+        protected int elementBufferObject;
 
         protected Shader shader;
 
