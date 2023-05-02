@@ -48,12 +48,8 @@ namespace ZaephusEngine {
             base.OnLoad();
 
             texture0 = new Texture("Textures/container.png");
-            texture0.Use(TextureUnit.Texture0);
-
             texture1 = new Texture("Textures/awesomeFace.png");
-            texture1.Use(TextureUnit.Texture1);
 
-            shader.Use();
             shader.SetInt("texture0", 0);
             shader.SetInt("texture1", 1);
 

@@ -82,6 +82,7 @@ public class Shader : IDisposable {
     }
 
     public void SetInt(string _name, int _value) {
+        Use();
         int location = GL.GetUniformLocation(handle, _name);
         GL.Uniform1(location, _value);
     }
