@@ -1,4 +1,4 @@
-
+using OpenTK.Mathematics;
 
 namespace ZaephusEngine {
 
@@ -139,7 +139,67 @@ namespace ZaephusEngine {
             }
         }
 
+        public float[] FloatArray {
+            get {
+                List<float> entries = new List<float>();
+                for(int i = 0; i < 16; i++) {
+                    entries.Add(this[i]);
+                }
+                return entries.ToArray();
+            }
+            set {
+                this = new Matrix4x4(
+                    new Vector4(value[0], value[1], value[2], value[3]),
+                    new Vector4(value[4], value[5], value[6], value[7]),
+                    new Vector4(value[8], value[9], value[10], value[11]),
+                    new Vector4(value[12], value[13], value[14], value[15])
+                );
+            }
+        }
+
         // TODO: Add inverse matrix.
+
+        public static Matrix4x4 ScaleMatrix(Vector3 _vec) {
+            return new Matrix4x4(
+                new Vector4(_vec.x, 0, 0, 0),
+                new Vector4(0, _vec.y, 0, 0),
+                new Vector4(0, 0, _vec.z, 0),
+                new Vector4(0, 0, 0, 1)
+            );
+        }
+
+        public static Matrix4x4 TranslateMatrix(Vector3 _vec) {
+            return new Matrix4x4(
+                new Vector4(1, 0, 0, _vec.x),
+                new Vector4(0, 1, 0, _vec.y),
+                new Vector4(0, 0, 1, _vec.z),
+                new Vector4(0, 0, 0, 1)
+            );
+        }
+
+        public static Matrix4x4 RotateMatrix(Quaternion _q) {
+            return new Matrix4x4(
+                new Vector4(
+                    (_q.w * _q.w + _q.x * _q.x - _q.y * _q.y - _q.z * _q.z),
+                    (2* _q.x * _q.y - 2 * _q.w * _q.z),
+                    (2* _q.x * _q.z - 2 * _q.w * _q.y),
+                    0.0f
+                ),
+                new Vector4(
+                    (2* _q.x * _q.y + 2 * _q.w * _q.z),
+                    (_q.w * _q.w - _q.x * _q.x + _q.y * _q.y - _q.z * _q.z),
+                    (2* _q.y * _q.z - 2 * _q.w * _q.x),
+                    0.0f
+                ),
+                new Vector4(
+                    (2* _q.x * _q.z - 2 * _q.w * _q.y),
+                    (2* _q.y * _q.z + 2 * _q.w * _q.x),
+                    (_q.w * _q.w - _q.x * _q.x - _q.y * _q.y + _q.z * _q.z),
+                    0.0f
+                ),
+                new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
+            );
+        }
 
         public override int GetHashCode() {
             return GetColumn(0).GetHashCode() ^ (GetColumn(1).GetHashCode() << 2) ^ (GetColumn(2).GetHashCode() >> 2) ^ (GetColumn(3).GetHashCode() >> 1);
@@ -181,7 +241,6 @@ namespace ZaephusEngine {
             );
         }
 
-        // TODO: Check if this is correct.
         public static Matrix4x4 operator*(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return new Matrix4x4(
                 new Vector4(
@@ -266,6 +325,24 @@ namespace ZaephusEngine {
 
         public static bool operator!=(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return !(_lhs == _rhs);
+        }
+
+        public static implicit operator Matrix4(Matrix4x4 _m) {
+            return new Matrix4(
+                _m.m00, _m.m01, _m.m02, _m.m03,
+                _m.m10, _m.m11, _m.m12, _m.m13,
+                _m.m20, _m.m21, _m.m22, _m.m23,
+                _m.m30, _m.m31, _m.m32, _m.m33
+            );
+        }
+
+        public static implicit operator Matrix4x4(Matrix4 _m) {
+            return new Matrix4x4( new float[,] {
+                {_m.Row0.X, _m.Row0.Y, _m.Row0.Z, _m.Row0.W },
+                {_m.Row1.X, _m.Row1.Y, _m.Row1.Z, _m.Row1.W },
+                {_m.Row2.X, _m.Row2.Y, _m.Row2.Z, _m.Row2.W },
+                {_m.Row3.X, _m.Row3.Y, _m.Row3.Z, _m.Row3.W }
+            });
         }
 
         public static Matrix4x4 zero {

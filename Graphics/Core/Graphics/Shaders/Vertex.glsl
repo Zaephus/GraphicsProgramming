@@ -13,8 +13,10 @@ out vec3 normal;
 out vec3 tangent;
 out vec3 biTangent;
 
+uniform mat4 transform;
+
 void main() {
-    gl_Position = vec4(inPosition, 1.0);
+    gl_Position = vec4(inPosition, 1.0) * transform;
 
     vertexColour = inColour;
     uv = inUV;

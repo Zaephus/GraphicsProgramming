@@ -16,27 +16,18 @@ namespace ZaephusEngine {
         public float this[int _index] {
             get {
                 switch(_index) {
-                    case 0:
-                        return x;
-                    case 1:
-                        return y;
-                    case 2:
-                        return z;
+                    case 0: return x;
+                    case 1: return y;
+                    case 2: return z;
                     default:
                         throw new IndexOutOfRangeException("Invalid Vector3 index.");
                 }
             }
             set {
                 switch(_index) {
-                    case 0:
-                        x = value;
-                        break;
-                    case 1:
-                        y = value;
-                        break;
-                    case 2:
-                        z = value;
-                        break;
+                    case 0: x = value; break;
+                    case 1: y = value; break;
+                    case 2: z = value; break;
                     default:
                         throw new IndexOutOfRangeException("Invalid Vector3 index.");
                 }

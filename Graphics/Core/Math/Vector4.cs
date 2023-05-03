@@ -106,16 +106,16 @@ namespace ZaephusEngine {
             return new Vector4(_lhs.x * _rhs.x, _lhs.y * _rhs.y, _lhs.z * _rhs.z, _lhs.w * _rhs.w);
         }
 
-        public static Vector4 operator*(Vector4 _lhs, float _rhs) {
-            return new Vector4(_lhs.x * _rhs, _lhs.y * _rhs, _lhs.z * _rhs, _lhs.w * _rhs);
+        public static Vector4 operator*(Vector4 _v, float _s) {
+            return new Vector4(_v.x * _s, _v.y * _s, _v.z * _s, _v.w * _s);
         }
 
-        public static Vector4 operator*(float _rhs, Vector4 _lhs) {
-            return new Vector4(_lhs.x * _rhs, _lhs.y * _rhs, _lhs.z * _rhs, _lhs.w * _rhs);
+        public static Vector4 operator*(float _s, Vector4 _v) {
+            return new Vector4(_v.x * _s, _v.y * _s, _v.z * _s, _v.w * _s);
         }
 
-        public static Vector4 operator/(Vector4 _lhs, float _rhs) {
-            return new Vector4(_lhs.x / _rhs, _lhs.y / _rhs, _lhs.z / _rhs, _lhs.w / _rhs);
+        public static Vector4 operator/(Vector4 _v, float _s) {
+            return new Vector4(_v.x / _s, _v.y / _s, _v.z / _s, _v.w / _s);
         }
 
         public static bool operator==(Vector4 _lhs, Vector4 _rhs) {
