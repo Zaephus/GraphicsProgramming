@@ -11,18 +11,26 @@ namespace ZaephusEngine {
         public static System.Action OnRenderMeshes;
         public static System.Action OnUnloadMeshes;
 
+        public readonly int width;
+        public readonly int height;
+
         public Colour backgroundColour = Colour.cyan;
 
         // private Hexagon hexagon = new Hexagon(Colour.magenta);
         // private Triangle triangle = new Triangle(Colour.green);
-        private Quad quad = new Quad();
+        private Quad quad = new Quad(new Vector3(0.5f, 0.0f, 0.0f));
         
-        //private Cube cube = new Cube();
+        private Cube cube = new Cube(new Vector3(-0.5f, 0.0f, 0.0f));
 
-        public Window(int _width, int _height, string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (_width, _height), Title = _title}) {}
+        public Window(int _width, int _height, string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (_width, _height), Title = _title}) {
+            width = _width;
+            height = _height;
+        }
 
         protected override void OnLoad() {
             base.OnLoad();
+
+            GL.Enable(EnableCap.DepthTest);
 
             GL.ClearColor(backgroundColour);
 
@@ -33,7 +41,7 @@ namespace ZaephusEngine {
         protected override void OnRenderFrame(FrameEventArgs _e) {
             base.OnRenderFrame(_e);
 
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             OnRenderMeshes?.Invoke();
 

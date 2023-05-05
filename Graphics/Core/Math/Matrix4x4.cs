@@ -27,18 +27,22 @@ namespace ZaephusEngine {
                     case 1:     return m01;
                     case 2:     return m02;
                     case 3:     return m03;
+
                     case 4:     return m10;
                     case 5:     return m11;
                     case 6:     return m12;
                     case 7:     return m13;
+
                     case 8:     return m20;
                     case 9:     return m21;
                     case 10:    return m22;
                     case 11:    return m23;
+
                     case 12:    return m30;
                     case 13:    return m31;
                     case 14:    return m32;
                     case 15:    return m33;
+
                     default:    throw new IndexOutOfRangeException("Invalid index.");
                 }
             }
@@ -48,21 +52,29 @@ namespace ZaephusEngine {
                     case 1:     m01 = value;   break;
                     case 2:     m02 = value;   break;
                     case 3:     m03 = value;   break;
+
                     case 4:     m10 = value;   break;
                     case 5:     m11 = value;   break;
                     case 6:     m12 = value;   break;
                     case 7:     m13 = value;   break;
+
                     case 8:     m20 = value;   break;
                     case 9:     m21 = value;   break;
                     case 10:    m22 = value;   break;
                     case 11:    m23 = value;   break;
+
                     case 12:    m30 = value;   break;
                     case 13:    m31 = value;   break;
                     case 14:    m32 = value;   break;
                     case 15:    m33 = value;   break;
+
                     default:    throw new IndexOutOfRangeException("Invalid index.");
                 }
             }
+        }
+
+        public Matrix4x4() {
+            this = Matrix4x4.identity;
         }
 
         public Matrix4x4(float[,] _matrix) {
@@ -85,6 +97,18 @@ namespace ZaephusEngine {
             m13 = _matrix[1, 3];
             m23 = _matrix[2, 3];
             m33 = _matrix[3, 3];
+        }
+
+        public Matrix4x4(
+            float _m00, float _m01, float _m02, float _m03,
+            float _m10, float _m11, float _m12, float _m13,
+            float _m20, float _m21, float _m22, float _m23,
+            float _m30, float _m31, float _m32, float _m33
+        ) {
+            m00 = _m00; m01 = _m01; m02 = _m02; m03 = _m03;
+            m10 = _m10; m11 = _m11; m12 = _m12; m13 = _m13;
+            m20 = _m20; m21 = _m21; m22 = _m22; m23 = _m23;
+            m30 = _m30; m31 = _m31; m32 = _m32; m33 = _m33;
         }
 
         public Matrix4x4(Vector4 _row0, Vector4 _row1, Vector4 _row2, Vector4 _row3) {
@@ -149,31 +173,31 @@ namespace ZaephusEngine {
             }
             set {
                 this = new Matrix4x4(
-                    new Vector4(value[0], value[1], value[2], value[3]),
-                    new Vector4(value[4], value[5], value[6], value[7]),
-                    new Vector4(value[8], value[9], value[10], value[11]),
-                    new Vector4(value[12], value[13], value[14], value[15])
+                    value[0], value[1], value[2], value[3],
+                    value[4], value[5], value[6], value[7],
+                    value[8], value[9], value[10], value[11],
+                    value[12], value[13], value[14], value[15]
                 );
             }
         }
 
         // TODO: Add inverse matrix.
 
-        public static Matrix4x4 ScaleMatrix(Vector3 _vec) {
+        public static Matrix4x4 ScaleMatrix(Vector3 _v) {
             return new Matrix4x4(
-                new Vector4(_vec.x, 0, 0, 0),
-                new Vector4(0, _vec.y, 0, 0),
-                new Vector4(0, 0, _vec.z, 0),
-                new Vector4(0, 0, 0, 1)
+                _v.x, 0, 0, 0,
+                0, _v.y, 0, 0,
+                0, 0, _v.z, 0,
+                0, 0, 0, 1
             );
         }
 
-        public static Matrix4x4 TranslateMatrix(Vector3 _vec) {
+        public static Matrix4x4 TranslateMatrix(Vector3 _v) {
             return new Matrix4x4(
-                new Vector4(1, 0, 0, _vec.x),
-                new Vector4(0, 1, 0, _vec.y),
-                new Vector4(0, 0, 1, _vec.z),
-                new Vector4(0, 0, 0, 1)
+                1, 0, 0, _v.x,
+                0, 1, 0, _v.y,
+                0, 0, 1, _v.z,
+                0, 0, 0, 1
             );
         }
 
@@ -182,7 +206,7 @@ namespace ZaephusEngine {
                 new Vector4(
                     (_q.w * _q.w + _q.x * _q.x - _q.y * _q.y - _q.z * _q.z),
                     (2* _q.x * _q.y - 2 * _q.w * _q.z),
-                    (2* _q.x * _q.z - 2 * _q.w * _q.y),
+                    (2* _q.x * _q.z + 2 * _q.w * _q.y),
                     0.0f
                 ),
                 new Vector4(
@@ -223,21 +247,25 @@ namespace ZaephusEngine {
             return true;
         }
 
+        public override string ToString() {
+            return $"{m00}   {m01}   {m02}   {m03}\n{m10}   {m11}   {m12}   {m13}\n{m20}   {m21}   {m22}   {m23}\n{m30}   {m31}   {m32}   {m33}";
+        }
+
         public static Matrix4x4 operator+(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return new Matrix4x4(
-                new Vector4(_lhs.m00 + _rhs.m00, _lhs.m10 + _rhs.m10, _lhs.m20 + _rhs.m20, _lhs.m30 + _rhs.m30),
-                new Vector4(_lhs.m01 + _rhs.m01, _lhs.m11 + _rhs.m11, _lhs.m21 + _rhs.m21, _lhs.m31 + _rhs.m31),
-                new Vector4(_lhs.m02 + _rhs.m02, _lhs.m12 + _rhs.m12, _lhs.m22 + _rhs.m22, _lhs.m32 + _rhs.m32),
-                new Vector4(_lhs.m03 + _rhs.m03, _lhs.m13 + _rhs.m13, _lhs.m23 + _rhs.m23, _lhs.m33 + _rhs.m33)
+                _lhs.m00 + _rhs.m00, _lhs.m10 + _rhs.m10, _lhs.m20 + _rhs.m20, _lhs.m30 + _rhs.m30,
+                _lhs.m01 + _rhs.m01, _lhs.m11 + _rhs.m11, _lhs.m21 + _rhs.m21, _lhs.m31 + _rhs.m31,
+                _lhs.m02 + _rhs.m02, _lhs.m12 + _rhs.m12, _lhs.m22 + _rhs.m22, _lhs.m32 + _rhs.m32,
+                _lhs.m03 + _rhs.m03, _lhs.m13 + _rhs.m13, _lhs.m23 + _rhs.m23, _lhs.m33 + _rhs.m33
             );
         }
 
         public static Matrix4x4 operator-(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return new Matrix4x4(
-                new Vector4(_lhs.m00 - _rhs.m00, _lhs.m10 - _rhs.m10, _lhs.m20 - _rhs.m20, _lhs.m30 - _rhs.m30),
-                new Vector4(_lhs.m01 - _rhs.m01, _lhs.m11 - _rhs.m11, _lhs.m21 - _rhs.m21, _lhs.m31 - _rhs.m31),
-                new Vector4(_lhs.m02 - _rhs.m02, _lhs.m12 - _rhs.m12, _lhs.m22 - _rhs.m22, _lhs.m32 - _rhs.m32),
-                new Vector4(_lhs.m03 - _rhs.m03, _lhs.m13 - _rhs.m13, _lhs.m23 - _rhs.m23, _lhs.m33 - _rhs.m33)
+                _lhs.m00 - _rhs.m00, _lhs.m10 - _rhs.m10, _lhs.m20 - _rhs.m20, _lhs.m30 - _rhs.m30,
+                _lhs.m01 - _rhs.m01, _lhs.m11 - _rhs.m11, _lhs.m21 - _rhs.m21, _lhs.m31 - _rhs.m31,
+                _lhs.m02 - _rhs.m02, _lhs.m12 - _rhs.m12, _lhs.m22 - _rhs.m22, _lhs.m32 - _rhs.m32,
+                _lhs.m03 - _rhs.m03, _lhs.m13 - _rhs.m13, _lhs.m23 - _rhs.m23, _lhs.m33 - _rhs.m33
             );
         }
 
@@ -285,30 +313,43 @@ namespace ZaephusEngine {
             );
         }
 
+        // TODO: Vector3 and Matrix multiplication check.
+        // Not sure if this should even be here.
+        public static Vector3 operator*(Matrix4x4 _m, Vector3 _v) {
+            Vector3 vec = new Vector3(
+                (_m.m00 * _v.x + _m.m01 * _v.y + _m.m02 * _v.z + _m.m03),
+                (_m.m10 * _v.x + _m.m11 * _v.y + _m.m12 * _v.z + _m.m13),
+                (_m.m20 * _v.x + _m.m21 * _v.y + _m.m22 * _v.z + _m.m23)
+            );
+            float w = _m.m30 * _v.x + _m.m31 * _v.y + _m.m32 * _v.z + _m.m33;
+            return vec/w;
+            
+        }
+
         public static Matrix4x4 operator*(Matrix4x4 _m, float _s) {
             return new Matrix4x4(
-                new Vector4(_s * _m.m00, _s * _m.m10, _s * _m.m20, _s * _m.m30),
-                new Vector4(_s * _m.m01, _s * _m.m11, _s * _m.m21, _s * _m.m31),
-                new Vector4(_s * _m.m02, _s * _m.m12, _s * _m.m22, _s * _m.m32),
-                new Vector4(_s * _m.m03, _s * _m.m13, _s * _m.m23, _s * _m.m33)
+                _s * _m.m00, _s * _m.m10, _s * _m.m20, _s * _m.m30,
+                _s * _m.m01, _s * _m.m11, _s * _m.m21, _s * _m.m31,
+                _s * _m.m02, _s * _m.m12, _s * _m.m22, _s * _m.m32,
+                _s * _m.m03, _s * _m.m13, _s * _m.m23, _s * _m.m33
             );
         }
 
         public static Matrix4x4 operator*(float _s, Matrix4x4 _m) {
             return new Matrix4x4(
-                new Vector4( _s * _m.m00, _s * _m.m10, _s * _m.m20, _s * _m.m30),
-                new Vector4( _s * _m.m01, _s * _m.m11, _s * _m.m21, _s * _m.m31),
-                new Vector4( _s * _m.m02, _s * _m.m12, _s * _m.m22, _s * _m.m32),
-                new Vector4( _s * _m.m03, _s * _m.m13, _s * _m.m23, _s * _m.m33)
+                _s * _m.m00, _s * _m.m10, _s * _m.m20, _s * _m.m30,
+                _s * _m.m01, _s * _m.m11, _s * _m.m21, _s * _m.m31,
+                _s * _m.m02, _s * _m.m12, _s * _m.m22, _s * _m.m32,
+                _s * _m.m03, _s * _m.m13, _s * _m.m23, _s * _m.m33
             );
         }
 
         public static Matrix4x4 operator/(Matrix4x4 _m, float _s) {
             return new Matrix4x4(
-                new Vector4(_m.m00 / _s, _m.m10 / _s, _m.m20 / _s, _m.m30 / _s),
-                new Vector4(_m.m01 / _s, _m.m11 / _s, _m.m21 / _s, _m.m31 / _s),
-                new Vector4(_m.m02 / _s, _m.m12 / _s, _m.m22 / _s, _m.m32 / _s),
-                new Vector4(_m.m03 / _s, _m.m13 / _s, _m.m23 / _s, _m.m33 / _s)
+                _m.m00 / _s, _m.m10 / _s, _m.m20 / _s, _m.m30 / _s,
+                _m.m01 / _s, _m.m11 / _s, _m.m21 / _s, _m.m31 / _s,
+                _m.m02 / _s, _m.m12 / _s, _m.m22 / _s, _m.m32 / _s,
+                _m.m03 / _s, _m.m13 / _s, _m.m23 / _s, _m.m33 / _s
             );
         }
 
@@ -337,21 +378,21 @@ namespace ZaephusEngine {
         }
 
         public static implicit operator Matrix4x4(Matrix4 _m) {
-            return new Matrix4x4( new float[,] {
-                {_m.Row0.X, _m.Row0.Y, _m.Row0.Z, _m.Row0.W },
-                {_m.Row1.X, _m.Row1.Y, _m.Row1.Z, _m.Row1.W },
-                {_m.Row2.X, _m.Row2.Y, _m.Row2.Z, _m.Row2.W },
-                {_m.Row3.X, _m.Row3.Y, _m.Row3.Z, _m.Row3.W }
-            });
+            return new Matrix4x4(
+                _m.Row0.X, _m.Row0.Y, _m.Row0.Z, _m.Row0.W,
+                _m.Row1.X, _m.Row1.Y, _m.Row1.Z, _m.Row1.W,
+                _m.Row2.X, _m.Row2.Y, _m.Row2.Z, _m.Row2.W,
+                _m.Row3.X, _m.Row3.Y, _m.Row3.Z, _m.Row3.W
+            );
         }
 
         public static Matrix4x4 zero {
             get {
                 return new Matrix4x4(
-                    new Vector4(0, 0, 0, 0),
-                    new Vector4(0, 0, 0, 0),
-                    new Vector4(0, 0, 0, 0),
-                    new Vector4(0, 0, 0, 0)
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0, 0, 0
                 );
             }
         }
@@ -359,10 +400,10 @@ namespace ZaephusEngine {
         public static Matrix4x4 one {
             get {
                 return new Matrix4x4(
-                    new Vector4(1, 1, 1, 1),
-                    new Vector4(1, 1, 1, 1),
-                    new Vector4(1, 1, 1, 1),
-                    new Vector4(1, 1, 1, 1)
+                    1, 1, 1, 1,
+                    1, 1, 1, 1,
+                    1, 1, 1, 1,
+                    1, 1, 1, 1
                 );
             }
         }
@@ -370,10 +411,21 @@ namespace ZaephusEngine {
         public static Matrix4x4 identity {
             get {
                 return new Matrix4x4(
-                    new Vector4(1, 0, 0, 0),
-                    new Vector4(0, 1, 0, 0),
-                    new Vector4(0, 0, 1, 0),
-                    new Vector4(0, 0, 0, 1)
+                    1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 1, 0,
+                    0, 0, 0, 1
+                );
+            }
+        }
+
+        public static Matrix4x4 perspectiveProjection {
+            get {
+                return new Matrix4x4(
+                    1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 1, -1,
+                    0, 0, 1, 0
                 );
             }
         }

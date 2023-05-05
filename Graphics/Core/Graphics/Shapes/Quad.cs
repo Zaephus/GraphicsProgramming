@@ -34,17 +34,23 @@ namespace ZaephusEngine {
             1, 3, 2
         };
 
-        Texture texture0;
-        Texture texture1;
+        public Vector3 position;
 
-        Matrix4x4 trans;
+        private Texture texture0;
+        private Texture texture1;
 
-        public Quad() {
+        private Matrix4x4 modelMatrix;
+        private Matrix4x4 viewMatrix;
+        private Matrix4x4 projectionMatrix;
+
+        public Quad(Vector3 _pos) {
             base.vertices = this.vertices;
             base.vertexColours = this.vertexColours;
             base.uvs = this.uvs;
 
             base.triangles = this.triangles;
+
+            position = _pos;
         }
 
         protected override void OnLoad() {
@@ -56,17 +62,18 @@ namespace ZaephusEngine {
             shader.SetInt("texture0", 0);
             shader.SetInt("texture1", 1);
 
+            Matrix4x4 translate = Matrix4x4.TranslateMatrix(position);
             Matrix4x4 rotation = Matrix4x4.RotateMatrix(Quaternion.FromEuler(0, 0, 90));
             Matrix4x4 scale = Matrix4x4.ScaleMatrix(Vector3.one * 0.5f);
 
-            trans = rotation * scale;
+            modelMatrix = translate * rotation * scale;
 
-            int location = GL.GetUniformLocation(shader.handle, "transform");
-            unsafe {
-                fixed(float* matrixPtr = &trans.m00) {
-                    GL.UniformMatrix4(location, 1, true, matrixPtr);
-                }
-            }
+            viewMatrix = Matrix4x4.TranslateMatrix(new Vector3(0.0f, 0.0f, 1.0f));
+            projectionMatrix = Matrix4x4.perspectiveProjection;
+
+            shader.SetMatrix4x4("model", ref modelMatrix);
+            shader.SetMatrix4x4("view", ref viewMatrix);
+            shader.SetMatrix4x4("projection", ref projectionMatrix);
 
         }
 
@@ -79,19 +86,19 @@ namespace ZaephusEngine {
             texture0.Use(TextureUnit.Texture0);
             texture1.Use(TextureUnit.Texture1);
 
+            // pos.x += 0.0001f;
             rot += 0.01f;
-            s += 0.00005f;
-            Matrix4x4 rotation = Matrix4x4.RotateMatrix(Quaternion.FromEuler(0, 0, rot));
+            // s += 0.00005f;
+            
+            Matrix4x4 translate = Matrix4x4.TranslateMatrix(position);
+            Matrix4x4 rotation = Matrix4x4.RotateMatrix(Quaternion.FromEuler(45, 0, rot));
             Matrix4x4 scale = Matrix4x4.ScaleMatrix(Vector3.one * s);
 
-            trans = rotation * scale;
+            modelMatrix = translate * rotation * scale;
 
-            int location = GL.GetUniformLocation(shader.handle, "transform");
-            unsafe {
-                fixed(float* matrixPtr = &trans.m00) {
-                    GL.UniformMatrix4(location, 1, true, matrixPtr);
-                }
-            }
+            shader.SetMatrix4x4("model", ref modelMatrix);
+            shader.SetMatrix4x4("view", ref viewMatrix);
+            shader.SetMatrix4x4("projection", ref projectionMatrix);
             
         }
 

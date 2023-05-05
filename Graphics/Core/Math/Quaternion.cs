@@ -74,19 +74,20 @@ namespace ZaephusEngine {
         }
 
         public static Quaternion FromAxisAngle(Vector3 _axis, float _angleRad) {
+            Vector3 axis = _axis.normalized;
             return new Quaternion(
-                _axis.x * MathF.Cos(_angleRad * 0.5f),
-                _axis.y * MathF.Sin(_angleRad * 0.5f),
-                _axis.z * MathF.Sin(_angleRad * 0.5f),
+                axis.x * MathF.Sin(_angleRad * 0.5f),
+                axis.y * MathF.Sin(_angleRad * 0.5f),
+                axis.z * MathF.Sin(_angleRad * 0.5f),
                 MathF.Cos(_angleRad * 0.5f)
             );
         }
 
-        public static Quaternion FromEuler(float _x, float _y, float _z) {
-            return FromEuler(new Vector3(_x, _y, _z));
+        public static Quaternion FromEuler(float _xDeg, float _yDeg, float _zDeg) {
+            return FromEuler(new Vector3(_xDeg, _yDeg, _zDeg));
         }
-        public static Quaternion FromEuler(Vector3 _euler) {
-            Vector3 euler = _euler * (MathF.PI / 180);
+        public static Quaternion FromEuler(Vector3 _eulerDeg) {
+            Vector3 euler = _eulerDeg * (MathF.PI / 180);
             return new Quaternion(
                 MathF.Sin(euler.x * 0.5f) * MathF.Cos(euler.y * 0.5f) * MathF.Cos(euler.z * 0.5f) - MathF.Cos(euler.x * 0.5f) * MathF.Sin(euler.y * 0.5f) * MathF.Sin(euler.z * 0.5f),
                 MathF.Cos(euler.x * 0.5f) * MathF.Sin(euler.y * 0.5f) * MathF.Cos(euler.z * 0.5f) - MathF.Sin(euler.x * 0.5f) * MathF.Cos(euler.y * 0.5f) * MathF.Sin(euler.z * 0.5f),
