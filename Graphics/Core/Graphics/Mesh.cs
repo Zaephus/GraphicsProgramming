@@ -38,7 +38,6 @@ namespace ZaephusEngine {
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
 
-            // TODO Add world position to vertex positions.
             Vertex[] vertexArray = new Vertex[vertices.Length];
             for(int i = 0; i < vertexArray.Length; i++) {
                 vertexArray[i] = new Vertex(

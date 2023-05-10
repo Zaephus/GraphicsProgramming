@@ -142,7 +142,7 @@ namespace ZaephusEngine {
             22, 13, 23
         };
 
-        public Vector3 position;
+        public Transform transform = new Transform(null);
 
         private Texture texture0;
         private Texture texture1;
@@ -160,7 +160,7 @@ namespace ZaephusEngine {
 
             base.triangles = this.triangles;
 
-            position = _pos;
+            transform.position = _pos;
         }
 
         protected override void OnLoad() {
@@ -172,8 +172,12 @@ namespace ZaephusEngine {
             shader.SetInt("texture0", 0);
             shader.SetInt("texture1", 1);
 
-            Matrix4x4 translate = Matrix4x4.TranslateMatrix(position);
-            modelMatrix = translate * Matrix4x4.RotateMatrix(Quaternion.FromEuler(0, 150, 0)) * Matrix4x4.ScaleMatrix(Vector3.one * 0.5f);
+            transform.rotation = Quaternion.FromEuler(45, 45, 0);
+            transform.scale = Vector3.one;
+
+            modelMatrix = transform.objectMatrix;
+            viewMatrix = Matrix4x4.TranslateMatrix(new Vector3(0.0f, 0.0f, 3.0f));
+            projectionMatrix = Matrix4x4.CreatePerspectiveProjection(-0.0711f, 0.0711f, -0.04f, 0.04f, 0.1f, 100f);
 
             camera = new Camera(new Vector3(0.0f, 0.0f, -1f));
 
@@ -191,21 +195,16 @@ namespace ZaephusEngine {
 
         }
 
-        float yRot = 20;
-
         protected override void OnRender() {
             base.OnRender();
 
             texture0.Use(TextureUnit.Texture0);
             texture1.Use(TextureUnit.Texture1);
 
-            yRot += 0.01f;
+            transform.Rotate(0.01f, 0.01f, 0);
 
-            Matrix4x4 translate = Matrix4x4.TranslateMatrix(position);
-            modelMatrix = translate * Matrix4x4.RotateMatrix(Quaternion.FromEuler(yRot, yRot, 0)) * Matrix4x4.ScaleMatrix(Vector3.one * 0.5f);
+            modelMatrix = transform.objectMatrix;
 
-            // viewMatrix = Matrix4x4.TranslateMatrix(new Vector3(-yRot+20, yRot-20, yRot-20+1.0f));
-            
             shader.SetMatrix4x4("model", ref modelMatrix);
             shader.SetMatrix4x4("view", ref viewMatrix);
             shader.SetMatrix4x4("projection", ref projectionMatrix);
