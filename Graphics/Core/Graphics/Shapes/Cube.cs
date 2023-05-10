@@ -1,4 +1,5 @@
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 
 namespace ZaephusEngine {
 
@@ -150,6 +151,8 @@ namespace ZaephusEngine {
         private Matrix4x4 viewMatrix;
         private Matrix4x4 projectionMatrix;
 
+        private Camera camera;
+
         public Cube(Vector3 _pos) {
             base.vertices = this.vertices;
             base.uvs = this.uvs;
@@ -172,8 +175,15 @@ namespace ZaephusEngine {
             Matrix4x4 translate = Matrix4x4.TranslateMatrix(position);
             modelMatrix = translate * Matrix4x4.RotateMatrix(Quaternion.FromEuler(0, 150, 0)) * Matrix4x4.ScaleMatrix(Vector3.one * 0.5f);
 
-            viewMatrix = Matrix4x4.TranslateMatrix(new Vector3(0.0f, 0.0f, 1.0f));
-            projectionMatrix = Matrix4x4.perspectiveProjection;
+            camera = new Camera(new Vector3(0.0f, 0.0f, -1f));
+
+            viewMatrix = camera.ViewMatrix;
+            Console.WriteLine(viewMatrix);
+            projectionMatrix = Matrix4x4.Perspective(Math.Deg2Rad * 45, 1.0f, 1f, 1000.0f);
+
+            Console.WriteLine(projectionMatrix);
+            Console.WriteLine("");
+            Console.WriteLine(projectionMatrix * viewMatrix * modelMatrix * vertices[0]);
 
             shader.SetMatrix4x4("model", ref modelMatrix);
             shader.SetMatrix4x4("view", ref viewMatrix);
@@ -193,6 +203,8 @@ namespace ZaephusEngine {
 
             Matrix4x4 translate = Matrix4x4.TranslateMatrix(position);
             modelMatrix = translate * Matrix4x4.RotateMatrix(Quaternion.FromEuler(yRot, yRot, 0)) * Matrix4x4.ScaleMatrix(Vector3.one * 0.5f);
+
+            // viewMatrix = Matrix4x4.TranslateMatrix(new Vector3(-yRot+20, yRot-20, yRot-20+1.0f));
             
             shader.SetMatrix4x4("model", ref modelMatrix);
             shader.SetMatrix4x4("view", ref viewMatrix);

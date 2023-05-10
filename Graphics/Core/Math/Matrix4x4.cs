@@ -225,6 +225,118 @@ namespace ZaephusEngine {
             );
         }
 
+        public static Matrix4x4 Perspective(float _fovY, float _aspect, float _near, float _far) {
+            
+            float t = _near * MathF.Tan(0.5f * _fovY);
+            float b = -t;
+
+            float l = _aspect * b;
+            float r = _aspect * t;
+
+            float x = 2.0f * _near / (r - l);
+            float y = 2.0f * _near / (t - b);
+
+            float i = -(_far + _near) / (_far - _near);
+            float j = -(2.0f * _far * _near) / (_far - _near);
+
+            return new Matrix4x4(
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, i, -1,
+                0, 0, j, 0
+            );
+
+            // return new Matrix4x4(
+            //     new Vector4(
+            //         _near / (_aspect * MathF.Tan(_fovY * 0.5f)),
+            //         0,
+            //         0,
+            //         0
+            //     ),
+            //     new Vector4(
+            //         0,
+            //         _near / MathF.Tan(_fovY * 0.5f),
+            //         0,
+            //         0
+            //     ),
+            //     new Vector4(
+            //         0,
+            //         0,
+            //         ((_far + _near) / (_far - _near)),
+            //         -1
+            //     ),
+            //     new Vector4(
+            //         0,
+            //         0,
+            //         ((2 * _far * _near) / (_far - _near)),
+            //         0
+            //     )
+            // );
+
+        }
+
+        public static Matrix4x4 CreatePerspectiveProjection(float _r, float _l, float _b, float _t, float _n, float _f) {
+
+            return new Matrix4x4(
+                new Vector4(
+                    (2 * _n) / (_r - _l),
+                    0,
+                    (_r + _l) / (_r - _l),
+                    0
+                ),
+                new Vector4(
+                    0,
+                    (2 * _n) / (_t - _b),
+                    (_t + _b) / (_t - _b),
+                    0
+                ),
+                new Vector4(
+                    0,
+                    0,
+                    ((_f + _n)) / (_f - _n),
+                    ((-2 * _f * _n) / (_f - _n))
+                ),
+                new Vector4(
+                    0,
+                    0,
+                    1,
+                    0
+                )
+            );
+
+        }
+
+        public static Matrix4x4 CreateTransposedPerspectiveProjection(float _r, float _l, float _b, float _t, float _n, float _f) {
+
+            return new Matrix4x4(
+                new Vector4(
+                    (2 * _n) / (_r - _l),
+                    0,
+                    0,
+                    0
+                ),
+                new Vector4(
+                    0,
+                    (2 * _n) / (_t - _b),
+                    0,
+                    0
+                ),
+                new Vector4(
+                    (_r + _l) / (_r - _l),
+                    (_t + _b) / (_t - _b),
+                    (-(_f + _n)) / (_f - _n),
+                    -1
+                ),
+                new Vector4(
+                    0,
+                    0,
+                    (-2 * _f * _n) / (_f - _n),
+                    0
+                )
+            );
+            
+        }
+
         public override int GetHashCode() {
             return GetColumn(0).GetHashCode() ^ (GetColumn(1).GetHashCode() << 2) ^ (GetColumn(2).GetHashCode() >> 2) ^ (GetColumn(3).GetHashCode() >> 1);
         }

@@ -107,7 +107,7 @@ namespace ZaephusEngine {
             Use();
             int location = GL.GetUniformLocation(handle, _name);
             fixed(float* matrixPtr = &_matrix.m00) {
-                GL.UniformMatrix4(location, 1, false, matrixPtr);
+                GL.UniformMatrix4(location, 1, true, matrixPtr);
             }
         }
 

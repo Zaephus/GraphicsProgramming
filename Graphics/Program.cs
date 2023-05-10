@@ -6,8 +6,7 @@ using(Window window = new Window(800, 800, "ZaephusEngine")) {
 }
 
 // TODO: Add Camera.
-// TODO: Add Component and GameObject System.
-// TODO: Add Transform Component.
+// TODO: Complete integration of GameObject structure.
 // TODO: Add Game Clock.
 // TODO: Fix shader file path in build.
 // TODO: Abstract rendering from Mesh class.
