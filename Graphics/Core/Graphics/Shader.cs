@@ -103,11 +103,11 @@ namespace ZaephusEngine {
             GL.Uniform1(location, _value);
         }
 
-        public unsafe void SetMatrix4x4(string _name, ref Matrix4x4 _matrix) {
+        public unsafe void SetMatrix4x4(string _name, ref Matrix4x4 _matrix, bool _transpose) {
             Use();
             int location = GL.GetUniformLocation(handle, _name);
             fixed(float* matrixPtr = &_matrix.m00) {
-                GL.UniformMatrix4(location, 1, true, matrixPtr);
+                GL.UniformMatrix4(location, 1, _transpose, matrixPtr);
             }
         }
 

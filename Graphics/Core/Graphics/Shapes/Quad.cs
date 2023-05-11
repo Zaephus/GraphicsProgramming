@@ -71,9 +71,9 @@ namespace ZaephusEngine {
             viewMatrix = Matrix4x4.TranslateMatrix(new Vector3(0.0f, 0.0f, 1.0f));
             projectionMatrix = Matrix4x4.perspectiveProjection;
 
-            shader.SetMatrix4x4("model", ref modelMatrix);
-            shader.SetMatrix4x4("view", ref viewMatrix);
-            shader.SetMatrix4x4("projection", ref projectionMatrix);
+            shader.SetMatrix4x4("model", ref modelMatrix, false);
+            shader.SetMatrix4x4("view", ref viewMatrix, false);
+            shader.SetMatrix4x4("projection", ref projectionMatrix, false);
 
         }
 
@@ -96,9 +96,9 @@ namespace ZaephusEngine {
 
             modelMatrix = translate * rotation * scale;
 
-            shader.SetMatrix4x4("model", ref modelMatrix);
-            shader.SetMatrix4x4("view", ref viewMatrix);
-            shader.SetMatrix4x4("projection", ref projectionMatrix);
+            shader.SetMatrix4x4("model", ref modelMatrix, false);
+            shader.SetMatrix4x4("view", ref viewMatrix, false);
+            shader.SetMatrix4x4("projection", ref projectionMatrix, false);
             
         }
 

@@ -14,7 +14,7 @@ namespace ZaephusEngine {
                 Matrix4x4 r = Matrix4x4.RotateMatrix(rotation);
                 Matrix4x4 s = Matrix4x4.ScaleMatrix(scale);
 
-                return t * r * s;
+                return s * r * t;
             }
         }
 
