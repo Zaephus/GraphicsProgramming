@@ -4,7 +4,7 @@ namespace ZaephusEngine {
 
     public class GameObject {
 
-        public required Transform transform;
+        public Transform transform;
 
         private List<Component> components = new List<Component>();
 

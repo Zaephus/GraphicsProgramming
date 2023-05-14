@@ -4,17 +4,16 @@ namespace ZaephusEngine {
 
     public class Transform : Component {
 
-        public Vector3 position { get; set; }
-        public Quaternion rotation { get; set; }
-        public Vector3 scale { get; set; }
+        public Vector3 position { get; set; } = Vector3.zero;
+        public Quaternion rotation { get; set; } = Quaternion.identity;
+        public Vector3 scale { get; set; } = Vector3.one;
 
-        public Matrix4x4 objectMatrix {
+        public Matrix4x4 objectMatrix { 
             get {
                 Matrix4x4 t = Matrix4x4.TranslateMatrix(position);
                 Matrix4x4 r = Matrix4x4.RotateMatrix(rotation);
                 Matrix4x4 s = Matrix4x4.ScaleMatrix(scale);
-
-                return s * r * t;
+                return t * r * s;
             }
         }
 
@@ -30,7 +29,10 @@ namespace ZaephusEngine {
             rotation *= _q;
         }
 
-        // TODO: Add direction vectors.
+        public Vector3 right { get { return rotation * Vector3.right; } }
+        public Vector3 forward { get { return rotation * Vector3.forward; } }
+        public Vector3 up { get { return rotation * Vector3.up; } }
+
     }
 
 }

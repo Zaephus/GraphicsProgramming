@@ -102,6 +102,10 @@ namespace ZaephusEngine {
             return new Vector4(_lhs.x - _rhs.x, _lhs.y - _rhs.y, _lhs.z - _rhs.z, _lhs.w - _rhs.w);
         }
 
+        public static Vector4 operator-(Vector4 _v) {
+            return -1 * _v;
+        }
+
         public static Vector4 operator*(Vector4 _lhs, Vector4 _rhs) {
             return new Vector4(_lhs.x * _rhs.x, _lhs.y * _rhs.y, _lhs.z * _rhs.z, _lhs.w * _rhs.w);
         }

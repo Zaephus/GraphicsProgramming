@@ -11,21 +11,26 @@ namespace ZaephusEngine {
         public static System.Action OnRenderMeshes;
         public static System.Action OnUnloadMeshes;
 
-        public readonly int width;
-        public readonly int height;
+        public static System.Action<int, int> WindowResized;
+
+        public static readonly int width = 1400;
+        public static readonly int height = 800;
 
         public Colour backgroundColour = Colour.cyan;
 
         // private Hexagon hexagon = new Hexagon(Colour.magenta);
         // private Triangle triangle = new Triangle(Colour.green);
         // private Quad quad = new Quad(new Vector3(0.5f, 0.0f, 0.0f));
-        
-        private Cube cube = new Cube(new Vector3(0.0f, 0.0f, 0.0f));
 
-        public Window(int _width, int _height, string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (_width, _height), Title = _title}) {
-            width = _width;
-            height = _height;
-        }
+        private Camera camera;
+        
+        private Cube cube1 = new Cube(new Vector3(0.0f, 0.0f, 0.75f));
+        private Cube cube2 = new Cube(new Vector3(0.5f, 0.0f, -0.75f));
+
+        // private Cube cube1 = new Cube(new Vector3(0.0f, 0.0f, -1.5f));
+        // private Cube cube2 = new Cube(new Vector3(0.5f, 0.5f, -3.0f));
+
+        public Window(string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = _title}) {}
 
         protected override void OnLoad() {
             base.OnLoad();
@@ -35,6 +40,13 @@ namespace ZaephusEngine {
             GL.ClearColor(backgroundColour);
 
             OnLoadMeshes?.Invoke();
+
+            camera = new Camera(CameraProjectionType.Perspective, 45, 0.0f, 0.1f, 100.0f);
+            camera.transform.position = new Vector3(0.0f, 4.0f, 0.0f);
+            camera.transform.rotation = Quaternion.FromEuler(90.0f, 0.0f, 0.0f);
+
+            cube1.transform.rotation = Quaternion.FromEuler(45, 45, 0);
+            cube2.transform.rotation = Quaternion.FromEuler(45, 45, 0);
 
         }
 
@@ -56,10 +68,18 @@ namespace ZaephusEngine {
                 Close();
             }
 
+            // cube1.transform.Rotate(0.01f, 0.01f, 0.0f);
+            // cube2.transform.Rotate(0.01f, 0.01f, 0.0f);
+
+            // camera.transform.position += new Vector3(0.0005f, 0.0f, 0.0002f);
+            // camera.transform.Rotate(0.0f, 0.0f, 0.0f);
+
         }
 
         protected override void OnResize(ResizeEventArgs _e) {
             base.OnResize(_e);
+
+            WindowResized?.Invoke(_e.Width, _e.Height);
 
             GL.Viewport(0, 0, _e.Width, _e.Height);
 

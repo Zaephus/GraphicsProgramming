@@ -107,6 +107,10 @@ namespace ZaephusEngine {
             return new Vector3(_lhs.x - _rhs.x, _lhs.y - _rhs.y, _lhs.z - _rhs.z);
         }
 
+        public static Vector3 operator-(Vector3 _v) {
+            return -1 * _v;
+        }
+
         public static Vector3 operator*(Vector3 _lhs, Vector3 _rhs) {
             return new Vector3(_lhs.x * _rhs.x, _lhs.y * _rhs.y, _lhs.z * _rhs.z);
         }

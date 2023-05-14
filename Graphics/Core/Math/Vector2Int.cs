@@ -113,6 +113,10 @@ namespace ZaephusEngine {
             return new Vector2Int(_lhs.x - _rhs.x, _lhs.y - _rhs.y);
         }
 
+        public static Vector2Int operator-(Vector2Int _v) {
+            return -1 * _v;
+        }
+
         public static Vector2Int operator*(Vector2Int _lhs, Vector2Int _rhs) {
             return new Vector2Int(_lhs.x * _rhs.x, _lhs.y * _rhs.y);
         }

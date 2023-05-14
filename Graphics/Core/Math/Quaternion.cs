@@ -145,6 +145,10 @@ namespace ZaephusEngine {
             return new Quaternion(_lhs.x - _rhs.x, _lhs.y - _rhs.y, _lhs.z - _rhs.z, _lhs.w - _rhs.w);
         }
 
+        public static Quaternion operator-(Quaternion _q) {
+            return -1 * _q;
+        }
+
         // Rotate a point around a Quaternion.
         public static Vector3 operator*(Quaternion _rot, Vector3 _vec) {
             Quaternion rotInverse = new Quaternion(-_rot.x, -_rot.y, -_rot.z, _rot.w);

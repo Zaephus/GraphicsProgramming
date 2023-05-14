@@ -4,7 +4,6 @@ namespace ZaephusEngine {
 
     public static class Math {
 
-        // TODO: Add epsilon constant.
         // TODO: Replace MathF functions.
 
         public static float Deg2Rad {
@@ -18,6 +17,8 @@ namespace ZaephusEngine {
                 return 180f / MathF.PI;
             }
         }
+
+        public const float epsilon = Single.Epsilon;
 
     }
 

@@ -20,9 +20,9 @@ uniform mat4 projection;
 uniform mat4 finalMatrix;
 
 void main() {
-    gl_Position = vec4(inPosition, 1.0) * model * view * projection;
-    // gl_Position = view * model * vec4(inPosition, 1.0);
-    // gl_Position = finalMatrix * vec4(inPosition, 1.0);
+    // gl_Position = vec4(inPosition, 1.0) * model * view;
+    // gl_Position = projection * view * model * vec4(inPosition, 1.0);
+    gl_Position = finalMatrix * vec4(inPosition, 1.0);
 
     vertexColour = inColour;
     uv = inUV;

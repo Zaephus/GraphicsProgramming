@@ -5,30 +5,11 @@ namespace ZaephusEngine {
     // TODO: Add IFormattable to Matrix4x4 class.
     public struct Matrix4x4 : IEquatable<Matrix4x4> {
 
-        // public float m00, m01, m02, m03;
-        // public float m10, m11, m12, m13;
-        // public float m20, m21, m22, m23;
-        // public float m30, m31, m32, m33;
-
-        public float m00;
-        public float m10;
-        public float m20;
-        public float m30;
-
-        public float m01;
-        public float m11;
-        public float m21;
-        public float m31;
-
-        public float m02;
-        public float m12;
-        public float m22;
-        public float m32;
-
-        public float m03;
-        public float m13;
-        public float m23;
-        public float m33;
+        // The values in this class are saved as Row Major, so Matrices need to be transposed when applied to the shader.
+        public float m00, m01, m02, m03;
+        public float m10, m11, m12, m13;
+        public float m20, m21, m22, m23;
+        public float m30, m31, m32, m33;
 
         public float this[int _row, int _column] {
             get {
@@ -221,15 +202,6 @@ namespace ZaephusEngine {
             );
         }
 
-        // public static Matrix4x4 TranslateMatrix(Vector3 _v) {
-        //     return new Matrix4x4(
-        //         1, 0, 0, 0,
-        //         0, 1, 0, 0,
-        //         0, 0, 1, 0,
-        //         _v.x, _v.y, _v.z, 1
-        //     );
-        // }
-
         public static Matrix4x4 RotateMatrix(Quaternion _q) {
 
             if(_q == new Quaternion(0, 0, 0, 0)) {
@@ -258,125 +230,6 @@ namespace ZaephusEngine {
                 new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
             );
 
-        }
-
-        public static Matrix4x4 Perspective(float _fovY, float _aspect, float _near, float _far) {
-            
-            float t = _near * MathF.Tan(0.5f * _fovY);
-            float b = -t;
-
-            float l = _aspect * b;
-            float r = _aspect * t;
-
-            float x = 2.0f * _near / (r - l);
-            float y = 2.0f * _near / (t - b);
-
-            float i = -(_far + _near) / (_far - _near);
-            float j = -(2.0f * _far * _near) / (_far - _near);
-
-            // return new Matrix4x4(
-            //     x, 0, 0, 0,
-            //     0, y, 0, 0,
-            //     0, 0, i, -1,
-            //     0, 0, j, 0
-            // );
-
-            return new Matrix4x4(
-                x, 0, 0, 0,
-                0, y, 0, 0,
-                0, 0, i, j,
-                0, 0, -1, 0
-            );
-
-            // return new Matrix4x4(
-            //     new Vector4(
-            //         _near / (_aspect * MathF.Tan(_fovY * 0.5f)),
-            //         0,
-            //         0,
-            //         0
-            //     ),
-            //     new Vector4(
-            //         0,
-            //         _near / MathF.Tan(_fovY * 0.5f),
-            //         0,
-            //         0
-            //     ),
-            //     new Vector4(
-            //         0,
-            //         0,
-            //         ((_far + _near) / (_far - _near)),
-            //         -1
-            //     ),
-            //     new Vector4(
-            //         0,
-            //         0,
-            //         ((2 * _far * _near) / (_far - _near)),
-            //         0
-            //     )
-            // );
-
-        }
-
-        public static Matrix4x4 CreatePerspectiveProjection(float _r, float _l, float _b, float _t, float _n, float _f) {
-
-            return new Matrix4x4(
-                new Vector4(
-                    (2 * _n) / (_r - _l),
-                    0,
-                    (_r + _l) / (_r - _l),
-                    0
-                ),
-                new Vector4(
-                    0,
-                    (2 * _n) / (_t - _b),
-                    (_t + _b) / (_t - _b),
-                    0
-                ),
-                new Vector4(
-                    0,
-                    0,
-                    ((_f + _n)) / (_f - _n),
-                    ((-2 * _f * _n) / (_f - _n))
-                ),
-                new Vector4(
-                    0,
-                    0,
-                    1,
-                    0
-                )
-            );
-
-        }
-
-        public static Matrix4x4 CreateTransposedPerspectiveProjection(float _r, float _l, float _b, float _t, float _n, float _f) {
-
-            return new Matrix4x4(
-                new Vector4(
-                    (2 * _n) / (_r - _l),
-                    0,
-                    0,
-                    0
-                ),
-                new Vector4(
-                    0,
-                    (2 * _n) / (_t - _b),
-                    0,
-                    0
-                ),
-                new Vector4(
-                    (_r + _l) / (_r - _l),
-                    (_t + _b) / (_t - _b),
-                    (-(_f + _n)) / (_f - _n),
-                    -1
-                ),
-                new Vector4(
-                    0,
-                    0,
-                    (-2 * _f * _n) / (_f - _n),
-                    0
-                )
-            );
-            
         }
 
         public override int GetHashCode() {
@@ -423,6 +276,10 @@ namespace ZaephusEngine {
             );
         }
 
+        public static Matrix4x4 operator-(Matrix4x4 _m) {
+            return -1 * _m;
+        }
+
         public static Matrix4x4 operator*(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return new Matrix4x4(
                 new Vector4(
@@ -458,6 +315,7 @@ namespace ZaephusEngine {
         // TODO: Add Matrix4x4 and Matrix4x3 multiplication.
         // TODO: Add Matrix4x4 and Matrix4x2 multiplication.
 
+        // TODO: Verify if the vector should be divided by w.
         public static Vector4 operator*(Matrix4x4 _m, Vector4 _v) {
             return new Vector4(
                 (_m.m00 * _v.x + _m.m01 * _v.y + _m.m02 * _v.z + _m.m03 * _v.w),
@@ -467,8 +325,7 @@ namespace ZaephusEngine {
             );
         }
 
-        // TODO: Vector3 and Matrix multiplication check.
-        // Not sure if this should even be here.
+        // TODO: Verify if the vector should be divided by w.
         public static Vector3 operator*(Matrix4x4 _m, Vector3 _v) {
             Vector3 vec = new Vector3(
                 (_m.m00 * _v.x + _m.m01 * _v.y + _m.m02 * _v.z + _m.m03),
@@ -476,7 +333,6 @@ namespace ZaephusEngine {
                 (_m.m20 * _v.x + _m.m21 * _v.y + _m.m22 * _v.z + _m.m23)
             );
             float w = _m.m30 * _v.x + _m.m31 * _v.y + _m.m32 * _v.z + _m.m33;
-            Console.WriteLine(w);
             return vec/w;
             
         }
@@ -570,17 +426,6 @@ namespace ZaephusEngine {
                     0, 1, 0, 0,
                     0, 0, 1, 0,
                     0, 0, 0, 1
-                );
-            }
-        }
-
-        public static Matrix4x4 perspectiveProjection {
-            get {
-                return new Matrix4x4(
-                    1, 0, 0, 0,
-                    0, 1, 0, 0,
-                    0, 0, 1, -1,
-                    0, 0, 1, 0
                 );
             }
         }

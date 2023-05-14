@@ -118,6 +118,10 @@ namespace ZaephusEngine {
             return new Vector3Int(_lhs.x - _rhs.x, _lhs.y - _rhs.y, _lhs.z - _rhs.z);
         }
 
+        public static Vector3Int operator-(Vector3Int _v) {
+            return -1 * _v;
+        }
+
         public static Vector3Int operator*(Vector3Int _lhs, Vector3Int _rhs) {
             return new Vector3Int(_lhs.x * _rhs.x, _lhs.y * _rhs.y, _lhs.z * _rhs.z);
         }

@@ -1,9 +1,4 @@
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Windowing.Common;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using OpenTK.Mathematics;
-
 namespace ZaephusEngine {
 
     public class Quad : Mesh {
@@ -69,7 +64,7 @@ namespace ZaephusEngine {
             modelMatrix = translate * rotation * scale;
 
             viewMatrix = Matrix4x4.TranslateMatrix(new Vector3(0.0f, 0.0f, 1.0f));
-            projectionMatrix = Matrix4x4.perspectiveProjection;
+            projectionMatrix = Matrix4x4.identity;
 
             shader.SetMatrix4x4("model", ref modelMatrix, false);
             shader.SetMatrix4x4("view", ref viewMatrix, false);

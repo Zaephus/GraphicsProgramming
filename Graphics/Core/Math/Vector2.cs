@@ -112,6 +112,10 @@ namespace ZaephusEngine {
             return new Vector2(_lhs.x - _rhs.x, _lhs.y - _rhs.y);
         }
 
+        public static Vector2 operator-(Vector2 _v) {
+            return -1 * _v;
+        }
+
         public static Vector2 operator*(Vector2 _lhs, Vector2 _rhs) {
             return new Vector2(_lhs.x * _rhs.x, _lhs.y * _rhs.y);
         }

@@ -1,7 +1,7 @@
 ﻿
 using ZaephusEngine;
 
-using(Window window = new Window(800, 800, "ZaephusEngine")) {
+using(Window window = new Window("ZaephusEngine")) {
     window.Run();
 }
 
