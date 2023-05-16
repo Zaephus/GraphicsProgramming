@@ -7,11 +7,7 @@ namespace ZaephusEngine {
 
     public class Mesh {
 
-        protected int vertexBufferObject;
-        protected int vertexArrayObject;
-        protected int elementBufferObject;
-
-        protected Shader shader;
+        public Material material;
 
         public Vector3[] vertices = new Vector3[0];
         public Colour[] vertexColours = new Colour[0];
@@ -21,6 +17,10 @@ namespace ZaephusEngine {
         public Vector3[] biTangents = new Vector3[0];
 
         public uint[] triangles;
+
+        protected int vertexBufferObject;
+        protected int vertexArrayObject;
+        protected int elementBufferObject;
 
         public Mesh() {
             Window.OnLoadMeshes += OnLoad;
@@ -77,18 +77,21 @@ namespace ZaephusEngine {
             GL.VertexAttribPointer(5, 3, VertexAttribPointerType.Float, false, sizeof(Vertex), 15 * sizeof(float));
             GL.EnableVertexAttribArray(5);
 
-            shader = new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/Fragment.glsl");
+            if(material == null) {
+                material = new Material();
+            }
+            material.OnLoad();
 
         }
 
         protected virtual void OnRender() {
-            shader.Use();
+            material.OnRender();
             GL.BindVertexArray(vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, triangles.Length, DrawElementsType.UnsignedInt, 0);
         }
 
         protected virtual void OnUnload() {
-            shader.Dispose();
+            material.OnUnload();
         }
 
     }

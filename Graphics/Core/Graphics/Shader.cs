@@ -10,35 +10,8 @@ namespace ZaephusEngine {
 
         public Shader(string _vertexPath, string _fragmentPath) {
 
-            int vertexShader = 0;
-            int fragmentShader = 0;
-
-            string vertexShaderSource = File.ReadAllText(_vertexPath);
-            string fragmentShaderSource = File.ReadAllText(_fragmentPath);
-
-            vertexShader = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(vertexShader, vertexShaderSource);
-
-            fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShader, fragmentShaderSource);
-
-            GL.CompileShader(vertexShader);
-
-            GL.GetShader(vertexShader, ShaderParameter.CompileStatus, out int _vertexSuccess);
-            if(_vertexSuccess == 0) {
-                string infoLog = GL.GetShaderInfoLog(vertexShader);
-                Console.WriteLine("Vertex Shader Info");
-                Console.WriteLine(infoLog);
-            }
-
-            GL.CompileShader(fragmentShader);
-
-            GL.GetShader(fragmentShader, ShaderParameter.CompileStatus, out int _fragmentSuccess);
-            if(_fragmentSuccess == 0) {
-                string infoLog = GL.GetShaderInfoLog(fragmentShader);
-                Console.WriteLine("Fragment Shader Info");
-                Console.WriteLine(infoLog);
-            }
+            int vertexShader = CreateShader(_vertexPath, ShaderType.VertexShader);
+            int fragmentShader = CreateShader(_fragmentPath, ShaderType.FragmentShader);
 
             handle = GL.CreateProgram();
 
@@ -83,24 +56,91 @@ namespace ZaephusEngine {
             }
         }
 
-        // TODO: Fix SetBool function.
-        public void SetBool(string _name, bool _value) {
-            Use();
-            int location = GL.GetUniformLocation(handle, _name);
-            switch(_value) {
-                case false:
-                    GL.Uniform1(location, -1);
-                    break;
-                case true:
-                    GL.Uniform1(location, 1);
-                    break;
+        private int CreateShader(string _path, ShaderType _type) {
+
+            int shaderPointer = 0;
+
+            string source = File.ReadAllText(_path);
+
+            shaderPointer = GL.CreateShader(_type);
+            GL.ShaderSource(shaderPointer, source);
+
+            GL.CompileShader(shaderPointer);
+
+            GL.GetShader(shaderPointer, ShaderParameter.CompileStatus, out int _success);
+            if(_success == 0) {
+                string infoLog = GL.GetShaderInfoLog(shaderPointer);
+                Console.WriteLine(_type + " Info");
+                Console.WriteLine(infoLog);
             }
+
+            return shaderPointer;
+
         }
 
         public void SetInt(string _name, int _value) {
             Use();
             int location = GL.GetUniformLocation(handle, _name);
             GL.Uniform1(location, _value);
+        }
+
+        public void SetFloat(string _name, float _value) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            GL.Uniform1(location, _value);
+        }
+
+        public void SetBool(string _name, bool _value) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            if(_value) {
+                GL.Uniform1(location, 1);
+            }
+            else {
+                GL.Uniform1(location, 0);
+            }
+        }
+
+        public void SetVector2(string _name, Vector2 _vector) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            GL.Uniform2(location, _vector.x, _vector.y);
+        }
+
+        public void SetVector3(string _name, Vector3 _vector) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            GL.Uniform3(location, _vector.x, _vector.y, _vector.z);
+        }
+
+        public void SetVector4(string _name, Vector4 _vector) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            GL.Uniform4(location, _vector.x, _vector.y, _vector.z, _vector.w);
+        }
+
+        public void SetVector2Int(string _name, Vector2Int _vector) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            GL.Uniform2(location, _vector.x, _vector.y);
+        }
+
+        public void SetVector3Int(string _name, Vector3Int _vector) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            GL.Uniform3(location, _vector.x, _vector.y, _vector.z);
+        }
+
+        public void SetColour(string _name, Colour _colour) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            GL.Uniform4(location, _colour.R, _colour.G, _colour.B, _colour.A);
+        }
+
+        public void SetQuaternion(string _name, Quaternion _quaternion) {
+            Use();
+            int location = GL.GetUniformLocation(handle, _name);
+            GL.Uniform4(location, _quaternion.x, _quaternion.y, _quaternion.z, _quaternion.w);
         }
 
         public unsafe void SetMatrix4x4(string _name, ref Matrix4x4 _matrix, bool _transpose) {

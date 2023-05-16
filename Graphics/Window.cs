@@ -27,10 +27,13 @@ namespace ZaephusEngine {
         private Cube cube1 = new Cube(new Vector3(0.0f, 0.0f, 0.75f));
         private Cube cube2 = new Cube(new Vector3(0.5f, 0.0f, -0.75f));
 
+        private Material mat1;
+        private Material mat2;
+
         // private Cube cube1 = new Cube(new Vector3(0.0f, 0.0f, -1.5f));
         // private Cube cube2 = new Cube(new Vector3(0.5f, 0.5f, -3.0f));
 
-        public Window(string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = _title}) {}
+        public Window(string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = _title }) {}
 
         protected override void OnLoad() {
             base.OnLoad();
@@ -39,14 +42,20 @@ namespace ZaephusEngine {
 
             GL.ClearColor(backgroundColour);
 
-            OnLoadMeshes?.Invoke();
-
             camera = new Camera(CameraProjectionType.Perspective, 45, 0.0f, 0.1f, 100.0f);
             camera.transform.position = new Vector3(0.0f, 4.0f, 0.0f);
-            camera.transform.rotation = Quaternion.FromEuler(90.0f, 0.0f, 0.0f);
+            camera.transform.rotation = Quaternion.FromEuler(91.0f, 0.0f, 0.0f);
 
             cube1.transform.rotation = Quaternion.FromEuler(45, 45, 0);
             cube2.transform.rotation = Quaternion.FromEuler(45, 45, 0);
+
+            mat1 = new Material(Colour.green);
+            mat2 = new Material(new Texture("Textures/container.png"));
+
+            cube1.material = mat1;
+            cube2.material = mat2;
+
+            OnLoadMeshes?.Invoke();
 
         }
 

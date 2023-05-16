@@ -31,8 +31,8 @@ namespace ZaephusEngine {
 
         public Vector3 position;
 
-        private Texture texture0;
-        private Texture texture1;
+        // private Texture texture0;
+        // private Texture texture1;
 
         private Matrix4x4 modelMatrix;
         private Matrix4x4 viewMatrix;
@@ -51,11 +51,11 @@ namespace ZaephusEngine {
         protected override void OnLoad() {
             base.OnLoad();
 
-            texture0 = new Texture("Textures/container.png");
-            texture1 = new Texture("Textures/awesomeFace.png");
+            // texture0 = new Texture("Textures/container.png", TextureUnit.Texture0);
+            // texture1 = new Texture("Textures/awesomeFace.png", TextureUnit.Texture1);
 
-            shader.SetInt("texture0", 0);
-            shader.SetInt("texture1", 1);
+            // shader.SetInt("texture0", 0);
+            // shader.SetInt("texture1", 1);
 
             Matrix4x4 translate = Matrix4x4.TranslateMatrix(position);
             Matrix4x4 rotation = Matrix4x4.RotateMatrix(Quaternion.FromEuler(0, 0, 90));
@@ -66,9 +66,9 @@ namespace ZaephusEngine {
             viewMatrix = Matrix4x4.TranslateMatrix(new Vector3(0.0f, 0.0f, 1.0f));
             projectionMatrix = Matrix4x4.identity;
 
-            shader.SetMatrix4x4("model", ref modelMatrix, false);
-            shader.SetMatrix4x4("view", ref viewMatrix, false);
-            shader.SetMatrix4x4("projection", ref projectionMatrix, false);
+            // shader.SetMatrix4x4("model", ref modelMatrix, false);
+            // shader.SetMatrix4x4("view", ref viewMatrix, false);
+            // shader.SetMatrix4x4("projection", ref projectionMatrix, false);
 
         }
 
@@ -78,8 +78,8 @@ namespace ZaephusEngine {
         protected override void OnRender() {
             base.OnRender();
 
-            texture0.Use(TextureUnit.Texture0);
-            texture1.Use(TextureUnit.Texture1);
+            // texture0.Use();
+            // texture1.Use();
 
             // pos.x += 0.0001f;
             rot += 0.01f;
@@ -91,9 +91,9 @@ namespace ZaephusEngine {
 
             modelMatrix = translate * rotation * scale;
 
-            shader.SetMatrix4x4("model", ref modelMatrix, false);
-            shader.SetMatrix4x4("view", ref viewMatrix, false);
-            shader.SetMatrix4x4("projection", ref projectionMatrix, false);
+            // shader.SetMatrix4x4("model", ref modelMatrix, false);
+            // shader.SetMatrix4x4("view", ref viewMatrix, false);
+            // shader.SetMatrix4x4("projection", ref projectionMatrix, false);
             
         }
 

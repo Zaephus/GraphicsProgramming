@@ -8,13 +8,17 @@ namespace ZaephusEngine {
 
     public class Texture {
 
-        public int handle;
+        private int handle;
 
-        public Texture(string _path) {
+        private TextureUnit textureUnit;
+
+        public Texture(string _path) : this(_path, TextureUnit.Texture0) {}
+        public Texture(string _path, TextureUnit _unit) {
 
             handle = GL.GenTexture();
 
-            GL.ActiveTexture(TextureUnit.Texture0);
+            textureUnit = _unit;
+
             GL.BindTexture(TextureTarget.Texture2D, handle);
 
             StbImage.stbi_set_flip_vertically_on_load(1);
@@ -31,10 +35,32 @@ namespace ZaephusEngine {
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
 
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
         }
 
-        public void Use(TextureUnit _unit = TextureUnit.Texture0) {
-            GL.ActiveTexture(_unit);
+        public Texture() : this(Colour.white, TextureUnit.Texture0) {}
+        public Texture(Colour _c) : this(_c, TextureUnit.Texture0) {}
+        public Texture(Colour _c, TextureUnit _unit) {
+
+            handle = GL.GenTexture();
+
+            textureUnit = _unit;
+
+            GL.BindTexture(TextureTarget.Texture2D, handle);
+
+            byte[] bytes = {
+                (byte)( _c.R * 255),
+                (byte)( _c.G * 255),
+                (byte)( _c.B * 255),
+                (byte)( _c.A * 255)
+            };
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, 1, 1, 0, PixelFormat.Rgba, PixelType.UnsignedByte, bytes);
+        
+        }
+
+        public void Use() {
+            GL.ActiveTexture(textureUnit);
             GL.BindTexture(TextureTarget.Texture2D, handle);
         }
 

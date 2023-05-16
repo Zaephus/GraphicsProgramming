@@ -145,9 +145,6 @@ namespace ZaephusEngine {
 
         public Transform transform = new Transform(null);
 
-        private Texture texture0;
-        private Texture texture1;
-
         private Matrix4x4 finalMatrix;
 
         public Cube(Vector3 _pos) {
@@ -163,12 +160,6 @@ namespace ZaephusEngine {
         protected override void OnLoad() {
             base.OnLoad();
 
-            texture0 = new Texture("Textures/container.png");
-            texture1 = new Texture("Textures/awesomeFace.png");
-
-            shader.SetInt("texture0", 0);
-            shader.SetInt("texture1", 1);
-
             transform.rotation = Quaternion.FromEuler(45, 45, 0);
             transform.scale = Vector3.one * 0.5f;
 
@@ -177,11 +168,8 @@ namespace ZaephusEngine {
         protected override void OnRender() {
             base.OnRender();
 
-            texture0.Use(TextureUnit.Texture0);
-            texture1.Use(TextureUnit.Texture1);
-
             finalMatrix = Camera.ActiveCamera.ProjectionMatrix * Camera.ActiveCamera.ViewMatrix * transform.objectMatrix;
-            shader.SetMatrix4x4("finalMatrix", ref finalMatrix, true);
+            material.shader.SetMatrix4x4("finalMatrix", ref finalMatrix, true);
 
         }
 
