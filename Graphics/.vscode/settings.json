@@ -4,5 +4,8 @@
         "glsl",
         "mipmap",
         "stbi"
+    ],
+    "cSpell.words": [
+        "adjugate"
     ]
 }

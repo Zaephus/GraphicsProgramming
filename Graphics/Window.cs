@@ -57,6 +57,15 @@ namespace ZaephusEngine {
 
             OnLoadMeshes?.Invoke();
 
+            Matrix4x4 m = new Matrix4x4(
+                1, 1, 1, -1,
+                1, 1, -1, 1,
+                1, -1, 1, 1,
+                -1, 1, 1, 1
+            );
+
+            Console.WriteLine(m.inverse);
+
         }
 
         protected override void OnRenderFrame(FrameEventArgs _e) {

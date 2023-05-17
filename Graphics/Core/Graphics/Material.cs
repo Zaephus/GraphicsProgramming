@@ -24,7 +24,7 @@ namespace ZaephusEngine {
         public void OnLoad() {
 
             shader.Use();
-            Console.WriteLine(colour);
+            
             shader.SetColour("colour", colour);
             shader.SetInt("texture0", 0);
         }

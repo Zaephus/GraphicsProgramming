@@ -134,21 +134,6 @@ namespace ZaephusEngine {
             m33 = _row3.w;
         }
 
-        public Vector4 GetColumn(int _index) {
-            switch(_index) {
-                case 0:
-                    return new Vector4(m00, m10, m20, m30);
-                case 1:
-                    return new Vector4(m01, m11, m21, m31);
-                case 2:
-                    return new Vector4(m02, m12, m22, m32);
-                case 3:
-                    return new Vector4(m03, m13, m23, m33);
-                default:
-                    throw new IndexOutOfRangeException("Invalid column index.");
-            }
-        }
-
         public Vector4 GetRow(int _index) {
             switch(_index) {
                 case 0:
@@ -161,6 +146,21 @@ namespace ZaephusEngine {
                     return new Vector4(m30, m31, m32, m33);
                 default:
                     throw new IndexOutOfRangeException("Invalid row index.");
+            }
+        }
+
+        public Vector4 GetColumn(int _index) {
+            switch(_index) {
+                case 0:
+                    return new Vector4(m00, m10, m20, m30);
+                case 1:
+                    return new Vector4(m01, m11, m21, m31);
+                case 2:
+                    return new Vector4(m02, m12, m22, m32);
+                case 3:
+                    return new Vector4(m03, m13, m23, m33);
+                default:
+                    throw new IndexOutOfRangeException("Invalid column index.");
             }
         }
 
@@ -183,6 +183,137 @@ namespace ZaephusEngine {
         }
 
         // TODO: Add inverse matrix.
+        public Matrix4x4 inverse {
+            get {
+                Matrix4x4 i = this;
+                i.Invert();
+                return i;
+            }
+        }
+
+        public void Invert() {
+
+            Matrix3x3 a00 = new Matrix3x3(
+                m11, m12, m13,
+                m21, m22, m23,
+                m31, m32, m33
+            );
+            Matrix3x3 a01 = new Matrix3x3(
+                m10, m12, m13,
+                m20, m22, m23,
+                m30, m32, m33
+            );
+            Matrix3x3 a02 = new Matrix3x3(
+                m10, m11, m13,
+                m20, m21, m23,
+                m30, m31, m33
+            );
+            Matrix3x3 a03 = new Matrix3x3(
+                m10, m11, m12,
+                m20, m21, m22,
+                m30, m31, m32
+            );
+            Matrix3x3 a10 = new Matrix3x3(
+                m01, m02, m03,
+                m21, m22, m23,
+                m31, m32, m33
+            );
+            Matrix3x3 a11 = new Matrix3x3(
+                m00, m02, m03,
+                m20, m22, m23,
+                m30, m32, m33
+            );
+            Matrix3x3 a12 = new Matrix3x3(
+                m00, m01, m03,
+                m20, m21, m23,
+                m30, m31, m33
+            );
+            Matrix3x3 a13 = new Matrix3x3(
+                m00, m01, m02,
+                m20, m21, m22,
+                m30, m31, m32
+            );
+            Matrix3x3 a20 = new Matrix3x3(
+                m01, m02, m03,
+                m11, m12, m13,
+                m31, m32, m33
+            );
+            Matrix3x3 a21 = new Matrix3x3(
+                m00, m02, m03,
+                m10, m12, m13,
+                m20, m22, m23
+            );
+            Matrix3x3 a22 = new Matrix3x3(
+                m00, m01, m03,
+                m10, m11, m13,
+                m30, m31, m33
+            );
+            Matrix3x3 a23 = new Matrix3x3(
+                m00, m01, m02,
+                m10, m11, m12,
+                m30, m31, m32
+            );
+            Matrix3x3 a30 = new Matrix3x3(
+                m01, m02, m03,
+                m11, m12, m13,
+                m21, m22, m23
+            );
+            Matrix3x3 a31 = new Matrix3x3(
+                m00, m02, m03,
+                m10, m12, m13,
+                m20, m22, m23
+            );
+            Matrix3x3 a32 = new Matrix3x3(
+                m00, m01, m03,
+                m10, m11, m13,
+                m20, m21, m23
+            );
+            Matrix3x3 a33 = new Matrix3x3(
+                m00, m01, m02,
+                m10, m11, m12,
+                m20, m21, m22
+            );
+
+            Matrix4x4 adjugate = new Matrix4x4(
+                a00.determinant, a01.determinant, a02.determinant, a03.determinant,
+                a10.determinant, a11.determinant, a12.determinant, a13.determinant,
+                a20.determinant, a21.determinant, a22.determinant, a23.determinant,
+                a30.determinant, a31.determinant, a32.determinant, a33.determinant
+            );
+            Console.WriteLine(a03.determinant);
+            // TODO: Fix Matrix4x4 and Matrix3x3 determinant.
+            // TODO: Fix Inverse calculation.
+            this = (adjugate / determinant);
+            
+        }
+
+        public Matrix4x4 transposed {
+            get {
+                Matrix4x4 t = this;
+                t.Transpose();
+                return t;
+            }
+        }
+
+        public void Transpose() {
+            this = new Matrix4x4(
+                m00, m10, m20, m30,
+                m01, m11, m21, m31,
+                m02, m12, m22, m32,
+                m03, m13, m23, m33
+            );
+        }
+
+        public float determinant {
+            get {
+                float d1 = m11*m22*m33 + m12*m23*m31 + m13*m21*m32 - m13*m22*m31 - m12*m21*m33 - m11*m23*m32;
+                float d2 = m01*m22*m33 + m02*m23*m31 + m03*m21*m32 - m03*m22*m31 - m02*m21*m33 - m01*m23*m32;
+                float d3 = m01*m12*m33 + m02*m13*m31 + m03*m11*m32 - m03*m12*m31 - m02*m11*m33 - m01*m13*m32;
+                float d4 = m01*m12*m23 + m02*m13*m21 + m03*m11*m33 - m03*m12*m21 - m02*m11*m23 - m01*m13*m22;
+
+                return m00*d1 - m10*d2 + m20*d3 - m30*d4;
+            }
+        }
 
         public static Matrix4x4 ScaleMatrix(Vector3 _v) {
             return new Matrix4x4(
@@ -377,6 +508,23 @@ namespace ZaephusEngine {
 
         public static bool operator!=(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return !(_lhs == _rhs);
+        }
+
+        public static implicit operator Matrix3x3(Matrix4x4 _m) {
+            return new Matrix3x3(
+                _m.m00, _m.m01, _m.m02,
+                _m.m10, _m.m11, _m.m12,
+                _m.m20, _m.m21, _m.m22
+            );
+        }
+
+        public static implicit operator Matrix4x4(Matrix3x3 _m) {
+            return new Matrix4x4(
+                _m.m00, _m.m01, _m.m02, 0,
+                _m.m10, _m.m11, _m.m12, 0,
+                _m.m20, _m.m21, _m.m22, 0,
+                0,      0,      0,      1
+            );
         }
 
         public static implicit operator Matrix4(Matrix4x4 _m) {
