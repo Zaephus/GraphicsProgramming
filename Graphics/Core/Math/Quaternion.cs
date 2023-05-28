@@ -83,6 +83,7 @@ namespace ZaephusEngine {
             );
         }
 
+        // TODO: Fix operation order.
         public static Quaternion FromEuler(float _xDeg, float _yDeg, float _zDeg) {
             return FromEuler(new Vector3(_xDeg, _yDeg, _zDeg));
         }

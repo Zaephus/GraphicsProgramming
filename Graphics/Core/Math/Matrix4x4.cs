@@ -193,6 +193,11 @@ namespace ZaephusEngine {
 
         public void Invert() {
 
+            if(determinant == 0) {
+                Console.WriteLine("Determinant is zero, this matrix is not invertible.");
+                return;
+            }
+
             Matrix3x3 a00 = new Matrix3x3(
                 m11, m12, m13,
                 m21, m22, m23,
@@ -241,7 +246,7 @@ namespace ZaephusEngine {
             Matrix3x3 a21 = new Matrix3x3(
                 m00, m02, m03,
                 m10, m12, m13,
-                m20, m22, m23
+                m30, m32, m33
             );
             Matrix3x3 a22 = new Matrix3x3(
                 m00, m01, m03,
@@ -275,14 +280,13 @@ namespace ZaephusEngine {
             );
 
             Matrix4x4 adjugate = new Matrix4x4(
-                a00.determinant, a01.determinant, a02.determinant, a03.determinant,
-                a10.determinant, a11.determinant, a12.determinant, a13.determinant,
-                a20.determinant, a21.determinant, a22.determinant, a23.determinant,
-                a30.determinant, a31.determinant, a32.determinant, a33.determinant
+                a00.determinant, -a01.determinant, a02.determinant, -a03.determinant,
+                -a10.determinant, a11.determinant, -a12.determinant, a13.determinant,
+                a20.determinant, -a21.determinant, a22.determinant, -a23.determinant,
+                -a30.determinant, a31.determinant, -a32.determinant, a33.determinant
             );
-            Console.WriteLine(a03.determinant);
-            // TODO: Fix Matrix4x4 and Matrix3x3 determinant.
-            // TODO: Fix Inverse calculation.
+
+            adjugate.Transpose();
             this = (adjugate / determinant);
             
         }
@@ -391,19 +395,19 @@ namespace ZaephusEngine {
 
         public static Matrix4x4 operator+(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return new Matrix4x4(
-                _lhs.m00 + _rhs.m00, _lhs.m10 + _rhs.m10, _lhs.m20 + _rhs.m20, _lhs.m30 + _rhs.m30,
-                _lhs.m01 + _rhs.m01, _lhs.m11 + _rhs.m11, _lhs.m21 + _rhs.m21, _lhs.m31 + _rhs.m31,
-                _lhs.m02 + _rhs.m02, _lhs.m12 + _rhs.m12, _lhs.m22 + _rhs.m22, _lhs.m32 + _rhs.m32,
-                _lhs.m03 + _rhs.m03, _lhs.m13 + _rhs.m13, _lhs.m23 + _rhs.m23, _lhs.m33 + _rhs.m33
+                _lhs.m00 + _rhs.m00, _lhs.m01 + _rhs.m01, _lhs.m02 + _rhs.m02, _lhs.m03 + _rhs.m03,
+                _lhs.m10 + _rhs.m10, _lhs.m11 + _rhs.m11, _lhs.m12 + _rhs.m12, _lhs.m13 + _rhs.m13,
+                _lhs.m20 + _rhs.m20, _lhs.m21 + _rhs.m21, _lhs.m22 + _rhs.m22, _lhs.m23 + _rhs.m23,
+                _lhs.m30 + _rhs.m30, _lhs.m31 + _rhs.m31, _lhs.m32 + _rhs.m32, _lhs.m33 + _rhs.m33
             );
         }
 
         public static Matrix4x4 operator-(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return new Matrix4x4(
-                _lhs.m00 - _rhs.m00, _lhs.m10 - _rhs.m10, _lhs.m20 - _rhs.m20, _lhs.m30 - _rhs.m30,
-                _lhs.m01 - _rhs.m01, _lhs.m11 - _rhs.m11, _lhs.m21 - _rhs.m21, _lhs.m31 - _rhs.m31,
-                _lhs.m02 - _rhs.m02, _lhs.m12 - _rhs.m12, _lhs.m22 - _rhs.m22, _lhs.m32 - _rhs.m32,
-                _lhs.m03 - _rhs.m03, _lhs.m13 - _rhs.m13, _lhs.m23 - _rhs.m23, _lhs.m33 - _rhs.m33
+                _lhs.m00 - _rhs.m00, _lhs.m01 - _rhs.m01, _lhs.m02 - _rhs.m02, _lhs.m03 - _rhs.m03,
+                _lhs.m10 - _rhs.m10, _lhs.m11 - _rhs.m11, _lhs.m12 - _rhs.m12, _lhs.m13 - _rhs.m13,
+                _lhs.m20 - _rhs.m20, _lhs.m21 - _rhs.m21, _lhs.m22 - _rhs.m22, _lhs.m23 - _rhs.m23,
+                _lhs.m30 - _rhs.m30, _lhs.m31 - _rhs.m31, _lhs.m32 - _rhs.m32, _lhs.m33 - _rhs.m33
             );
         }
 
@@ -446,7 +450,6 @@ namespace ZaephusEngine {
         // TODO: Add Matrix4x4 and Matrix4x3 multiplication.
         // TODO: Add Matrix4x4 and Matrix4x2 multiplication.
 
-        // TODO: Verify if the vector should be divided by w.
         public static Vector4 operator*(Matrix4x4 _m, Vector4 _v) {
             return new Vector4(
                 (_m.m00 * _v.x + _m.m01 * _v.y + _m.m02 * _v.z + _m.m03 * _v.w),
@@ -456,42 +459,40 @@ namespace ZaephusEngine {
             );
         }
 
-        // TODO: Verify if the vector should be divided by w.
         public static Vector3 operator*(Matrix4x4 _m, Vector3 _v) {
             Vector3 vec = new Vector3(
                 (_m.m00 * _v.x + _m.m01 * _v.y + _m.m02 * _v.z + _m.m03),
                 (_m.m10 * _v.x + _m.m11 * _v.y + _m.m12 * _v.z + _m.m13),
                 (_m.m20 * _v.x + _m.m21 * _v.y + _m.m22 * _v.z + _m.m23)
             );
-            float w = _m.m30 * _v.x + _m.m31 * _v.y + _m.m32 * _v.z + _m.m33;
-            return vec/w;
+            return vec;
             
         }
 
         public static Matrix4x4 operator*(Matrix4x4 _m, float _s) {
             return new Matrix4x4(
-                _s * _m.m00, _s * _m.m10, _s * _m.m20, _s * _m.m30,
-                _s * _m.m01, _s * _m.m11, _s * _m.m21, _s * _m.m31,
-                _s * _m.m02, _s * _m.m12, _s * _m.m22, _s * _m.m32,
-                _s * _m.m03, _s * _m.m13, _s * _m.m23, _s * _m.m33
+                _s * _m.m00, _s * _m.m01, _s * _m.m02, _s * _m.m03,
+                _s * _m.m10, _s * _m.m11, _s * _m.m12, _s * _m.m13,
+                _s * _m.m20, _s * _m.m21, _s * _m.m22, _s * _m.m23,
+                _s * _m.m30, _s * _m.m31, _s * _m.m32, _s * _m.m33
             );
         }
 
         public static Matrix4x4 operator*(float _s, Matrix4x4 _m) {
             return new Matrix4x4(
-                _s * _m.m00, _s * _m.m10, _s * _m.m20, _s * _m.m30,
-                _s * _m.m01, _s * _m.m11, _s * _m.m21, _s * _m.m31,
-                _s * _m.m02, _s * _m.m12, _s * _m.m22, _s * _m.m32,
-                _s * _m.m03, _s * _m.m13, _s * _m.m23, _s * _m.m33
+                _s * _m.m00, _s * _m.m01, _s * _m.m02, _s * _m.m03,
+                _s * _m.m10, _s * _m.m11, _s * _m.m12, _s * _m.m13,
+                _s * _m.m20, _s * _m.m21, _s * _m.m22, _s * _m.m23,
+                _s * _m.m30, _s * _m.m31, _s * _m.m32, _s * _m.m33
             );
         }
 
         public static Matrix4x4 operator/(Matrix4x4 _m, float _s) {
             return new Matrix4x4(
-                _m.m00 / _s, _m.m10 / _s, _m.m20 / _s, _m.m30 / _s,
-                _m.m01 / _s, _m.m11 / _s, _m.m21 / _s, _m.m31 / _s,
-                _m.m02 / _s, _m.m12 / _s, _m.m22 / _s, _m.m32 / _s,
-                _m.m03 / _s, _m.m13 / _s, _m.m23 / _s, _m.m33 / _s
+                _m.m00 / _s, _m.m01 / _s, _m.m02 / _s, _m.m03 / _s,
+                _m.m10 / _s, _m.m11 / _s, _m.m12 / _s, _m.m13 / _s,
+                _m.m20 / _s, _m.m21 / _s, _m.m22 / _s, _m.m23 / _s,
+                _m.m30 / _s, _m.m31 / _s, _m.m32 / _s, _m.m33 / _s
             );
         }
 

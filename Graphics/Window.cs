@@ -1,3 +1,4 @@
+
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -16,22 +17,19 @@ namespace ZaephusEngine {
         public static readonly int width = 1400;
         public static readonly int height = 800;
 
-        public Colour backgroundColour = Colour.cyan;
-
-        // private Hexagon hexagon = new Hexagon(Colour.magenta);
-        // private Triangle triangle = new Triangle(Colour.green);
-        // private Quad quad = new Quad(new Vector3(0.5f, 0.0f, 0.0f));
+        public Colour backgroundColour = Colour.black;
 
         private Camera camera;
         
-        private Cube cube1 = new Cube(new Vector3(0.0f, 0.0f, 0.75f));
-        private Cube cube2 = new Cube(new Vector3(0.5f, 0.0f, -0.75f));
+        private GameObject cube1 = new GameObject(new MeshRenderer(Primitives.Cube));
+        private GameObject cube2 = new GameObject(new MeshRenderer(Primitives.Cube));
 
-        private Material mat1;
-        private Material mat2;
+        private GameObject light = new GameObject(new MeshRenderer(Primitives.Cube));
 
-        // private Cube cube1 = new Cube(new Vector3(0.0f, 0.0f, -1.5f));
-        // private Cube cube2 = new Cube(new Vector3(0.5f, 0.5f, -3.0f));
+        private Material cubeMat1;
+        private Material cubeMat2;
+
+        private Material lightMat;
 
         public Window(string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = _title }) {}
 
@@ -43,28 +41,40 @@ namespace ZaephusEngine {
             GL.ClearColor(backgroundColour);
 
             camera = new Camera(CameraProjectionType.Perspective, 45, 0.0f, 0.1f, 100.0f);
-            camera.transform.position = new Vector3(0.0f, 4.0f, 0.0f);
-            camera.transform.rotation = Quaternion.FromEuler(91.0f, 0.0f, 0.0f);
+            camera.transform.position = new Vector3(2.2f, 0.0f, -3.0f);
+            camera.transform.Rotate(0.0f, -30.0f, 0.0f);
 
-            cube1.transform.rotation = Quaternion.FromEuler(45, 45, 0);
-            cube2.transform.rotation = Quaternion.FromEuler(45, 45, 0);
+            cube1.transform.position = new Vector3(0.0f, -0.75f, 0.0f);
+            cube1.transform.rotation = Quaternion.FromEuler(0, -25, 0);
 
-            mat1 = new Material(Colour.green);
-            mat2 = new Material(new Texture("Textures/container.png"));
+            cube2.transform.position = new Vector3(0.0f, 0.75f, 0.0f);
+            cube2.transform.rotation = Quaternion.FromEuler(0, -25, 0);
 
-            cube1.material = mat1;
-            cube2.material = mat2;
+            light.transform.position = new Vector3(1.6f, 0.0f, 0.0f);
+            light.transform.scale = Vector3.one * 0.2f;
+
+            lightMat = new Material();
+            lightMat.ObjectColour = Colour.white;
+
+            cubeMat1 = new Material();
+            cubeMat1.ObjectColour = Colour.brown;
+            cubeMat1.LightColour = lightMat.ObjectColour;
+            cubeMat1.AmbientStrength = 0.1f;
+            cubeMat1.shader.SetVector3("lightPosition", light.transform.position);
+
+            cubeMat2 = new Material();
+            cubeMat2.DiffuseMap = new Texture2D("Textures/Crate.png");
+            cubeMat2.SpecularMap = new Texture2D("Textures/Crate_Specular.png");
+            cubeMat2.LightColour = lightMat.ObjectColour;
+            cubeMat2.AmbientStrength = 0.1f;
+            cubeMat2.shader.SetVector3("lightPosition", light.transform.position);
+
+            cube1.GetComponent<MeshRenderer>().material = cubeMat1;
+            cube2.GetComponent<MeshRenderer>().material = cubeMat2;
+
+            light.GetComponent<MeshRenderer>().material = lightMat;
 
             OnLoadMeshes?.Invoke();
-
-            Matrix4x4 m = new Matrix4x4(
-                1, 1, 1, -1,
-                1, 1, -1, 1,
-                1, -1, 1, 1,
-                -1, 1, 1, 1
-            );
-
-            Console.WriteLine(m.inverse);
 
         }
 
@@ -86,8 +96,14 @@ namespace ZaephusEngine {
                 Close();
             }
 
-            // cube1.transform.Rotate(0.01f, 0.01f, 0.0f);
-            // cube2.transform.Rotate(0.01f, 0.01f, 0.0f);
+            // cube.transform.Rotate(0.0f, 0.01f, 0.0f);
+            // light.transform.Rotate(0.01f, 0.01f, 0.0f);
+
+            // light.transform.position += new Vector3(0.0005f, 0.0f, -0.0005f);
+            cubeMat1.shader.SetVector3("lightPosition", light.transform.position);
+
+            cube1.Update();
+            light.Update();
 
             // camera.transform.position += new Vector3(0.0005f, 0.0f, 0.0002f);
             // camera.transform.Rotate(0.0f, 0.0f, 0.0f);
@@ -105,6 +121,9 @@ namespace ZaephusEngine {
 
         protected override void OnUnload() {
             OnUnloadMeshes?.Invoke();
+
+            cube1.Exit();
+            light.Exit();
         }
 
     }

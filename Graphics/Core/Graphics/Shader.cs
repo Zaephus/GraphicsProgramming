@@ -143,11 +143,11 @@ namespace ZaephusEngine {
             GL.Uniform4(location, _quaternion.x, _quaternion.y, _quaternion.z, _quaternion.w);
         }
 
-        public unsafe void SetMatrix4x4(string _name, ref Matrix4x4 _matrix, bool _transpose) {
+        public unsafe void SetMatrix4x4(string _name, ref Matrix4x4 _matrix) {
             Use();
             int location = GL.GetUniformLocation(handle, _name);
             fixed(float* matrixPtr = &_matrix.m00) {
-                GL.UniformMatrix4(location, 1, _transpose, matrixPtr);
+                GL.UniformMatrix4(location, 1, true, matrixPtr);
             }
         }
 

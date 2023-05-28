@@ -17,8 +17,6 @@ namespace ZaephusEngine {
             }
         }
 
-        public Transform(GameObject _parent) : base(_parent) {}
-
         public override void Start() {}
         public override void Update() {}
         public override void Exit() {}

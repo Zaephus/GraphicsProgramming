@@ -104,6 +104,7 @@ namespace ZaephusEngine {
         public static Colour cyan { get { return new Colour(0, 1, 1, 1); } }
         public static Colour magenta { get { return new Colour(1, 0, 1, 1); } }
         public static Colour grey { get { return new Colour(0.5f, 0.5f, 0.5f, 1); } }
+        public static Colour brown { get { return new Colour(0.5f, 0.25f, 0.0f, 1.0f); } }
 
     }
 

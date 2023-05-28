@@ -4,17 +4,23 @@ namespace ZaephusEngine {
 
     public class GameObject {
 
-        public Transform transform;
+        public Transform transform = new Transform();
 
         private List<Component> components = new List<Component>();
 
-        public GameObject() {}
+        public GameObject() {
+            components.Add(transform);
+            Start();
+        }
         public GameObject(params Component[] _components) {
+            components.Add(transform);
             components.AddRange(_components);
+            Start();
         }
 
-        public virtual void Start() {
+        private void Start() {
             foreach(Component c in components) {
+                c.Initialize(this);
                 c.Start();
             }
         }
@@ -31,10 +37,10 @@ namespace ZaephusEngine {
             }
         }
 
-        public Component GetComponent(Type _type) {
+        public T GetComponent<T>() where T : Component {
             foreach(Component c in components) {
-                if(c.GetType() == _type) {
-                    return c;
+                if(c.GetType() == typeof(T)) {
+                    return (T)c;
                 }
             }
             return null;

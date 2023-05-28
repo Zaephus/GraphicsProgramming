@@ -4,10 +4,10 @@ namespace ZaephusEngine {
 
     public abstract class Component {
 
-        public GameObject parent;
+        public GameObject gameObject;
 
-        public Component(GameObject _parent) {
-            parent = _parent;
+        public void Initialize(GameObject _gameObject) {
+            gameObject = _gameObject;
         }
 
         public abstract void Start();

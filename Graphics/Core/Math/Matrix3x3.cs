@@ -153,7 +153,31 @@ namespace ZaephusEngine {
 
         public void Invert() {
 
-            
+            if(determinant == 0) {
+                Console.WriteLine("Determinant is zero, this matrix is not invertible.");
+                return;
+            }
+
+            float a00 = m11*m22 - m12*m21;
+            float a01 = m10*m22 - m12*m20;
+            float a02 = m10*m21 - m11*m20;
+
+            float a10 = m01*m22 - m02*m21;
+            float a11 = m00*m22 - m02*m20;
+            float a12 = m00*m21 - m01*m20;
+
+            float a20 = m01*m12 - m02*m11;
+            float a21 = m00*m12 - m02*m10;
+            float a22 = m00*m11 - m01*m10;
+
+            Matrix3x3 adjugate = new Matrix3x3(
+                a00, -a01, a02,
+                -a10, a11, -a12,
+                a20, -a21, a22
+            );
+            adjugate.Transpose();
+
+            this = (adjugate / determinant);
             
         }
 
@@ -211,17 +235,17 @@ namespace ZaephusEngine {
 
         public static Matrix3x3 operator+(Matrix3x3 _lhs, Matrix3x3 _rhs) {
             return new Matrix3x3(
-                _lhs.m00 + _rhs.m00, _lhs.m10 + _rhs.m10, _lhs.m20 + _rhs.m20,
-                _lhs.m01 + _rhs.m01, _lhs.m11 + _rhs.m11, _lhs.m21 + _rhs.m21,
-                _lhs.m02 + _rhs.m02, _lhs.m12 + _rhs.m12, _lhs.m22 + _rhs.m22
+                _lhs.m00 + _rhs.m00, _lhs.m01 + _rhs.m01, _lhs.m02 + _rhs.m02,
+                _lhs.m10 + _rhs.m10, _lhs.m11 + _rhs.m11, _lhs.m12 + _rhs.m12,
+                _lhs.m20 + _rhs.m20, _lhs.m21 + _rhs.m21, _lhs.m22 + _rhs.m22
             );
         }
 
         public static Matrix3x3 operator-(Matrix3x3 _lhs, Matrix3x3 _rhs) {
             return new Matrix3x3(
-                _lhs.m00 - _rhs.m00, _lhs.m10 - _rhs.m10, _lhs.m20 - _rhs.m20,
-                _lhs.m01 - _rhs.m01, _lhs.m11 - _rhs.m11, _lhs.m21 - _rhs.m21,
-                _lhs.m02 - _rhs.m02, _lhs.m12 - _rhs.m12, _lhs.m22 - _rhs.m22
+                _lhs.m00 - _rhs.m00, _lhs.m01 - _rhs.m01, _lhs.m02 - _rhs.m02,
+                _lhs.m10 - _rhs.m10, _lhs.m11 - _rhs.m11, _lhs.m12 - _rhs.m12,
+                _lhs.m20 - _rhs.m20, _lhs.m21 - _rhs.m21, _lhs.m22 - _rhs.m22
             );
         }
 
@@ -263,25 +287,25 @@ namespace ZaephusEngine {
 
         public static Matrix3x3 operator*(Matrix3x3 _m, float _s) {
             return new Matrix3x3(
-                _s * _m.m00, _s * _m.m10, _s * _m.m20,
-                _s * _m.m01, _s * _m.m11, _s * _m.m21,
-                _s * _m.m02, _s * _m.m12, _s * _m.m22
+                _s * _m.m00, _s * _m.m01, _s * _m.m02,
+                _s * _m.m10, _s * _m.m11, _s * _m.m12,
+                _s * _m.m20, _s * _m.m21, _s * _m.m22
             );
         }
 
         public static Matrix3x3 operator*(float _s, Matrix3x3 _m) {
             return new Matrix3x3(
-                _s * _m.m00, _s * _m.m10, _s * _m.m20,
-                _s * _m.m01, _s * _m.m11, _s * _m.m21,
-                _s * _m.m02, _s * _m.m12, _s * _m.m22
+                _s * _m.m00, _s * _m.m01, _s * _m.m02,
+                _s * _m.m10, _s * _m.m11, _s * _m.m12,
+                _s * _m.m20, _s * _m.m21, _s * _m.m22
             );
         }
 
         public static Matrix3x3 operator/(Matrix3x3 _m, float _s) {
             return new Matrix3x3(
-                _m.m00 / _s, _m.m10 / _s, _m.m20 / _s,
-                _m.m01 / _s, _m.m11 / _s, _m.m21 / _s,
-                _m.m02 / _s, _m.m12 / _s, _m.m22 / _s
+                _m.m00 / _s, _m.m01 / _s, _m.m02 / _s,
+                _m.m10 / _s, _m.m11 / _s, _m.m12 / _s,
+                _m.m20 / _s, _m.m21 / _s, _m.m22 / _s
             );
         }
 

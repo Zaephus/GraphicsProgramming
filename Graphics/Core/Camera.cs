@@ -9,7 +9,7 @@ namespace ZaephusEngine {
 
     public class Camera : GameObject {
 
-        public static Camera ActiveCamera;
+        public static Camera activeCamera;
 
         public Matrix4x4 ViewMatrix {
             get {
@@ -36,11 +36,9 @@ namespace ZaephusEngine {
         /// <param name="_far">Distance fo far plane from camera.</param>
         public Camera(CameraProjectionType _type, float _fovY, float _size, float _near, float _far) {
 
-            if(ActiveCamera == null) {
-                ActiveCamera = this;
+            if(activeCamera == null) {
+                activeCamera = this;
             }
-
-            transform = new Transform(this);
 
             Window.WindowResized += OnWindowResized;
 
