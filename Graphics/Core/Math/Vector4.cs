@@ -49,6 +49,8 @@ namespace ZaephusEngine {
             }
         }
 
+        public Vector4(Vector2 _v, float _z, float _w) : this(_v.x, _v.y, _z, _w) {}
+        public Vector4(Vector3 _v, float _w) : this(_v.x, _v.y, _v.z, _w) {}
         public Vector4(float _x, float _y, float _z, float _w) {
             x = _x;
             y = _y;

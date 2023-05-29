@@ -14,25 +14,60 @@ namespace ZaephusEngine {
 
         public void OnLoad() {
             ObjectColour = ObjectColour;
-            LightColour = LightColour;
             AmbientStrength = AmbientStrength;
             SpecularStrength = SpecularStrength;
             Shininess = Shininess;
             DiffuseMap = DiffuseMap;
             SpecularMap = SpecularMap;
 
+            ApplyLighting();
+
             shader.Use();
         }
 
         public void OnRender() {
+
+            ApplyLighting();
+
             shader.Use();
             DiffuseMap.Use();
             SpecularMap.Use();
+
         }
 
         public void OnUnload() {
             shader.Dispose();
         }
+
+        private void ApplyLighting() {
+            shader.SetInt("dirLightNum", LightUtility.dirLights.Count);
+            for(int i = 0; i < LightUtility.dirLights.Count; i++) {
+                SetDirLight(LightUtility.dirLights[i], i);
+            }
+
+            shader.SetInt("pointLightNum", LightUtility.pointLights.Count);
+            for(int i = 0; i < LightUtility.pointLights.Count; i++) {
+                SetPointLight(LightUtility.pointLights[i], i);
+            }
+        }
+
+        private void SetDirLight(DirectionalLight _light, int _index) {
+            shader.SetColour($"dirLights[{_index}].colour", _light.colour);
+            shader.SetVector3($"dirLights[{_index}].direction", _light.transform.forward);
+        }
+
+        private void SetPointLight(PointLight _light, int _index) {
+            shader.SetColour($"pointLights[{_index}].colour", _light.colour);
+            shader.SetVector3($"pointLights[{_index}].position", _light.transform.position);
+
+            shader.SetFloat($"pointLights[{_index}].constant", _light.constantAttenuation);
+            shader.SetFloat($"pointLights[{_index}].linear", _light.linearAttenuation);
+            shader.SetFloat($"pointLights[{_index}].quadratic", _light.quadraticAttenuation);
+        }
+
+        // private void SetSpotLight(Light _light, int _index) {
+        //     Console.WriteLine("Spot Light Setting not defined yet.");
+        // }
 
         private Colour objectColour = Colour.white;
         public Colour ObjectColour {
@@ -45,19 +80,6 @@ namespace ZaephusEngine {
             }
         }
 
-        // TODO: Transfer to a Light class.
-        private Colour lightColour = Colour.white;
-        public Colour LightColour {
-            get {
-                return lightColour;
-            }
-            set {
-                lightColour = value;
-                shader.SetColour("lightColour", lightColour);
-            }
-        }
-
-        // TODO: Transfer to a Light class.
         private float ambientStrength = 1.0f;
         public float AmbientStrength {
             get {
@@ -114,6 +136,7 @@ namespace ZaephusEngine {
                 shader.SetInt("material.specularMap", 1);
             }
         }
+
     }
 
 }

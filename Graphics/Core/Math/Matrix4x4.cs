@@ -182,7 +182,6 @@ namespace ZaephusEngine {
             }
         }
 
-        // TODO: Add inverse matrix.
         public Matrix4x4 inverse {
             get {
                 Matrix4x4 i = this;

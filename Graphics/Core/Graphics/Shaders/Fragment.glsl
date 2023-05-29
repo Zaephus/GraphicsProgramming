@@ -24,28 +24,92 @@ struct Material {
 };
 uniform Material material;
 
-uniform vec4 lightColour;
+struct DirLight {
+    vec4 colour;
+    vec3 direction;
+};
+#define MAX_DIR_LIGHTS 5
+uniform DirLight dirLights [MAX_DIR_LIGHTS];
+uniform int dirLightNum;
 
-uniform vec3 lightPosition;
+struct PointLight {
+    vec4 colour;
+    vec3 position;
+
+    float constant;
+    float linear;
+    float quadratic;
+};
+#define MAX_POINT_LIGHTS 10
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
+uniform int pointLightNum;
+
 uniform vec3 viewPosition;
+
+vec4 CalcDirLight(DirLight _light, vec3 _normal, vec3 _viewDir);
+vec4 CalcPointLight(PointLight _light, vec3 _normal, vec3 _fragPos, vec3 _viewDir);
+// vec4 CalcSpotLight(Light _light, vec3 _normal, vec3 _fragPos, vec3 _viewDir);
 
 void main() {
 
-    vec4 ambient = material.ambientStrength * lightColour;
-
     vec3 norm = normalize(normal);
-    vec3 lightDir = normalize(lightPosition - fragPosition);
+    vec3 viewDirection = normalize(viewPosition - fragPosition);
 
-    float diffuseComponent = max(dot(norm, lightDir), 0.0);
-    vec4 diffuse = diffuseComponent * lightColour;
+    vec4 lightResult;
 
-    vec3 viewDir = normalize(viewPosition - fragPosition);
-    vec3 reflectDir = reflect(-lightDir, norm);
+    for(int i = 0; i < MAX_DIR_LIGHTS; i++) {
+        if(i >= dirLightNum) {
+            break;
+        }
+        lightResult += CalcDirLight(dirLights[i], norm, viewDirection);
+    }
 
-    float specularComponent = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec4 specular = (material.specularStrength * specularComponent * lightColour) * texture(material.specularMap, uv);
+    for(int i = 0; i < MAX_POINT_LIGHTS; i++) {
+        if(i >= pointLightNum) {
+            break;
+        }
+        lightResult += CalcPointLight(pointLights[i], norm, fragPosition, viewDirection);
+    }
 
-    vec4 colour = (ambient + diffuse + specular) * material.colour;
+    fragColour = lightResult * material.colour * texture(material.diffuseMap, uv);
 
-    fragColour = colour * texture(material.diffuseMap, uv);
+}
+
+vec4 CalcDirLight(DirLight _light, vec3 _normal, vec3 _viewDir) {
+
+    vec3 lightDir = normalize(-_light.direction);
+    vec3 reflectDir = reflect(-lightDir, _normal);
+
+    float diffuseComponent = max(dot(_normal, lightDir), 0.0);
+    float specularComponent = pow(max(dot(_viewDir, reflectDir), 0.0), material.shininess);
+
+    vec4 ambient = material.ambientStrength * _light.colour;
+    vec4 diffuse = diffuseComponent * _light.colour;
+    vec4 specular = material.specularStrength * specularComponent * _light.colour;
+
+    return (ambient + diffuse + specular);
+
+}
+
+vec4 CalcPointLight(PointLight _light, vec3 _normal, vec3 _fragPos, vec3 _viewDir) {
+
+    vec3 lightDir = normalize(_light.position - _fragPos);
+    vec3 reflectDir = reflect(-lightDir, _normal);
+
+    float diffuseComponent = max(dot(_normal, lightDir), 0.0);
+    float specularComponent = pow(max(dot(_viewDir, reflectDir), 0.0), material.shininess);
+    
+    vec4 ambient = material.ambientStrength * _light.colour;
+    vec4 diffuse = diffuseComponent * _light.colour;
+    vec4 specular = material.specularStrength * specularComponent * _light.colour;
+
+    float dist = length(_light.position - _fragPos);
+    float attenuation = 1.0 / (_light.constant + _light.linear * dist + _light.quadratic * dist * dist);
+
+    ambient *= attenuation;
+    diffuse *= attenuation;
+    specular *= attenuation;
+
+    return (ambient + diffuse + specular);
+
 }

@@ -24,12 +24,13 @@ namespace ZaephusEngine {
         private GameObject cube1 = new GameObject(new MeshRenderer(Primitives.Cube));
         private GameObject cube2 = new GameObject(new MeshRenderer(Primitives.Cube));
 
-        private GameObject light = new GameObject(new MeshRenderer(Primitives.Cube));
+        private PointLight light1;
+        private PointLight light2;
+
+        private DirectionalLight sun;
 
         private Material cubeMat1;
         private Material cubeMat2;
-
-        private Material lightMat;
 
         public Window(string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = _title }) {}
 
@@ -50,29 +51,30 @@ namespace ZaephusEngine {
             cube2.transform.position = new Vector3(0.0f, 0.75f, 0.0f);
             cube2.transform.rotation = Quaternion.FromEuler(0, -25, 0);
 
-            light.transform.position = new Vector3(1.6f, 0.0f, 0.0f);
-            light.transform.scale = Vector3.one * 0.2f;
+            light1 = new PointLight(Colour.white, 20.0f);
 
-            lightMat = new Material();
-            lightMat.ObjectColour = Colour.white;
+            light1.transform.position = new Vector3(1.6f, 0.0f, 0.0f);
+            light1.transform.scale = Vector3.one * 0.2f;
+
+            light2 = new PointLight(Colour.blue, 100.0f);
+
+            light2.transform.position = new Vector3(-0.6f, 0.0f, 0.2f);
+            light2.transform.scale = Vector3.one * 0.2f;
+
+            sun = new DirectionalLight(Colour.yellow);
+            sun.transform.rotation = Quaternion.FromEuler(-60, 10, 0);
 
             cubeMat1 = new Material();
             cubeMat1.ObjectColour = Colour.brown;
-            cubeMat1.LightColour = lightMat.ObjectColour;
             cubeMat1.AmbientStrength = 0.1f;
-            cubeMat1.shader.SetVector3("lightPosition", light.transform.position);
 
             cubeMat2 = new Material();
             cubeMat2.DiffuseMap = new Texture2D("Textures/Crate.png");
             cubeMat2.SpecularMap = new Texture2D("Textures/Crate_Specular.png");
-            cubeMat2.LightColour = lightMat.ObjectColour;
             cubeMat2.AmbientStrength = 0.1f;
-            cubeMat2.shader.SetVector3("lightPosition", light.transform.position);
 
             cube1.GetComponent<MeshRenderer>().material = cubeMat1;
             cube2.GetComponent<MeshRenderer>().material = cubeMat2;
-
-            light.GetComponent<MeshRenderer>().material = lightMat;
 
             OnLoadMeshes?.Invoke();
 
@@ -100,10 +102,10 @@ namespace ZaephusEngine {
             // light.transform.Rotate(0.01f, 0.01f, 0.0f);
 
             // light.transform.position += new Vector3(0.0005f, 0.0f, -0.0005f);
-            cubeMat1.shader.SetVector3("lightPosition", light.transform.position);
+            cubeMat1.shader.SetVector3("lightPosition", light1.transform.position);
 
             cube1.Update();
-            light.Update();
+            light1.Update();
 
             // camera.transform.position += new Vector3(0.0005f, 0.0f, 0.0002f);
             // camera.transform.Rotate(0.0f, 0.0f, 0.0f);
@@ -123,7 +125,7 @@ namespace ZaephusEngine {
             OnUnloadMeshes?.Invoke();
 
             cube1.Exit();
-            light.Exit();
+            light1.Exit();
         }
 
     }

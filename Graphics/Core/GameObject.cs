@@ -1,5 +1,4 @@
 
-
 namespace ZaephusEngine {
 
     public class GameObject {
@@ -37,6 +36,31 @@ namespace ZaephusEngine {
             }
         }
 
+        public Component AddComponent(Component _component) {
+            components.Add(_component);
+            _component.Initialize(this);
+            _component.Start();
+            return _component;
+        }
+
+        public void RemoveComponentOfType<T>() where T : Component {
+            foreach(Component c in components) {
+                if(c.GetType() == typeof(T)) {
+                    components.Remove(c);
+                    return;
+                }
+            }
+
+        }
+
+        public void RemoveAllComponentsOfType<T>() where T : Component {
+            foreach(Component c in components) {
+                if(c.GetType() == typeof(T)) {
+                    components.Remove(c);
+                }
+            }
+        }
+
         public T GetComponent<T>() where T : Component {
             foreach(Component c in components) {
                 if(c.GetType() == typeof(T)) {
@@ -46,10 +70,10 @@ namespace ZaephusEngine {
             return null;
         }
 
-        public List<Component> GetComponents(Type _type) {
+        public List<Component> GetComponents<T>() where T : Component {
             List<Component> foundComponents = new List<Component>();
             foreach(Component c in components) {
-                if(c.GetType() == _type) {
+                if(c.GetType() == typeof(T)) {
                     foundComponents.Add(c);
                 }
             }
