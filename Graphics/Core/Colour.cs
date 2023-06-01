@@ -91,8 +91,16 @@ namespace ZaephusEngine {
             return new Color4(_c.R, _c.G, _c.B, _c.A);
         }
 
+        public static implicit operator Colour(Color4 _c) {
+            return new Colour(_c.R, _c.G, _c.B, _c.A);
+        }
+
         public static implicit operator Colour(Vector4 _v) {
             return new Colour((float)_v.x, (float)_v.y, (float)_v.z, (float)_v.w);
+        }
+
+        public static implicit operator Colour(Assimp.Color4D _c) {
+            return new Colour(_c.R, _c.G, _c.B, _c.A);
         }
 
         public static Colour red { get { return new Colour(1, 0, 0, 1); } }

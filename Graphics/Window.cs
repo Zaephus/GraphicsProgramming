@@ -23,6 +23,7 @@ namespace ZaephusEngine {
         
         private GameObject cube1 = new GameObject(new MeshRenderer(Primitives.Cube));
         private GameObject cube2 = new GameObject(new MeshRenderer(Primitives.Cube));
+        private GameObject sphere = new GameObject(new MeshRenderer(FileLoader.LoadModel("Models/uv_sphere.obj")));
 
         private PointLight light1;
         private PointLight light2;
@@ -31,6 +32,8 @@ namespace ZaephusEngine {
 
         private Material cubeMat1;
         private Material cubeMat2;
+
+        private Material sphereMat;
 
         public Window(string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = _title }) {}
 
@@ -50,6 +53,8 @@ namespace ZaephusEngine {
 
             cube2.transform.position = new Vector3(0.0f, 0.75f, 0.0f);
             cube2.transform.rotation = Quaternion.FromEuler(0, -25, 0);
+
+            sphere.transform.scale = Vector3.one * 0.2f;
 
             light1 = new PointLight(Colour.white, 20.0f);
 
@@ -73,8 +78,14 @@ namespace ZaephusEngine {
             cubeMat2.SpecularMap = new Texture2D("Textures/Crate_Specular.png");
             cubeMat2.AmbientStrength = 0.1f;
 
+            sphereMat = new Material();
+            sphereMat.ObjectColour = Colour.red;
+            sphereMat.AmbientStrength = 0.1f;
+
             cube1.GetComponent<MeshRenderer>().material = cubeMat1;
             cube2.GetComponent<MeshRenderer>().material = cubeMat2;
+
+            sphere.GetComponent<MeshRenderer>().material = sphereMat;
 
             OnLoadMeshes?.Invoke();
 
@@ -98,7 +109,8 @@ namespace ZaephusEngine {
                 Close();
             }
 
-            // cube.transform.Rotate(0.0f, 0.01f, 0.0f);
+            // cube1.transform.Rotate(0.01f, 0.01f, 0.0f);
+            // cube2.transform.Rotate(0.01f, 0.01f, 0.0f);
             // light.transform.Rotate(0.01f, 0.01f, 0.0f);
 
             // light.transform.position += new Vector3(0.0005f, 0.0f, -0.0005f);

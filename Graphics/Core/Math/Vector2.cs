@@ -148,6 +148,10 @@ namespace ZaephusEngine {
             return new Vector3(_v.x, _v.y, 0);
         }
 
+        public static implicit operator Vector2(Assimp.Vector2D _v) {
+            return new Vector2(_v.X, _v.Y);
+        }
+
         public static Vector2 RandomVector(float _minInclusive, float _maxExclusive) {
             return new Vector2(Random.Range(_minInclusive, _maxExclusive),
                                Random.Range(_minInclusive, _maxExclusive));

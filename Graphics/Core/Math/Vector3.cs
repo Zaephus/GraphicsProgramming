@@ -135,6 +135,10 @@ namespace ZaephusEngine {
             return !(_lhs == _rhs);
         }
 
+        public static implicit operator Vector3(Assimp.Vector3D _v) {
+            return new Vector3(_v.X, _v.Y, _v.Z);
+        }
+
         public static Vector3 RandomVector(float _minInclusive, float _maxExclusive) {
             return new Vector3(Random.Range(_minInclusive, _maxExclusive),
                                Random.Range(_minInclusive, _maxExclusive),

@@ -1,4 +1,5 @@
 
+
 namespace ZaephusEngine {
     public struct Vertex {
 
@@ -17,7 +18,7 @@ namespace ZaephusEngine {
             UV = _uv;
             normal = _normal;
             tangent = _tan;
-            biTangent = _biTan;
+            biTangent = _biTan;            
         }
 
     }
