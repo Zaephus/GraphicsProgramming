@@ -7,7 +7,38 @@ using StbImageSharp;
 
 namespace ZaephusEngine {
 
+    public enum TextureFilter {
+        Linear,
+        Point
+    };
+
     public class Texture2D {
+
+        private TextureFilter texFilter;
+        public TextureFilter textureFilter {
+            get {
+                return texFilter;
+            }
+            set {
+                texFilter = value;
+                switch(texFilter) {
+                    case TextureFilter.Linear:
+                        minFilter = TextureMinFilter.Linear;
+                        magFilter = TextureMagFilter.Linear;
+                        break;
+                    case TextureFilter.Point:
+                        minFilter = TextureMinFilter.Nearest;
+                        magFilter = TextureMagFilter.Nearest;
+                        break;
+                }
+            }
+        }
+        private TextureMinFilter minFilter = TextureMinFilter.Linear;
+        private TextureMagFilter magFilter = TextureMagFilter.Linear;
+
+        public TextureWrapMode wrapMode = TextureWrapMode.Repeat;
+
+        public bool generateMipmap = true;
 
         private Tuple<int, int, byte[]> imageData;
 
@@ -45,14 +76,15 @@ namespace ZaephusEngine {
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, imageData.Item1, imageData.Item2, 0, PixelFormat.Rgba, PixelType.UnsignedByte, imageData.Item3);
 
-            // TODO: Add exposed parameters to change these settings.
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)minFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)magFilter);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)wrapMode);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)wrapMode);
 
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            if(generateMipmap) {
+                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            }
 
         }
 
