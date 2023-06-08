@@ -13,6 +13,8 @@ namespace ZaephusEngine {
         }
 
         public void OnLoad() {
+            shader.Bind();
+
             ObjectColour = ObjectColour;
             AmbientStrength = AmbientStrength;
             SpecularStrength = SpecularStrength;

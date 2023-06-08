@@ -2,40 +2,46 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "build project",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Graphics.csproj",
+                "${workspaceFolder}\\Graphics.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
-            "command": "dotnet",
+            "label": "copy resources",
+            "command": "xcopy",
             "type": "process",
             "args": [
-                "publish",
-                "${workspaceFolder}/Graphics.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
+                "${workspaceFolder}\\Resources",
+                "${workspaceFolder}\\bin\\Debug\\net7.0\\Resources\\",
+                "/e",
+                "/y"
+            ]
         },
         {
-            "label": "watch",
-            "command": "dotnet",
+            "label": "copy shaders",
+            "command": "xcopy",
             "type": "process",
             "args": [
-                "watch",
-                "run",
-                "--project",
-                "${workspaceFolder}/Graphics.csproj"
-            ],
-            "problemMatcher": "$msCompile"
+                "${workspaceFolder}\\Core\\Graphics\\Shaders",
+                "${workspaceFolder}\\bin\\Debug\\net7.0\\Core\\Graphics\\Shaders\\",
+                "/e",
+                "/y"
+            ]
+        },
+        {
+            "label": "build",
+            "dependsOn": [
+                "build project",
+                "copy resources",
+                "copy shaders"
+            ]
         }
     ]
 }

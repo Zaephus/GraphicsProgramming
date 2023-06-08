@@ -6,12 +6,20 @@ namespace ZaephusEngine {
 
         public int handle;
 
+        private string vertexPath;
+        private string fragmentPath;
+
         private bool hasDisposedValue = false;
 
         public Shader(string _vertexPath, string _fragmentPath) {
+            vertexPath = _vertexPath;
+            fragmentPath = _fragmentPath;
+        }
 
-            int vertexShader = CreateShader(_vertexPath, ShaderType.VertexShader);
-            int fragmentShader = CreateShader(_fragmentPath, ShaderType.FragmentShader);
+        public void Bind() {
+
+            int vertexShader = CreateShader(vertexPath, ShaderType.VertexShader);
+            int fragmentShader = CreateShader(fragmentPath, ShaderType.FragmentShader);
 
             handle = GL.CreateProgram();
 

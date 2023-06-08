@@ -23,7 +23,7 @@ namespace ZaephusEngine {
         
         private GameObject cube1 = new GameObject(new MeshRenderer(Primitives.Cube));
         private GameObject cube2 = new GameObject(new MeshRenderer(Primitives.Cube));
-        private GameObject sphere = new GameObject(new MeshRenderer(FileLoader.LoadModel("Models/uv_sphere.obj")));
+        private GameObject sphere = new GameObject(new MeshRenderer(FileLoader.LoadModel("Resources/Models/uv_sphere.obj")));
 
         private PointLight light1;
         private PointLight light2;
@@ -37,8 +37,12 @@ namespace ZaephusEngine {
 
         public Window(string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = _title }) {}
 
-        protected override void OnLoad() {
-            base.OnLoad();
+        public void Initialize() {
+
+            Context?.MakeCurrent();
+            OnLoad();
+
+            OnResize(new ResizeEventArgs(Size));
 
             GL.Enable(EnableCap.DepthTest);
 
@@ -74,8 +78,8 @@ namespace ZaephusEngine {
             cubeMat1.AmbientStrength = 0.1f;
 
             cubeMat2 = new Material();
-            cubeMat2.DiffuseMap = new Texture2D("Textures/Crate.png");
-            cubeMat2.SpecularMap = new Texture2D("Textures/Crate_Specular.png");
+            cubeMat2.DiffuseMap = new Texture2D("Resources/Textures/Crate.png");
+            cubeMat2.SpecularMap = new Texture2D("Resources/Textures/Crate_Specular.png");
             cubeMat2.AmbientStrength = 0.1f;
 
             sphereMat = new Material();
@@ -91,19 +95,21 @@ namespace ZaephusEngine {
 
         }
 
-        protected override void OnRenderFrame(FrameEventArgs _e) {
-            base.OnRenderFrame(_e);
+        public void Render() {
+            OnRenderFrame(new FrameEventArgs());
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             OnRenderMeshes?.Invoke();
 
             SwapBuffers();
-
         }
 
-        protected override void OnUpdateFrame(FrameEventArgs _e) {
-            base.OnUpdateFrame(_e);
+        public void Update(double _dt) {
+            
+            ProcessWindowEvents();
+            
+            OnUpdateFrame(new FrameEventArgs());
 
             if(KeyboardState.IsKeyDown(Keys.Escape)) {
                 Close();
@@ -121,7 +127,18 @@ namespace ZaephusEngine {
 
             // camera.transform.position += new Vector3(0.0005f, 0.0f, 0.0002f);
             // camera.transform.Rotate(0.0f, 0.0f, 0.0f);
+        }
 
+        public void Exit() {
+            OnUnloadMeshes?.Invoke();
+
+            cube1.Exit();
+            light1.Exit();
+        }
+
+        private void ProcessWindowEvents() {
+            ProcessInputEvents();
+            ProcessWindowEvents(IsEventDriven);
         }
 
         protected override void OnResize(ResizeEventArgs _e) {
@@ -131,13 +148,6 @@ namespace ZaephusEngine {
 
             GL.Viewport(0, 0, _e.Width, _e.Height);
 
-        }
-
-        protected override void OnUnload() {
-            OnUnloadMeshes?.Invoke();
-
-            cube1.Exit();
-            light1.Exit();
         }
 
     }
