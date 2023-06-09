@@ -6,36 +6,40 @@ namespace ZaephusEngine {
 
     public class Game {
 
-        private float frameTime = 0.0167f;
-        public float fps {
-            get {
-                return 1 / frameTime;
-            }
-            set {
-                frameTime = 1 / value;
-            }
-        }
+        public static Action InitCall;
+        public static Action<float> UpdateCall;
+        public static Action RenderCall;
+        public static Action ExitCall;
 
         private Window window = new Window("ZaephusEngine");
 
-        protected virtual void Initialize() {
+        protected virtual void Start() {}
+        private void Initialize() {
+            Start();
             window.Initialize();
+            InitCall?.Invoke();
         }
 
-        protected virtual void ProcessInput() {
-
-        }
-
-        protected virtual void Update(double _dt) {
+        protected virtual void Update(float _dt) {}
+        private void OnUpdate(float _dt) {
+            Update(_dt);
             window.Update(_dt);
+            UpdateCall?.Invoke(_dt);
         }
 
-        protected virtual void Render() {
+        protected virtual void Render() {}
+        private void OnRender() {
+            Render();
             window.Render();
+            RenderCall?.Invoke();
+            window.SwapBuffers();
         }
 
-        protected virtual void Exit() {
+        protected virtual void Exit() {}
+        private void OnExit() {
+            Exit();
             window.Exit();
+            ExitCall?.Invoke();
         }
         
         // TODO: Add fixed time.
@@ -52,19 +56,17 @@ namespace ZaephusEngine {
 
                 double currentTime = stopwatch.ElapsedMilliseconds * 0.001f;
                 double dt = currentTime - lastTime;
-
-                ProcessInput();
                 
-                Update(dt);
-                Render();
+                OnUpdate((float)dt);
+                OnRender();
 
                 lastTime = currentTime;
 
             }
 
-            Exit();
+            OnExit();
 
-            stopwatch.Start();
+            stopwatch.Stop();
 
         }
         

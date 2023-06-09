@@ -47,16 +47,8 @@ namespace ZaephusEngine {
             camSize = _size;
             nearPlane = _near;
             farPlane = _far;
-
-            switch(_type) {
-                case CameraProjectionType.Perspective:
-                    ProjectionMatrix = CalculatePerspectiveProjection(fovY, ((float)Window.width / (float)Window.height), nearPlane, farPlane);
-                    break;
-                
-                case CameraProjectionType.Orthographic:
-                    ProjectionMatrix = CalculateOrthoGraphicProjection(camSize, ((float)Window.width / (float)Window.height), nearPlane, farPlane);
-                    break;
-            }
+            
+            OnWindowResized(Window.width, Window.height);
 
         }
 

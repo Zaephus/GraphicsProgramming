@@ -36,6 +36,8 @@ namespace ZaephusEngine {
 
             mesh.triangles = Array.ConvertAll(loadedMesh.GetIndices(), item => (uint)item);
 
+            // TODO: Load material.
+
             return mesh;
             
         }

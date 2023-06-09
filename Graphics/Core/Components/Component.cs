@@ -10,9 +10,9 @@ namespace ZaephusEngine {
             gameObject = _gameObject;
         }
 
-        public abstract void Start();
-        public abstract void Update();
-        public abstract void Exit();
+        public virtual void Start() {}
+        public virtual void Update() {}
+        public virtual void Exit() {}
         
     }
 

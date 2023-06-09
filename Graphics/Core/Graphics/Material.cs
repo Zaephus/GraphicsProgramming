@@ -7,13 +7,17 @@ namespace ZaephusEngine {
 
         public Shader shader;
 
+        private bool isInitialized;
+
         public Material() : this("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/Fragment.glsl") {}
         public Material(string _vertexShaderPath, string _fragmentShaderPath) {
             shader = new Shader(_vertexShaderPath, _fragmentShaderPath);
         }
 
-        public void OnLoad() {
+        public void Initialize() {
             shader.Bind();
+
+            isInitialized = true;
 
             ObjectColour = ObjectColour;
             AmbientStrength = AmbientStrength;
@@ -27,7 +31,7 @@ namespace ZaephusEngine {
             shader.Use();
         }
 
-        public void OnRender() {
+        public void Render() {
 
             ApplyLighting();
 
@@ -37,7 +41,7 @@ namespace ZaephusEngine {
 
         }
 
-        public void OnUnload() {
+        public void Dispose() {
             shader.Dispose();
         }
 
@@ -78,7 +82,9 @@ namespace ZaephusEngine {
             }
             set {
                 objectColour = value;
-                shader.SetColour("material.colour", objectColour);
+                if(isInitialized) {
+                    shader.SetColour("material.colour", objectColour);
+                }
             }
         }
 
@@ -89,7 +95,9 @@ namespace ZaephusEngine {
             }
             set {
                 ambientStrength = value;
-                shader.SetFloat("material.ambientStrength", ambientStrength);
+                if(isInitialized) {
+                    shader.SetFloat("material.ambientStrength", ambientStrength);
+                }
             }
         }
 
@@ -100,7 +108,9 @@ namespace ZaephusEngine {
             }
             set {
                 specularStrength = value;
-                shader.SetFloat("material.specularStrength", specularStrength);
+                if(isInitialized) {
+                    shader.SetFloat("material.specularStrength", specularStrength);
+                }
             }
         }
 
@@ -111,7 +121,9 @@ namespace ZaephusEngine {
             }
             set {
                 shininess = value;
-                shader.SetFloat("material.shininess", shininess);
+                if(isInitialized) {
+                    shader.SetFloat("material.shininess", shininess);
+                }
             }
         }
 
@@ -122,8 +134,10 @@ namespace ZaephusEngine {
             }
             set {
                 diffuseMap = value;
-                diffuseMap.Bind(TextureUnit.Texture0);
-                shader.SetInt("material.diffuseMap", 0);
+                if(isInitialized) {
+                    diffuseMap.Bind(TextureUnit.Texture0);
+                    shader.SetInt("material.diffuseMap", 0);
+                }
             }
         }
 
@@ -134,8 +148,10 @@ namespace ZaephusEngine {
             }
             set {
                 specularMap = value;
-                specularMap.Bind(TextureUnit.Texture1);
-                shader.SetInt("material.specularMap", 1);
+                if(isInitialized) {
+                    specularMap.Bind(TextureUnit.Texture1);
+                    shader.SetInt("material.specularMap", 1);
+                }
             }
         }
 

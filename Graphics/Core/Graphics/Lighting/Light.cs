@@ -5,6 +5,8 @@ namespace ZaephusEngine {
 
     public class Light : GameObject {
 
+        // TODO: Add intensity modifier.
+
         public Colour colour;
 
         public Light(Colour _c) : base() {

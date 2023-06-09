@@ -16,14 +16,12 @@ namespace ZaephusEngine {
         public MeshRenderer() : this(new Mesh()) {} 
         public MeshRenderer(Mesh _mesh) {
             mesh = _mesh;
-            Window.OnLoadMeshes += OnLoad;
-            Window.OnRenderMeshes += OnRender;
-            Window.OnUnloadMeshes += OnUnload;
+            Game.InitCall += Initialize;
+            Game.RenderCall += Render;
+            Game.ExitCall += Dispose;
         }
 
-        public override void Start() {}
-
-        protected unsafe void OnLoad() {
+        protected unsafe void Initialize() {
             
             vertexBufferObject = GL.GenBuffer();
             vertexArrayObject = GL.GenVertexArray();
@@ -65,13 +63,11 @@ namespace ZaephusEngine {
             if(material == null) {
                 material = new Material();
             }
-            material.OnLoad();
+            material.Initialize();
 
         }
 
-        public override void Update() {}
-
-        protected void OnRender() {
+        protected void Render() {
 
             Matrix4x4 model = gameObject.transform.objectMatrix;
             material.shader.SetMatrix4x4("modelMatrix", ref model);
@@ -88,17 +84,15 @@ namespace ZaephusEngine {
             Vector3 camPos = new Vector3(Camera.activeCamera.transform.position.x, Camera.activeCamera.transform.position.y, -Camera.activeCamera.transform.position.z);
             material.shader.SetVector3("viewPosition", camPos);
 
-            material.OnRender();
+            material.Render();
 
             GL.BindVertexArray(vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, mesh.triangles.Length, DrawElementsType.UnsignedInt, 0);
 
         }
 
-        public override void Exit() {}
-
-        protected void OnUnload() {
-            material.OnUnload();
+        protected void Dispose() {
+            material.Dispose();
         }
 
     }
