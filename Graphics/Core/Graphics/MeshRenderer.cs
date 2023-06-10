@@ -20,6 +20,9 @@ namespace ZaephusEngine {
             Game.RenderCall += Render;
             Game.ExitCall += Dispose;
         }
+        public MeshRenderer((Mesh, Material) _model) : this(_model.Item1) {
+            material = _model.Item2;
+        }
 
         protected unsafe void Initialize() {
             

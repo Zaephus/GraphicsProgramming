@@ -41,6 +41,7 @@ namespace ZaephusEngine {
 
         }
 
+        // TODO: Fix GPU resource leak.
         public void Dispose() {
             shader.Dispose();
         }
@@ -126,7 +127,8 @@ namespace ZaephusEngine {
                 }
             }
         }
-
+        // TODO: Add all texture types.
+        // Multiple texture support, height maps, reflection maps.
         private Texture2D diffuseMap = new Texture2D(Colour.white);
         public Texture2D DiffuseMap {
             get {
