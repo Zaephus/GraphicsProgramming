@@ -41,7 +41,6 @@ namespace ZaephusEngine {
 
         }
 
-        // TODO: Fix GPU resource leak.
         public void Dispose() {
             shader.Dispose();
         }

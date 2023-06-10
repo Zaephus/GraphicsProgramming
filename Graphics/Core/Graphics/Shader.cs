@@ -10,6 +10,7 @@ namespace ZaephusEngine {
         private string fragmentPath;
 
         private bool hasDisposedValue = false;
+        private bool isInitialized = false;
 
         public Shader(string _vertexPath, string _fragmentPath) {
             vertexPath = _vertexPath;
@@ -40,6 +41,8 @@ namespace ZaephusEngine {
             GL.DeleteShader(vertexShader);
             GL.DeleteShader(fragmentShader);
 
+            isInitialized = true;
+
         }
 
         public void Use() {
@@ -59,7 +62,7 @@ namespace ZaephusEngine {
         }
 
         ~Shader() {
-            if(!hasDisposedValue) {
+            if(!hasDisposedValue && isInitialized) {
                 Console.WriteLine("GPU resource leak! Did you forget to call Dispose()?");
             }
         }

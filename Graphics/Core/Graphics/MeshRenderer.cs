@@ -13,15 +13,15 @@ namespace ZaephusEngine {
         protected int vertexArrayObject;
         protected int elementBufferObject;
 
-        public MeshRenderer() : this(new Mesh()) {} 
-        public MeshRenderer(Mesh _mesh) {
+        public MeshRenderer() : this(new Mesh(), new Material()) {} 
+        public MeshRenderer(Mesh _mesh) : this(_mesh, new Material()) {}
+        public MeshRenderer((Mesh, Material) _model) : this(_model.Item1, _model.Item2) {}
+        public MeshRenderer(Mesh _mesh, Material _material) {
             mesh = _mesh;
+            material = _material;
             Game.InitCall += Initialize;
             Game.RenderCall += Render;
             Game.ExitCall += Dispose;
-        }
-        public MeshRenderer((Mesh, Material) _model) : this(_model.Item1) {
-            material = _model.Item2;
         }
 
         protected unsafe void Initialize() {

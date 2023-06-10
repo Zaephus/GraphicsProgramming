@@ -81,7 +81,7 @@ vec4 CalcDirLight(DirLight _light, vec3 _normal, vec3 _viewDir) {
     vec3 reflectDir = reflect(-lightDir, _normal);
 
     float diffuseComponent = max(dot(_normal, lightDir), 0.0);
-    float specularComponent = pow(max(dot(_viewDir, reflectDir), 0.0), material.shininess);
+    float specularComponent = max(pow(max(dot(_viewDir, reflectDir), 0.0), material.shininess), 0.0);
 
     vec4 ambient = material.ambientStrength * _light.colour;
     vec4 diffuse = diffuseComponent * _light.colour;
@@ -97,7 +97,7 @@ vec4 CalcPointLight(PointLight _light, vec3 _normal, vec3 _fragPos, vec3 _viewDi
     vec3 reflectDir = reflect(-lightDir, _normal);
 
     float diffuseComponent = max(dot(_normal, lightDir), 0.0);
-    float specularComponent = pow(max(dot(_viewDir, reflectDir), 0.0), material.shininess);
+    float specularComponent = max(pow(max(dot(_viewDir, reflectDir), 0.0), material.shininess), 0.0);
     
     vec4 ambient = material.ambientStrength * _light.colour;
     vec4 diffuse = diffuseComponent * _light.colour;

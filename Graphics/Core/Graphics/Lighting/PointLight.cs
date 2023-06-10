@@ -26,6 +26,7 @@ namespace ZaephusEngine {
                 ObjectColour = _c
             };
             LightUtility.pointLights.Add(this);
+            transform.scale = Vector3.one * 0.15f;
         }
 
         ~PointLight() {
