@@ -47,15 +47,29 @@ namespace ZaephusEngine {
 
             // TODO: Fix ambient strength.
             // TODO: Load all other textures.
+            // TODO: Add support for embedded textures.
             Assimp.Material loadedMat = model.Materials[0];
             Material mat = new Material {
                 ObjectColour = loadedMat.ColorDiffuse,
                 AmbientStrength = (loadedMat.ColorAmbient.R + loadedMat.ColorAmbient.G + loadedMat.ColorAmbient.B) / 3,
                 SpecularStrength = (loadedMat.ColorSpecular.R + loadedMat.ColorSpecular.G + loadedMat.ColorSpecular.B) / 3,
-                Shininess = loadedMat.Shininess,
-                DiffuseMap = (File.Exists(loadedMat.TextureDiffuse.FilePath)) ? new Texture2D(loadedMat.TextureDiffuse.FilePath) : new Texture2D(),
-                SpecularMap = (File.Exists(loadedMat.TextureSpecular.FilePath)) ? new Texture2D(loadedMat.TextureSpecular.FilePath) : new Texture2D()
+                Shininess = loadedMat.Shininess
             };
+
+            if(loadedMat.TextureDiffuse.FilePath != null) {
+                string diffusePath = Path.Combine(new FileInfo(_path).Directory.FullName, loadedMat.TextureDiffuse.FilePath);
+                if(File.Exists(diffusePath)) {
+                    mat.DiffuseMap = new Texture2D(diffusePath);
+                    // TODO: Object colour with diffuse texture.
+                    mat.ObjectColour = Colour.white;
+                }
+            }
+            if(loadedMat.TextureSpecular.FilePath != null) {
+                string specularPath = Path.Combine(new FileInfo(_path).Directory.FullName, loadedMat.TextureSpecular.FilePath);
+                if(File.Exists(specularPath)) {
+                    mat.SpecularMap = new Texture2D(specularPath);
+                }
+            }
 
             return (mesh, mat);
             
