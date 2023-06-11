@@ -17,14 +17,14 @@ namespace ZaephusEngine {
             }
         }
 
-        public override void Start() {}
-        public override void Update() {}
-        public override void Exit() {}
-
         public void Rotate(float _xDeg, float _yDeg, float _zDeg) { Rotate(Quaternion.FromEuler(_xDeg, _yDeg, _zDeg)); }
         public void Rotate(Vector3 _eulerAnglesDeg) { Rotate(Quaternion.FromEuler(_eulerAnglesDeg)); }
         public void Rotate(Quaternion _q) {
             rotation *= _q;
+        }
+
+        public void RotateAround(Vector3 _axis, float _deg) {
+            rotation *= Quaternion.FromAxisAngle(_axis, _deg * Math.Deg2Rad);
         }
 
         public Vector3 right { get { return rotation * Vector3.right; } }

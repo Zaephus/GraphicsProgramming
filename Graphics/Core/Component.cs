@@ -11,7 +11,7 @@ namespace ZaephusEngine {
         }
 
         public virtual void Start() {}
-        public virtual void Update() {}
+        public virtual void Update(float _dt) {}
         public virtual void Exit() {}
         
     }

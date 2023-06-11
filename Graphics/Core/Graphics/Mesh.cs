@@ -30,6 +30,29 @@ namespace ZaephusEngine {
             }
         }
 
+        public void RecalculateNormals() {
+            Vector3[] n = new Vector3[vertices.Length];
+
+            for(int i = 0; i < triangles.Length; i += 3) {
+                Vector3 vertA = vertices[triangles[i]];
+                Vector3 vertB = vertices[triangles[i+1]];
+                Vector3 vertC = vertices[triangles[i+2]];
+
+                Vector3 result = Vector3.Cross(vertB - vertA, vertC - vertA);
+
+                // TODO: Verify if should be -= result.
+                n[triangles[i]]   -= result;
+                n[triangles[i+1]] -= result;
+                n[triangles[i+2]] -= result;
+            }
+
+            for(int i = 0; i < n.Length; i++) {
+                n[i].Normalize();
+            }
+
+            normals = n;
+        }
+
     }
 
 }

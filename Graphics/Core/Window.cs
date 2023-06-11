@@ -1,4 +1,5 @@
 
+using System;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -8,7 +9,8 @@ namespace ZaephusEngine {
 
     public class Window : GameWindow {
 
-        public static System.Action<int, int> WindowResized;
+        public static Action<int, int> WindowResized;
+        public static Action<KeyboardState, MouseState> HandleInput;
 
         public static readonly int width = 1400;
         public static readonly int height = 800;
@@ -51,6 +53,9 @@ namespace ZaephusEngine {
 
         private void ProcessWindowEvents() {
             ProcessInputEvents();
+            if(IsFocused) {
+                HandleInput?.Invoke(KeyboardState, MouseState);
+            }
             ProcessWindowEvents(IsEventDriven);
         }
 

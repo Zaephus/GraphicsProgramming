@@ -7,11 +7,24 @@ namespace ZaephusEngine {
 
         public Material material;
 
-        public Mesh mesh;
+        private Mesh m_mesh;
+        public Mesh mesh {
+            get {
+                return m_mesh;
+            }
+            set {
+                m_mesh = value;
+                if(isInitialized) {
+                    Initialize();
+                }
+            }
+        }
 
         protected int vertexBufferObject;
         protected int vertexArrayObject;
         protected int elementBufferObject;
+
+        private bool isInitialized = false;
 
         public MeshRenderer() : this(new Mesh(), new Material()) {} 
         public MeshRenderer(Mesh _mesh) : this(_mesh, new Material()) {}
@@ -36,8 +49,8 @@ namespace ZaephusEngine {
 
             Vertex[] vertexArray = mesh.VertexArray;
 
-            GL.BufferData(BufferTarget.ArrayBuffer, vertexArray.Length * sizeof(Vertex), vertexArray, BufferUsageHint.StaticDraw);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, mesh.triangles.Length * sizeof(uint), mesh.triangles, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, vertexArray.Length * sizeof(Vertex), vertexArray, BufferUsageHint.DynamicDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, mesh.triangles.Length * sizeof(uint), mesh.triangles, BufferUsageHint.DynamicDraw);
 
             // Vertex Position
             GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(Vertex), 0);
@@ -63,10 +76,14 @@ namespace ZaephusEngine {
             GL.VertexAttribPointer(5, 3, VertexAttribPointerType.Float, false, sizeof(Vertex), 15 * sizeof(float));
             GL.EnableVertexAttribArray(5);
 
-            if(material == null) {
-                material = new Material();
+            if(!isInitialized) {
+                if(material == null) {
+                    material = new Material();
+                }
+                material.Initialize();
             }
-            material.Initialize();
+            
+            isInitialized = true;
 
         }
 

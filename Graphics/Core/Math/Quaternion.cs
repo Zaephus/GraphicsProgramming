@@ -97,6 +97,10 @@ namespace ZaephusEngine {
             );
         }
 
+        public Vector3 ToEuler() {
+            return ToEuler(this);
+        }
+
         public static Vector3 ToEuler(Quaternion _q) {
 
             float x = 0;
@@ -138,6 +142,11 @@ namespace ZaephusEngine {
             return x == _other.x && y == _other.y && z == _other.z && w == _other.w;
         }
 
+        public override string ToString() {
+            return $"x: {x}, y: {y}, z: {z}, w: {w}";
+        }
+
+
         public static Quaternion operator+(Quaternion _lhs, Quaternion _rhs) {
             return new Quaternion(_lhs.x + _rhs.x, _lhs.y + _rhs.y, _lhs.z + _rhs.z, _lhs.w + _rhs.w);
         }
@@ -155,11 +164,10 @@ namespace ZaephusEngine {
             Quaternion rotInverse = new Quaternion(-_rot.x, -_rot.y, -_rot.z, _rot.w);
             Quaternion vecQ = new Quaternion(_vec.x, _vec.y, _vec.z, 0);
 
-            Quaternion result = (rotInverse * vecQ) * _rot;
+            Quaternion result = _rot * vecQ * rotInverse;
 
             return new Vector3(result.x, result.y, result.z);
         }
-
         public static Quaternion operator*(Quaternion _lhs, Quaternion _rhs) {
             return new Quaternion(
                 _lhs.w * _rhs.x + _lhs.x * _rhs.w + _lhs.y * _rhs.z - _lhs.z * _rhs.y,

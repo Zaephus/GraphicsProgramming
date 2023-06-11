@@ -24,9 +24,9 @@ namespace ZaephusEngine {
             }
         }
 
-        public virtual void Update() {
+        public virtual void Update(float _dt) {
             foreach(Component c in components) {
-                c.Update();
+                c.Update(_dt);
             }
         }
 

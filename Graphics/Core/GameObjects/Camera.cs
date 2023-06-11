@@ -13,7 +13,7 @@ namespace ZaephusEngine {
 
         public Matrix4x4 ViewMatrix {
             get {
-                Matrix4x4 t = Matrix4x4.TranslateMatrix(new Vector3(-transform.position.x, -transform.position.y, transform.position.z));
+                Matrix4x4 t = Matrix4x4.TranslateMatrix(-transform.position);
                 Matrix4x4 d = CreateViewMatrix();
                 return d * t;
             }

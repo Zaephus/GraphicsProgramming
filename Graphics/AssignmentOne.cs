@@ -23,7 +23,7 @@ public class AssignmentOne : Game {
 
     protected override void Start() {
 
-        camera.transform.position = new Vector3(2.2f, 0.0f, -3.0f);
+        camera.transform.position = new Vector3(2.2f, 0.0f, 3.0f);
         camera.transform.Rotate(0.0f, -30.0f, 0.0f);
 
         colouredCube.transform.position = new Vector3(0.0f, -0.75f, 0.0f);

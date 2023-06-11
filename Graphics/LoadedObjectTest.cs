@@ -14,7 +14,7 @@ public class LoadedObjectTest : Game {
     };
 
     protected override void Start() {
-        camera.transform.position = new Vector3(0.0f, 0.0f, -3.5f);
+        camera.transform.position = new Vector3(0.0f, 0.0f, 3.5f);
         
         sun.transform.Rotate(0.0f, 120.0f, 0.0f);
         sun.transform.Rotate(60.0f, 0.0f, 0.0f);

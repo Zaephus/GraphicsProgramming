@@ -11,14 +11,16 @@ namespace ZaephusEngine {
         public static Action RenderCall;
         public static Action ExitCall;
 
-        private Window window = new Window("ZaephusEngine");
+        protected Window window = new Window("ZaephusEngine");
 
         protected virtual void Start() {}
         private void Initialize() {
             Start();
             window.Initialize();
             InitCall?.Invoke();
+            PostInitialize();
         }
+        protected virtual void PostInitialize() {}
 
         protected virtual void Update(float _dt) {}
         private void OnUpdate(float _dt) {

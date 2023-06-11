@@ -48,6 +48,12 @@ namespace ZaephusEngine {
             }
         }
 
+        public float squaredMagnitude {
+            get {
+                return (float)(x*x + y*y);
+            }
+        }
+
         public Vector2 normalized {
             get {
                 Vector2 norm = new Vector2(x, y);
@@ -150,6 +156,13 @@ namespace ZaephusEngine {
 
         public static implicit operator Vector2(Assimp.Vector2D _v) {
             return new Vector2(_v.X, _v.Y);
+        }
+
+        public static implicit operator Vector2(OpenTK.Mathematics.Vector2 _v) {
+            return new Vector2(_v.X, _v.Y);
+        }
+        public static implicit operator OpenTK.Mathematics.Vector2(Vector2 _v) {
+            return new OpenTK.Mathematics.Vector2(_v.x, _v.x);
         }
 
         public static Vector2 RandomVector(float _minInclusive, float _maxExclusive) {
