@@ -8,7 +8,7 @@ public class TerrainGenerator {
 
     public int octaves = 5;
 
-    public int resolution = 100;
+    public float resolution = 100.0f;
     public Vector2Int size = new Vector2Int(400, 400);
 
     public Mesh Generate() {
@@ -20,7 +20,7 @@ public class TerrainGenerator {
             triangles = new uint[((size.x-1) * (size.y-1)) * 6]
         };
 
-        float[,] noise = GenerateNoiseMap(size.x * resolution, size.y * resolution, amplitude, octaves);
+        float[,] noise = GenerateNoiseMap(size.x, size.y, amplitude, octaves);
 
         int vertexIndex = 0;
         int triangleIndex = 0;
@@ -61,13 +61,14 @@ public class TerrainGenerator {
         Noise2d.Reseed();
 
         float frequency = 0.5f;
+        float amplitude = _amplitude;
 
         for(int i = 0; i < _octaves; i++) {
             for(int z = 0; z < _h; z++) {
                 for(int x = 0; x < _w; x++) {
 
                     float noise = Noise2d.Noise(x * frequency / _w, z * frequency / _h);
-                    noise = data[x, z] += noise * _amplitude;
+                    noise = data[x, z] += noise * amplitude;
 
                     min = MathF.Min(min, noise);
 
@@ -75,7 +76,7 @@ public class TerrainGenerator {
             }
 
             frequency *= 2;
-            _amplitude /= 2;
+            amplitude /= 2;
         }
 
         for(int x = 0; x < data.GetLength(0); x++) {

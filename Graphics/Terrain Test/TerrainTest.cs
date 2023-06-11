@@ -12,8 +12,8 @@ public class TerrainTest : Game {
     private TerrainGenerator generator = new TerrainGenerator {
         baseY = 0.0f,
         amplitude = 1.6f,
-        octaves = 4,
-        resolution = 10,
+        octaves = 5,
+        resolution = 100.0f,
         size = new Vector2Int(1000, 1000)
     };
 
