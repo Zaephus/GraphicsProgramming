@@ -29,7 +29,7 @@ struct DirLight {
     vec3 direction;
 };
 #define MAX_DIR_LIGHTS 5
-uniform DirLight dirLights [MAX_DIR_LIGHTS];
+uniform DirLight dirLights[MAX_DIR_LIGHTS];
 uniform int dirLightNum;
 
 struct PointLight {

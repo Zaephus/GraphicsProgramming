@@ -7,34 +7,42 @@ namespace ZaephusEngine {
 
         private List<Component> components = new List<Component>();
 
-        public GameObject() {
-            components.Add(transform);
-            Start();
-        }
+        public GameObject() : this(new Component[0]) {}
         public GameObject(params Component[] _components) {
             components.Add(transform);
             components.AddRange(_components);
-            Start();
+
+            Game.InitCall += Initialize;
+            Game.InitCall += Start;
+
+            Game.UpdateCall += ComponentUpdate;
+            Game.UpdateCall += Update;
+
+            Game.ExitCall += ComponentExit;
+            Game.ExitCall += Exit;
         }
 
-        private void Start() {
+        private void Initialize() {
             foreach(Component c in components) {
                 c.Initialize(this);
                 c.Start();
             }
         }
+        protected virtual void Start() {}
 
-        public virtual void Update(float _dt) {
+        private void ComponentUpdate(float _dt) {
             foreach(Component c in components) {
                 c.Update(_dt);
             }
         }
+        protected virtual void Update(float _dt) {}
 
-        public virtual void Exit() {
+        private void ComponentExit() {
             foreach(Component c in components) {
                 c.Exit();
             }
         }
+        protected virtual void Exit() {}
 
         public Component AddComponent(Component _component) {
             components.Add(_component);

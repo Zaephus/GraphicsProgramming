@@ -2,12 +2,17 @@
 
 namespace ZaephusEngine {
 
-    public enum CameraProjectionType {
-        Perspective = 0,
-        Orthographic = 1
-    }
-
     public class Camera : GameObject {
+
+        public enum ProjectionType {
+            Perspective = 0,
+            Orthographic = 1
+        }
+
+        public enum BackgroundType {
+            SolidColour = 1,
+            Skybox = 2
+        }
 
         public static Camera activeCamera;
 
@@ -21,44 +26,38 @@ namespace ZaephusEngine {
 
         public Matrix4x4 ProjectionMatrix { get; private set; } = Matrix4x4.identity;
 
-        private CameraProjectionType camType;
+        public required ProjectionType projectionType;
 
-        private float fovY;
-        private float camSize;
-        private float nearPlane;
-        private float farPlane;
+        public float fovY = 45.0f;
+        public float camSize = 0.0f;
+        public float nearPlane = 0.1f;
+        public float farPlane = 100.0f;
 
-        /// <summary>Creates a new camera.</summary>
-        /// <param name="_type">Sets the type of the camera: Perspective or Orthographic.</param>
-        /// <param name="_fovY">Vertical FOV in degrees for perspective camera. Leave 0 if orthographic.</param>
-        /// <param name="_size">Size value for orthographic camera. Leave 0 if perspective.</param>
-        /// <param name="_near">Distance of near plane from camera.</param>
-        /// <param name="_far">Distance fo far plane from camera.</param>
-        public Camera(CameraProjectionType _type, float _fovY, float _size, float _near, float _far) {
+        public BackgroundType backgroundType = BackgroundType.SolidColour;
 
+        public Colour mainColour = Colour.black;
+        public Colour secondColour = Colour.black;
+
+
+        public Camera() {
             if(activeCamera == null) {
                 activeCamera = this;
             }
+        }
 
+        protected override void Start() {
             Window.WindowResized += OnWindowResized;
-
-            camType = _type;
-            fovY = _fovY;
-            camSize = _size;
-            nearPlane = _near;
-            farPlane = _far;
             
             OnWindowResized(Window.width, Window.height);
-
         }
 
         private void OnWindowResized(int _width, int _height) {
-            switch(camType) {
-                case CameraProjectionType.Perspective:
+            switch(projectionType) {
+                case ProjectionType.Perspective:
                     ProjectionMatrix = CalculatePerspectiveProjection(fovY, ((float)_width / (float)_height), nearPlane, farPlane);
                     break;
                 
-                case CameraProjectionType.Orthographic:
+                case ProjectionType.Orthographic:
                     ProjectionMatrix = CalculateOrthoGraphicProjection(camSize, ((float)_width / (float)_height), nearPlane, farPlane);
                     break;
             }

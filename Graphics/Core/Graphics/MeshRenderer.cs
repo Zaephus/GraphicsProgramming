@@ -101,7 +101,7 @@ namespace ZaephusEngine {
             Matrix4x4 normalMatrix = model.inverse.transposed;
             material.shader.SetMatrix4x4("normalMatrix", ref normalMatrix);
 
-            Vector3 camPos = new Vector3(Camera.activeCamera.transform.position.x, Camera.activeCamera.transform.position.y, -Camera.activeCamera.transform.position.z);
+            Vector3 camPos = Camera.activeCamera.transform.position;
             material.shader.SetVector3("viewPosition", camPos);
 
             material.Render();

@@ -3,7 +3,10 @@ using ZaephusEngine;
 
 public class LoadedSphereTest : Game {
 
-    private Camera camera = new Camera(CameraProjectionType.Perspective, 45, 0.0f, 0.1f, 100.0f);
+    private Camera camera = new Camera {
+        projectionType = Camera.ProjectionType.Perspective,
+        mainColour = Colour.blue
+    };
     private GameObject sphere = new GameObject(new MeshRenderer(FileLoader.LoadModel("Resources/Models/uv_sphere.obj")));
 
     private DirectionalLight sun = new DirectionalLight(Colour.white);
@@ -15,7 +18,7 @@ public class LoadedSphereTest : Game {
 
     protected override void Start() {
         camera.transform.position = new Vector3(2.2f, 0.0f, 3.0f);
-        camera.transform.Rotate(0.0f, -30.0f, 0.0f);
+        camera.transform.Rotate(0.0f, 30.0f, 0.0f);
         
         sun.transform.rotation = Quaternion.FromEuler(-60, 10, 0);
 

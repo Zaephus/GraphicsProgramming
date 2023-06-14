@@ -38,7 +38,7 @@ namespace ZaephusEngine {
                 triangles = Array.ConvertAll(loadedMesh.GetIndices(), item => (uint)item)
             };
 
-            // TODO: Load material.
+            // TODO: Add support for loading a model with multiple materials.
 
             if(model.MaterialCount <= 0) {
                 Console.WriteLine("Model did not contain a material.");

@@ -7,7 +7,9 @@ using Math = ZaephusEngine.Math;
 
 public class TerrainTest : Game {
 
-    private Camera camera = new Camera(CameraProjectionType.Perspective, 45, 0.0f, 0.1f, 100.0f);
+    private Camera camera = new Camera {
+        projectionType = Camera.ProjectionType.Perspective
+    };
 
     private TerrainGenerator generator = new TerrainGenerator {
         baseY = 0.0f,
@@ -55,7 +57,6 @@ public class TerrainTest : Game {
     }
 
     protected override void Update(float _dt) {
-        camera.Update(_dt);
     }
 
     private void HandleInput(KeyboardState _keyState, MouseState _mouseState) {

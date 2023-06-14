@@ -4,11 +4,11 @@
 // AssignmentOne assignmentOne = new AssignmentOne();
 // assignmentOne.Run();
 
-// LoadedSphereTest sphereLoadingTest = new LoadedSphereTest();
-// sphereLoadingTest.Run();
+LoadedSphereTest sphereLoadingTest = new LoadedSphereTest();
+sphereLoadingTest.Run();
 
 // LoadedObjectTest loadedObjectTest = new LoadedObjectTest();
 // loadedObjectTest.Run();
 
-TerrainTest terrainTest = new TerrainTest();
-terrainTest.Run();
+// TerrainTest terrainTest = new TerrainTest();
+// terrainTest.Run();

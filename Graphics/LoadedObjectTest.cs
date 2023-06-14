@@ -3,7 +3,9 @@ using ZaephusEngine;
 
 public class LoadedObjectTest : Game {
 
-    private Camera camera = new Camera(CameraProjectionType.Perspective, 45, 0.0f, 0.1f, 100.0f);
+    private Camera camera = new Camera {
+        projectionType = Camera.ProjectionType.Perspective
+    };
     private GameObject dagger = new GameObject(new MeshRenderer(FileLoader.LoadModel("Resources/Models/SM_KnightsDagger/SM_KnightsDagger.obj")));
 
     private DirectionalLight sun = new DirectionalLight(Colour.white);

@@ -19,6 +19,7 @@ namespace ZaephusEngine {
 
             isInitialized = true;
 
+            // This block initializes the shaders values once.
             ObjectColour = ObjectColour;
             AmbientStrength = AmbientStrength;
             SpecularStrength = SpecularStrength;

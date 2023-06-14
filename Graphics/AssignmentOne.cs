@@ -3,7 +3,9 @@ using ZaephusEngine;
 
 public class AssignmentOne : Game {
 
-    private Camera camera = new Camera(CameraProjectionType.Perspective, 45, 0.0f, 0.1f, 100.0f);
+    private Camera camera = new Camera {
+        projectionType = Camera.ProjectionType.Perspective
+    };
     
     private GameObject colouredCube = new GameObject(new MeshRenderer(Primitives.Cube));
     private GameObject texturedCube = new GameObject(new MeshRenderer(Primitives.Cube));
@@ -24,7 +26,7 @@ public class AssignmentOne : Game {
     protected override void Start() {
 
         camera.transform.position = new Vector3(2.2f, 0.0f, 3.0f);
-        camera.transform.Rotate(0.0f, -30.0f, 0.0f);
+        camera.transform.Rotate(0.0f, 30.0f, 0.0f);
 
         colouredCube.transform.position = new Vector3(0.0f, -0.75f, 0.0f);
         colouredCube.transform.rotation = Quaternion.FromEuler(0, -25, 0);
