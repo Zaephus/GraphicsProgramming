@@ -7,7 +7,7 @@ public class AssignmentOne : Game {
         projectionType = Camera.ProjectionType.Perspective
     };
     
-    private GameObject colouredCube = new GameObject(new MeshRenderer(Primitives.Cube));
+    private GameObject colouredCube = new GameObject(new MeshRenderer(Primitives.Cube) { cullFaceMode = OpenTK.Graphics.OpenGL4.CullFaceMode.Front });
     private GameObject texturedCube = new GameObject(new MeshRenderer(Primitives.Cube));
 
     private PointLight whiteLight = new PointLight(Colour.white, 20.0f);

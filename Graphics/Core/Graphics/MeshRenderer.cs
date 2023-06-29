@@ -20,6 +20,8 @@ namespace ZaephusEngine {
             }
         }
 
+        public CullFaceMode cullFaceMode = CullFaceMode.Back;
+
         protected int vertexBufferObject;
         protected int vertexArrayObject;
         protected int elementBufferObject;
@@ -106,6 +108,7 @@ namespace ZaephusEngine {
 
             material.Render();
 
+            GL.CullFace(cullFaceMode);
             GL.BindVertexArray(vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, mesh.triangles.Length, DrawElementsType.UnsignedInt, 0);
 

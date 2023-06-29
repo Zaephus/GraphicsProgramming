@@ -27,6 +27,7 @@ namespace ZaephusEngine {
             OnResize(new ResizeEventArgs(Size));
 
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.CullFace);
 
             GL.ClearColor(backgroundColour);
 
