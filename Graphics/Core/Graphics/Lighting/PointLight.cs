@@ -21,10 +21,9 @@ namespace ZaephusEngine {
 
         public PointLight(Colour _c, float _range) : base (_c) {
             range = _range;
-            MeshRenderer mr = AddComponent(new MeshRenderer(Primitives.Cube)) as MeshRenderer;
-            mr.material = new Material() {
-                ObjectColour = _c
-            };
+            AddComponent(new MeshRenderer(Primitives.Cube) {
+                material = new Material() { ObjectColour = _c }
+            });
             LightUtility.pointLights.Add(this);
             transform.scale = Vector3.one * 0.15f;
         }

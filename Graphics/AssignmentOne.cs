@@ -1,13 +1,19 @@
 
 using ZaephusEngine;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using Window = ZaephusEngine.Window;
 
 public class AssignmentOne : Game {
 
     private Camera camera = new Camera {
-        projectionType = Camera.ProjectionType.Perspective
+        projectionType = Camera.ProjectionType.Perspective,
+        backgroundType = Camera.BackgroundType.Skybox,
+        mainColour = Colour.blue,
+        secondColour = Colour.cyan
     };
     
-    private GameObject colouredCube = new GameObject(new MeshRenderer(Primitives.Cube) { cullFaceMode = OpenTK.Graphics.OpenGL4.CullFaceMode.Front });
+    private GameObject colouredCube = new GameObject(new MeshRenderer(Primitives.Cube));
     private GameObject texturedCube = new GameObject(new MeshRenderer(Primitives.Cube));
 
     private PointLight whiteLight = new PointLight(Colour.white, 20.0f);
@@ -25,8 +31,9 @@ public class AssignmentOne : Game {
 
     protected override void Start() {
 
+        camera.AddComponent(new CameraController());
         camera.transform.position = new Vector3(2.2f, 0.0f, 3.0f);
-        camera.transform.Rotate(0.0f, 30.0f, 0.0f);
+        // camera.transform.Rotate(0.0f, 30.0f, 0.0f);
 
         colouredCube.transform.position = new Vector3(0.0f, -0.75f, 0.0f);
         colouredCube.transform.rotation = Quaternion.FromEuler(0, -25, 0);
@@ -36,10 +43,12 @@ public class AssignmentOne : Game {
 
         whiteLight.transform.position = new Vector3(1.6f, 0.0f, 0.0f);
 
-        blueLight.transform.position = new Vector3(-0.6f, 0.0f, 0.2f);
+        blueLight.transform.position = new Vector3(-0.3f, 0.0f, 1.2f);
 
         colouredCube.GetComponent<MeshRenderer>().material = cubeMat1;
         texturedCube.GetComponent<MeshRenderer>().material = cubeMat2;
+
+        window.CursorState = CursorState.Grabbed;
 
     }
 

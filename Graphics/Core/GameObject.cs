@@ -14,9 +14,12 @@ namespace ZaephusEngine {
 
             Game.InitCall += Initialize;
             Game.InitCall += Start;
+            Game.LateInitCall += LateStart;
 
             Game.UpdateCall += ComponentUpdate;
             Game.UpdateCall += Update;
+
+            Game.RenderCall += Render;
 
             Game.ExitCall += ComponentExit;
             Game.ExitCall += Exit;
@@ -29,6 +32,7 @@ namespace ZaephusEngine {
             }
         }
         protected virtual void Start() {}
+        protected virtual void LateStart() {}
 
         private void ComponentUpdate(float _dt) {
             foreach(Component c in components) {
@@ -36,6 +40,8 @@ namespace ZaephusEngine {
             }
         }
         protected virtual void Update(float _dt) {}
+
+        protected virtual void Render() {}
 
         private void ComponentExit() {
             foreach(Component c in components) {

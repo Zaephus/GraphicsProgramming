@@ -21,6 +21,7 @@ namespace ZaephusEngine {
         }
 
         public CullFaceMode cullFaceMode = CullFaceMode.Back;
+        public RenderOrder renderOrder = RenderOrder.Normal;
 
         protected int vertexBufferObject;
         protected int vertexArrayObject;
@@ -32,11 +33,26 @@ namespace ZaephusEngine {
         public MeshRenderer(Mesh _mesh) : this(_mesh, new Material()) {}
         public MeshRenderer((Mesh, Material) _model) : this(_model.Item1, _model.Item2) {}
         public MeshRenderer(Mesh _mesh, Material _material) {
+
             mesh = _mesh;
             material = _material;
-            Game.InitCall += Initialize;
-            Game.RenderCall += Render;
+
+            Game.RenderInitCall += Initialize;
+
+            switch(renderOrder) {
+                case RenderOrder.Early:
+                    Game.EarlyRenderCall += Render;
+                    break;
+                case RenderOrder.Normal:
+                    Game.RenderCall += Render;
+                    break;
+                case RenderOrder.Late:
+                    Game.LateRenderCall += Render;
+                    break;
+            }
+
             Game.ExitCall += Dispose;
+
         }
 
         protected unsafe void Initialize() {
@@ -114,6 +130,9 @@ namespace ZaephusEngine {
 
         }
 
+        ~MeshRenderer() {
+            Dispose();
+        }
         protected void Dispose() {
             material.Dispose();
         }

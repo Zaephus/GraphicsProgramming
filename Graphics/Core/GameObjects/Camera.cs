@@ -1,4 +1,5 @@
 
+using OpenTK.Graphics.OpenGL4;
 
 namespace ZaephusEngine {
 
@@ -38,7 +39,6 @@ namespace ZaephusEngine {
         public Colour mainColour = Colour.black;
         public Colour secondColour = Colour.black;
 
-
         public Camera() {
             if(activeCamera == null) {
                 activeCamera = this;
@@ -49,6 +49,24 @@ namespace ZaephusEngine {
             Window.WindowResized += OnWindowResized;
             
             OnWindowResized(Window.width, Window.height);
+
+            GL.ClearColor(mainColour);
+            
+            if(backgroundType == BackgroundType.Skybox) {
+                AddComponent(new MeshRenderer(Primitives.Cube) {
+                    cullFaceMode = CullFaceMode.Front,
+                    renderOrder = RenderOrder.Late,
+                    material = new Material("Core/Graphics/Shaders/SkyboxVertex.glsl", "Core/Graphics/Shaders/SkyboxFragment.glsl") { ObjectColour = Colour.green }
+                });
+            }
+            
+        }
+
+        protected override void LateStart() {
+            if(backgroundType == BackgroundType.Skybox) {
+                GetComponent<MeshRenderer>().material.shader.SetColour("topColour", mainColour);
+                GetComponent<MeshRenderer>().material.shader.SetColour("botColour", secondColour);
+            }
         }
 
         private void OnWindowResized(int _width, int _height) {

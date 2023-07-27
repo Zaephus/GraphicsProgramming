@@ -15,8 +15,6 @@ namespace ZaephusEngine {
         public static readonly int width = 1400;
         public static readonly int height = 800;
 
-        public Colour backgroundColour = Colour.black;
-
         public Window(string _title) : base(GameWindowSettings.Default, new NativeWindowSettings() { Size = (width, height), Title = _title }) {}
 
         public void Initialize() {
@@ -27,9 +25,9 @@ namespace ZaephusEngine {
             OnResize(new ResizeEventArgs(Size));
 
             GL.Enable(EnableCap.DepthTest);
-            GL.Enable(EnableCap.CullFace);
+            GL.DepthFunc(DepthFunction.Lequal);
 
-            GL.ClearColor(backgroundColour);
+            GL.Enable(EnableCap.CullFace);
 
         }
 
