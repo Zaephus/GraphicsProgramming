@@ -16,8 +16,8 @@ public class AssignmentOne : Game {
     private GameObject colouredCube = new GameObject(new MeshRenderer(Primitives.Cube));
     private GameObject texturedCube = new GameObject(new MeshRenderer(Primitives.Cube));
 
-    private PointLight whiteLight = new PointLight(Colour.white, 20.0f);
-    private PointLight blueLight = new PointLight(Colour.blue, 100.0f);
+    // private PointLight whiteLight = new PointLight(Colour.white, 20.0f);
+    // private PointLight blueLight = new PointLight(Colour.blue, 100.0f);
 
     private Material cubeMat1 = new Material {
         ObjectColour = Colour.white,
@@ -41,9 +41,9 @@ public class AssignmentOne : Game {
         texturedCube.transform.position = new Vector3(0.0f, 0.75f, 0.0f);
         texturedCube.transform.rotation = Quaternion.FromEuler(0, -25, 0);
 
-        whiteLight.transform.position = new Vector3(1.6f, 0.0f, 0.0f);
+        // whiteLight.transform.position = new Vector3(1.6f, 0.0f, 0.0f);
 
-        blueLight.transform.position = new Vector3(-0.3f, 0.0f, 1.2f);
+        // blueLight.transform.position = new Vector3(-0.3f, 0.0f, 1.2f);
 
         colouredCube.GetComponent<MeshRenderer>().material = cubeMat1;
         texturedCube.GetComponent<MeshRenderer>().material = cubeMat2;

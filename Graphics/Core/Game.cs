@@ -12,8 +12,6 @@ namespace ZaephusEngine {
     public class Game {
 
         public static Action InitCall;
-        public static Action RenderInitCall;
-        public static Action LateInitCall;
 
         public static Action<float> UpdateCall;
         public static Action LateUpdateCall;
@@ -24,6 +22,8 @@ namespace ZaephusEngine {
 
         public static Action ExitCall;
 
+        public static bool isInitialized = false;
+
         protected Window window = new Window("ZaephusEngine");
 
         protected virtual void Start() {}
@@ -31,9 +31,8 @@ namespace ZaephusEngine {
             Start();
             window.Initialize();
             InitCall?.Invoke();
-            RenderInitCall?.Invoke();
-            LateInitCall?.Invoke();
             PostInitialize();
+            isInitialized = true;
         }
         protected virtual void PostInitialize() {}
 

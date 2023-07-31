@@ -39,6 +39,8 @@ namespace ZaephusEngine {
         public Colour mainColour = Colour.black;
         public Colour secondColour = Colour.black;
 
+        private GameObject skybox = null;
+
         public Camera() {
             if(activeCamera == null) {
                 activeCamera = this;
@@ -53,19 +55,20 @@ namespace ZaephusEngine {
             GL.ClearColor(mainColour);
             
             if(backgroundType == BackgroundType.Skybox) {
-                AddComponent(new MeshRenderer(Primitives.Cube) {
+                skybox = new GameObject(new MeshRenderer(Primitives.Cube) {
                     cullFaceMode = CullFaceMode.Front,
                     renderOrder = RenderOrder.Late,
                     material = new Material("Core/Graphics/Shaders/SkyboxVertex.glsl", "Core/Graphics/Shaders/SkyboxFragment.glsl") { ObjectColour = Colour.green }
                 });
+                skybox.GetComponent<MeshRenderer>().material.shader.SetColour("topColour", mainColour);
+                skybox.GetComponent<MeshRenderer>().material.shader.SetColour("botColour", secondColour);
             }
             
         }
-
-        protected override void LateStart() {
+        
+        protected override void Update(float _dt) {
             if(backgroundType == BackgroundType.Skybox) {
-                GetComponent<MeshRenderer>().material.shader.SetColour("topColour", mainColour);
-                GetComponent<MeshRenderer>().material.shader.SetColour("botColour", secondColour);
+                skybox.transform.position = transform.position;
             }
         }
 

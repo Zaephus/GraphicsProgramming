@@ -15,7 +15,7 @@ namespace ZaephusEngine {
             set {
                 m_mesh = value;
                 if(isInitialized) {
-                    Initialize();
+                    Start();
                 }
             }
         }
@@ -37,8 +37,7 @@ namespace ZaephusEngine {
             mesh = _mesh;
             material = _material;
 
-            Game.RenderInitCall += Initialize;
-
+            // TODO: Change render order to int value instead of enum.
             switch(renderOrder) {
                 case RenderOrder.Early:
                     Game.EarlyRenderCall += Render;
@@ -50,12 +49,9 @@ namespace ZaephusEngine {
                     Game.LateRenderCall += Render;
                     break;
             }
-
-            Game.ExitCall += Dispose;
-
         }
 
-        protected unsafe void Initialize() {
+        public override unsafe void Start() {
             
             vertexBufferObject = GL.GenBuffer();
             vertexArrayObject = GL.GenVertexArray();
@@ -130,10 +126,7 @@ namespace ZaephusEngine {
 
         }
 
-        ~MeshRenderer() {
-            Dispose();
-        }
-        protected void Dispose() {
+        public override void Exit() {
             material.Dispose();
         }
 
