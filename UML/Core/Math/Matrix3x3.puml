@@ -1,0 +1,34 @@
+@startuml
+class Matrix3x3 <<struct>> {
+    + m00 : float
+    + m01 : float
+    + m02 : float
+    + m10 : float
+    + m11 : float
+    + m12 : float
+    + m20 : float
+    + m21 : float
+    + m22 : float
+    + Matrix3x3()
+    + Matrix3x3(_matrix:float[,])
+    + Matrix3x3(_m00:float, _m01:float, _m02:float, _m10:float, _m11:float, _m12:float, _m20:float, _m21:float, _m22:float)
+    + Matrix3x3(_row0:Vector3, _row1:Vector3, _row2:Vector3)
+    + GetRow(_index:int) : Vector3
+    + GetColumn(_index:int) : Vector3
+    + Invert() : void
+    + Transpose() : void
+    + determinant : float <<get>>
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Matrix3x3) : bool
+    + <<override>> ToString() : string
+}
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Matrix3x3>" <|-- Matrix3x3
+Matrix3x3 --> "inverse" Matrix3x3
+Matrix3x3 --> "transposed" Matrix3x3
+Matrix3x3 --> "zero" Matrix3x3
+Matrix3x3 --> "one" Matrix3x3
+Matrix3x3 --> "identity" Matrix3x3
+@enduml

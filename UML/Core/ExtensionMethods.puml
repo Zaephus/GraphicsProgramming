@@ -1,0 +1,5 @@
+@startuml
+class ExtensionMethods <<static>> {
+    + {static} Map(_value:float, _inputMin:float, _inputMax:float, _outputMin:float, _outputMax:float) : float
+}
+@enduml

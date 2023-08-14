@@ -1,0 +1,28 @@
+@startuml
+class Vector2 <<struct>> {
+    + x : float
+    + y : float
+    + Vector2(_x:float, _y:float)
+    + magnitude : float <<get>>
+    + squaredMagnitude : float <<get>>
+    + Normalize() : void
+    + Rotate(_rad:float) : void
+    + {static} Distance(_lhs:Vector2, _rhs:Vector2) : float
+    + {static} Dot(_lhs:Vector2, _rhs:Vector2) : float
+    + {static} Cross(_lhs:Vector2, _rhs:Vector2) : float
+    + {static} Angle(_from:Vector2, _to:Vector2) : float
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Vector2) : bool
+    + <<override>> ToString() : string
+    + {static} RandomVector(_minInclusive:float, _maxExclusive:float) : Vector2
+}
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Vector2>" <|-- Vector2
+Vector2 --> "normalized" Vector2
+Vector2 --> "zero" Vector2
+Vector2 --> "one" Vector2
+Vector2 --> "right" Vector2
+Vector2 --> "up" Vector2
+@enduml

@@ -1,0 +1,5 @@
+@startuml
+class AssignmentOne {
+}
+Game <|-- AssignmentOne
+@enduml

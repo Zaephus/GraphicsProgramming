@@ -1,0 +1,12 @@
+@startuml
+class Math <<static>> {
+    + <<const>> epsilon : float
+    + {static} Deg2Rad : float <<get>>
+    + {static} Rad2Deg : float <<get>>
+    + {static} Clamp(_value:float, _min:float, _max:float) : float
+    + {static} Clamp(_value:int, _min:int, _max:int) : int
+    + {static} Clamp01(_value:float) : float
+    + {static} Lerp(_a:float, _b:float, _t:float) : float
+    + {static} LerpUnclamped(_a:float, _b:float, _t:float) : float
+}
+@enduml

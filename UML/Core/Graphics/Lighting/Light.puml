@@ -1,0 +1,7 @@
+@startuml
+class Light {
+    + Light(_c:Colour)
+}
+GameObject <|-- Light
+Light --> "colour" Colour
+@enduml

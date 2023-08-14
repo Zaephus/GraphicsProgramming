@@ -1,0 +1,8 @@
+@startuml
+class LightUtility <<static>> {
+}
+class "List`1"<T> {
+}
+LightUtility o-> "dirLights<DirectionalLight>" "List`1"
+LightUtility o-> "pointLights<PointLight>" "List`1"
+@enduml

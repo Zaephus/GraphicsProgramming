@@ -1,0 +1,5 @@
+@startuml
+class Mesh {
+    + RecalculateNormals() : void
+}
+@enduml

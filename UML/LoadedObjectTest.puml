@@ -1,0 +1,5 @@
+@startuml
+class LoadedObjectTest {
+}
+Game <|-- LoadedObjectTest
+@enduml

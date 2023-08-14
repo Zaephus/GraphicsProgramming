@@ -1,0 +1,6 @@
+@startuml
+class DirectionalLight {
+    + DirectionalLight(_c:Colour)
+}
+Light <|-- DirectionalLight
+@enduml

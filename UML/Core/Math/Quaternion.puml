@@ -1,0 +1,28 @@
+@startuml
+class Quaternion <<struct>> {
+    + x : float
+    + y : float
+    + z : float
+    + w : float
+    + Quaternion(_x:float, _y:float, _z:float, _w:float)
+    + magnitude : float <<get>>
+    + {static} Normalize(_q:Quaternion) : Quaternion
+    + Normalize() : void
+    + {static} Dot(_lhs:Quaternion, _rhs:Quaternion) : float
+    + {static} FromAxisAngle(_axis:Vector3, _angleRad:float) : Quaternion
+    + {static} FromEuler(_xDeg:float, _yDeg:float, _zDeg:float) : Quaternion
+    + {static} FromEuler(_eulerDeg:Vector3) : Quaternion
+    + ToEuler() : Vector3
+    + {static} ToEuler(_q:Quaternion) : Vector3
+    + {static} AngleBetween(_lhs:Quaternion, _rhs:Quaternion) : float
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Quaternion) : bool
+    + <<override>> ToString() : string
+}
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Quaternion>" <|-- Quaternion
+Quaternion --> "normalized" Quaternion
+Quaternion --> "identity" Quaternion
+@enduml

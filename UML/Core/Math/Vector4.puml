@@ -1,0 +1,24 @@
+@startuml
+class Vector4 <<struct>> {
+    + x : float
+    + y : float
+    + z : float
+    + w : float
+    + Vector4(_v:Vector2, _z:float, _w:float)
+    + Vector4(_v:Vector3, _w:float)
+    + Vector4(_x:float, _y:float, _z:float, _w:float)
+    + magnitude : float <<get>>
+    + Normalize() : void
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Vector4) : bool
+    + <<override>> ToString() : string
+    + {static} RandomVector(_minInclusive:float, _maxExclusive:float) : Vector4
+}
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Vector4>" <|-- Vector4
+Vector4 --> "normalized" Vector4
+Vector4 --> "zero" Vector4
+Vector4 --> "one" Vector4
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+class Camera {
+    + fovY : float = 45.0f
+    + camSize : float = 0.0f
+    + nearPlane : float = 0.1f
+    + farPlane : float = 100.0f
+    + Camera()
+}
+enum ProjectionType {
+    Perspective= 0,
+    Orthographic= 1,
+}
+enum BackgroundType {
+    SolidColour= 1,
+    Skybox= 2,
+}
+GameObject <|-- Camera
+Camera --> "activeCamera" Camera
+Camera --> "ViewMatrix" Matrix4x4
+Camera o-> "ProjectionMatrix" Matrix4x4
+Camera --> "ProjectionType" required
+Camera o-> "backgroundType" BackgroundType
+Camera o-> "mainColour" Colour
+Camera o-> "secondColour" Colour
+Camera +-- ProjectionType
+Camera +-- BackgroundType
+@enduml

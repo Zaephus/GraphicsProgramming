@@ -1,0 +1,16 @@
+@startuml
+class Transform {
+    + Rotate(_xDeg:float, _yDeg:float, _zDeg:float) : void
+    + Rotate(_eulerAnglesDeg:Vector3) : void
+    + Rotate(_q:Quaternion) : void
+    + RotateAround(_axis:Vector3, _deg:float) : void
+}
+Component <|-- Transform
+Transform o-> "position" Vector3
+Transform o-> "rotation" Quaternion
+Transform o-> "scale" Vector3
+Transform --> "objectMatrix" Matrix4x4
+Transform --> "right" Vector3
+Transform --> "forward" Vector3
+Transform --> "up" Vector3
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+class GameObject {
+    + GameObject()
+    + GameObject(_components:Component[])
+    + AddComponent(_component:Component) : Component
+    + RemoveComponentOfType() : void
+    + RemoveAllComponentsOfType() : void
+    + GetComponent() : T
+    + GetComponents() : List<Component>
+}
+GameObject o-> "transform" Transform
+@enduml

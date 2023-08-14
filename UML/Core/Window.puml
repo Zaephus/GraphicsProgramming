@@ -1,0 +1,16 @@
+@startuml
+class Window {
+    + {static} <<readonly>> width : int = 1400
+    + {static} <<readonly>> height : int = 800
+    + Window(_title:string)
+    + Initialize() : void
+    + Render() : void
+    + Update(_dt:float) : void
+    + Exit() : void
+}
+class "Action`2"<T1,T2> {
+}
+GameWindow <|-- Window
+Window --> "WindowResized<int,int>" "Action`2"
+Window --> "HandleInput<KeyboardState,MouseState>" "Action`2"
+@enduml

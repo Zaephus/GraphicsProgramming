@@ -1,0 +1,6 @@
+@startuml
+class Random <<static>> {
+    + {static} Range(_minInclusive:float, _maxExclusive:float) : float
+    + {static} Range(_minInclusive:int, _maxInclusive:int) : int
+}
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+class MeshRenderer {
+    + MeshRenderer()
+    + MeshRenderer(_mesh:Mesh)
+    + MeshRenderer(_model:(Mesh, Material))
+    + MeshRenderer(_mesh:Mesh, _material:Material)
+    + <<override>> <<unsafe>> Start() : void
+    + <<override>> Exit() : void
+}
+Component <|-- MeshRenderer
+MeshRenderer --> "material" Material
+MeshRenderer --> "mesh" Mesh
+MeshRenderer o-> "cullFaceMode" CullFaceMode
+MeshRenderer o-> "renderOrder" RenderOrder
+@enduml

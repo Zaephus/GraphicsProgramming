@@ -1,0 +1,13 @@
+@startuml
+class Vertex <<struct>> {
+    + Vertex(_pos:Vector3)
+    + Vertex(_pos:Vector3, _col:Colour)
+    + Vertex(_pos:Vector3, _col:Colour, _uv:Vector2, _normal:Vector3, _tan:Vector3, _biTan:Vector3)
+}
+Vertex --> "vertexPosition" Vector3
+Vertex --> "vertexColour" Colour
+Vertex --> "UV" Vector2
+Vertex --> "normal" Vector3
+Vertex --> "tangent" Vector3
+Vertex --> "biTangent" Vector3
+@enduml

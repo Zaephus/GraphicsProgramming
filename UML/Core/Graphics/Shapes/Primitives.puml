@@ -1,0 +1,5 @@
+@startuml
+class Primitives {
+}
+Primitives --> "Cube" Mesh
+@enduml

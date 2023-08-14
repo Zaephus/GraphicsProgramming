@@ -1,0 +1,16 @@
+@startuml
+class Material {
+    + Material()
+    + Material(_vertexShaderPath:string, _fragmentShaderPath:string)
+    + Initialize() : void
+    + Render() : void
+    + Dispose() : void
+    + AmbientStrength : float <<get>> <<set>>
+    + SpecularStrength : float <<get>> <<set>>
+    + Shininess : float <<get>> <<set>>
+}
+Material --> "shader" Shader
+Material --> "ObjectColour" Colour
+Material --> "DiffuseMap" Texture2D
+Material --> "SpecularMap" Texture2D
+@enduml

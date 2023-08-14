@@ -1,0 +1,7 @@
+@startuml
+class Noise2d <<static>> {
+    {static} Noise2d()
+    + {static} Reseed() : void
+    + {static} Noise(_x:float, _y:float) : float
+}
+@enduml

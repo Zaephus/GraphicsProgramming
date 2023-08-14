@@ -1,0 +1,10 @@
+@startuml
+class TerrainGenerator {
+    + baseY : float = 0.0f
+    + amplitude : float = 3
+    + octaves : int = 5
+    + resolution : float = 100.0f
+    + Generate() : Mesh
+}
+TerrainGenerator o-> "size" Vector2Int
+@enduml

@@ -1,0 +1,9 @@
+@startuml
+class CameraController {
+    + rotateSpeed : float = 30.0f
+    + moveSpeed : float = 7.0f
+    + <<override>> Start() : void
+    + <<override>> Update(_dt:float) : void
+}
+Component <|-- CameraController
+@enduml

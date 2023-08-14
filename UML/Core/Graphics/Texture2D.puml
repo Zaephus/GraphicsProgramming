@@ -1,0 +1,16 @@
+@startuml
+enum TextureFilter {
+    Linear,
+    Point,
+}
+class Texture2D {
+    + generateMipmap : bool = true
+    + Texture2D(_path:string)
+    + Texture2D()
+    + Texture2D(_c:Colour)
+    + Bind(_unit:TextureUnit) : void
+    + Use() : void
+}
+Texture2D --> "textureFilter" TextureFilter
+Texture2D o-> "wrapMode" TextureWrapMode
+@enduml

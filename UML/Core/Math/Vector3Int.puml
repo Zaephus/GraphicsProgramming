@@ -1,0 +1,31 @@
+@startuml
+class Vector3Int <<struct>> {
+    + x : int
+    + y : int
+    + z : int
+    + Vector3Int(_x:float, _y:float)
+    + Vector3Int(_x:float, _y:float, _z:float)
+    + Vector3Int(_x:int, _y:int)
+    + Vector3Int(_x:int, _y:int, _z:int)
+    + magnitude : float <<get>>
+    + Normalize() : void
+    + {static} Distance(_lhs:Vector3Int, _rhs:Vector3Int) : float
+    + {static} Dot(_lhs:Vector3Int, _rhs:Vector3Int) : float
+    + {static} Cross(_lhs:Vector3Int, _rhs:Vector3Int) : Vector3Int
+    + {static} Angle(_from:Vector3Int, _to:Vector3Int) : float
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Vector3Int) : bool
+    + <<override>> ToString() : string
+    + {static} RandomVector(_minInclusive:int, _maxInclusive:int) : Vector3Int
+}
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Vector3Int>" <|-- Vector3Int
+Vector3Int --> "normalized" Vector3Int
+Vector3Int --> "zero" Vector3Int
+Vector3Int --> "one" Vector3Int
+Vector3Int --> "right" Vector3Int
+Vector3Int --> "up" Vector3Int
+Vector3Int --> "forward" Vector3Int
+@enduml

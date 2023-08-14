@@ -1,0 +1,9 @@
+@startuml
+abstract class Component {
+    + Initialize(_gameObject:GameObject) : void
+    + <<virtual>> Start() : void
+    + <<virtual>> Update(_dt:float) : void
+    + <<virtual>> Exit() : void
+}
+Component --> "gameObject" GameObject
+@enduml

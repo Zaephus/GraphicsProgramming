@@ -1,0 +1,28 @@
+@startuml
+class Colour <<struct>> {
+    + R : float
+    + G : float
+    + B : float
+    + A : float
+    + Colour()
+    + Colour(_r:float, _g:float, _b:float)
+    + Colour(_r:float, _g:float, _b:float, _a:float)
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Colour) : bool
+    + <<override>> ToString() : string
+}
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Colour>" <|-- Colour
+Colour --> "red" Colour
+Colour --> "green" Colour
+Colour --> "blue" Colour
+Colour --> "white" Colour
+Colour --> "black" Colour
+Colour --> "yellow" Colour
+Colour --> "cyan" Colour
+Colour --> "magenta" Colour
+Colour --> "grey" Colour
+Colour --> "brown" Colour
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+class PointLight {
+    + range : float <<get>> <<set>>
+    + constantAttenuation : float
+    + linearAttenuation : float
+    + quadraticAttenuation : float
+    + PointLight(_c:Colour, _range:float)
+}
+Light <|-- PointLight
+@enduml
