@@ -49,6 +49,7 @@ namespace ZaephusEngine {
                     Game.LateRenderCall += Render;
                     break;
             }
+
         }
 
         public override unsafe void Start() {
@@ -102,6 +103,10 @@ namespace ZaephusEngine {
         }
 
         protected void Render() {
+
+            if(!isInitialized) {
+                return;
+            }
 
             Matrix4x4 model = gameObject.transform.objectMatrix;
             material.shader.SetMatrix4x4("modelMatrix", ref model);

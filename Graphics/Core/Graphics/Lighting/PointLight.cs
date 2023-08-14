@@ -19,10 +19,16 @@ namespace ZaephusEngine {
         public float linearAttenuation;
         public float quadraticAttenuation;
 
-        public PointLight(Colour _c, float _range) : base (_c) {
+        private Colour lightColour;
+
+        public PointLight(Colour _colour, float _range) : base (_colour) {
+            lightColour = _colour;
             range = _range;
+        }
+
+        protected override void Start() {
             AddComponent(new MeshRenderer(Primitives.Cube) {
-                material = new Material() { ObjectColour = _c }
+                material = new Material() { ObjectColour = lightColour }
             });
             LightUtility.pointLights.Add(this);
             transform.scale = Vector3.one * 0.15f;

@@ -1,6 +1,7 @@
 
 
 namespace ZaephusEngine {
+    
     public struct Vertex {
 
         public Vector3 vertexPosition;

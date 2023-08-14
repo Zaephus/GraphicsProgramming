@@ -47,14 +47,14 @@ public class TerrainTest : Game {
     }
     
     // You cannot send values to a shader in Start, because shader binding happens after Start.
-    protected override void PostInitialize() {
-        terrain.GetComponent<MeshRenderer>().material.shader.SetFloat("maxHeight", generator.amplitude);
-        terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourOne", Colour.blue);
-        terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourTwo", Colour.green);
-        terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourThree", new Colour(0.0f, 0.6f, 0.05f));
-        terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourFour", Colour.grey);
-        terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourFive", Colour.white);
-    }
+    // protected override void PostInitialize() {
+    //     terrain.GetComponent<MeshRenderer>().material.shader.SetFloat("maxHeight", generator.amplitude);
+    //     terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourOne", Colour.blue);
+    //     terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourTwo", Colour.green);
+    //     terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourThree", new Colour(0.0f, 0.6f, 0.05f));
+    //     terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourFour", Colour.grey);
+    //     terrain.GetComponent<MeshRenderer>().material.shader.SetColour("colourFive", Colour.white);
+    // }
 
     protected override void Update(float _dt) {
     }

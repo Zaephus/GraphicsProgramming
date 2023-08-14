@@ -42,9 +42,7 @@ namespace ZaephusEngine {
         private GameObject skybox = null;
 
         public Camera() {
-            if(activeCamera == null) {
-                activeCamera = this;
-            }
+            activeCamera ??= this;
         }
 
         protected override void Start() {
@@ -62,6 +60,8 @@ namespace ZaephusEngine {
                 });
                 skybox.GetComponent<MeshRenderer>().material.shader.SetColour("topColour", mainColour);
                 skybox.GetComponent<MeshRenderer>().material.shader.SetColour("botColour", secondColour);
+                // These colours get overwritten, and a black colour is sent every frame.
+                // These colours need to be applied every frame.
             }
             
         }
@@ -69,17 +69,19 @@ namespace ZaephusEngine {
         protected override void Update(float _dt) {
             if(backgroundType == BackgroundType.Skybox) {
                 skybox.transform.position = transform.position;
+                skybox.GetComponent<MeshRenderer>().material.shader.SetColour("topColour", mainColour);
+                skybox.GetComponent<MeshRenderer>().material.shader.SetColour("botColour", secondColour);
             }
         }
 
         private void OnWindowResized(int _width, int _height) {
             switch(projectionType) {
                 case ProjectionType.Perspective:
-                    ProjectionMatrix = CalculatePerspectiveProjection(fovY, ((float)_width / (float)_height), nearPlane, farPlane);
+                    ProjectionMatrix = CalculatePerspectiveProjection(fovY, (float)_width / (float)_height, nearPlane, farPlane);
                     break;
                 
                 case ProjectionType.Orthographic:
-                    ProjectionMatrix = CalculateOrthoGraphicProjection(camSize, ((float)_width / (float)_height), nearPlane, farPlane);
+                    ProjectionMatrix = CalculateOrthoGraphicProjection(camSize, (float)_width / (float)_height, nearPlane, farPlane);
                     break;
             }
         }

@@ -12,13 +12,7 @@ namespace ZaephusEngine {
             components.Add(transform);
             components.AddRange(_components);
 
-            if(!Game.isInitialized) {
-                Game.InitCall += Initialize;
-            }
-            else {
-                Initialize();
-                Console.WriteLine("Initialized from constructor");
-            }
+            Game.InitCall += Initialize;
 
             Game.UpdateCall += ComponentUpdate;
             Game.UpdateCall += Update;
@@ -35,6 +29,7 @@ namespace ZaephusEngine {
                 c.Start();
             }
             Start();
+            Game.InitCall -= Initialize;
         }
         protected virtual void Start() {}
 

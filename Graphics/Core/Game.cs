@@ -22,22 +22,17 @@ namespace ZaephusEngine {
 
         public static Action ExitCall;
 
-        public static bool isInitialized = false;
-
         protected Window window = new Window("ZaephusEngine");
 
         protected virtual void Start() {}
         private void Initialize() {
             Start();
             window.Initialize();
-            InitCall?.Invoke();
-            PostInitialize();
-            isInitialized = true;
         }
-        protected virtual void PostInitialize() {}
 
         protected virtual void Update(float _dt) {}
         private void OnUpdate(float _dt) {
+            InitCall?.Invoke();
             Update(_dt);
             window.Update(_dt);
             UpdateCall?.Invoke(_dt);
