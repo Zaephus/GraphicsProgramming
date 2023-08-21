@@ -87,7 +87,7 @@ namespace ZaephusEngine {
         }
 
         public static float Angle(Vector2 _from, Vector2 _to) {
-            float dot = Vector2.Dot(_from, _to);
+            float dot = Dot(_from, _to);
             return MathF.Acos(dot / (_from.magnitude * _to.magnitude));
         }
 
@@ -173,7 +173,9 @@ namespace ZaephusEngine {
         public static Vector2 zero { get { return new Vector2(0, 0); } }
         public static Vector2 one { get { return new Vector2(1, 1); } }
         public static Vector2 right { get { return new Vector2(1, 0); } }
+        public static Vector2 left { get { return new Vector2(-1, 0); } }
         public static Vector2 up { get { return new Vector2(0, 1); } }
+        public static Vector2 down { get { return new Vector2(0, -1); } }
 
     }
 

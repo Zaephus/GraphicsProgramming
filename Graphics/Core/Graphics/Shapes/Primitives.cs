@@ -118,7 +118,7 @@ namespace ZaephusEngine {
                         new Vector3(0.0f, 1.0f, 0.0f)
                     },
 
-                    triangles = new uint[] {
+                    triangles = new int[] {
                         // Down
                         0, 1, 2,
                         0, 2, 3,
@@ -149,48 +149,7 @@ namespace ZaephusEngine {
 
         public static Mesh Sphere {
             get {
-                Mesh sphere = new Mesh();
-
-                uint faceResolution = 2;
-
-                List<Vector3> vertices = new();
-                List<uint> triangles = new();
-                List<Vector2> uvs = new();
-
-                for(int x = 0; x < faceResolution; x++) {
-                    for(int y = 0; y < faceResolution; y++) {
-                        for(int z = 0; z < faceResolution; z++) {
-
-                            if(z > 0 && z < faceResolution-1) {
-                                if(y > 0 && y < faceResolution-1) {
-                                    continue;
-                                }
-                            }
-
-                            vertices.Add(new Vector3(x, y, z));
-                            uvs.Add(new Vector2(x, y));
-
-                            uint i = (uint)vertices.Count - 1;
-
-                            triangles.Add(i);
-                            triangles.Add(i + 1);
-                            triangles.Add(i + faceResolution + 1);
-
-                            triangles.Add(i);
-                            triangles.Add(i + faceResolution + 1);
-                            triangles.Add(i + faceResolution);
-
-                        }
-                    }
-                }
-
-                sphere.vertices = vertices.ToArray();
-                sphere.uvs = uvs.ToArray();
-                sphere.triangles = triangles.ToArray();
-
-                // sphere.RecalculateNormals();
-
-                return sphere;
+                return null;
             }
         }
 

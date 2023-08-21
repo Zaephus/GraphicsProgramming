@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using OpenTK.Mathematics;
 
 namespace ZaephusEngine {
 
@@ -82,7 +83,7 @@ namespace ZaephusEngine {
         }
 
         public static float Angle(Vector2Int _from, Vector2Int _to) {
-            float dot = Vector2Int.Dot(_from, _to);
+            float dot = Dot(_from, _to);
             return MathF.Acos(dot / (_from.magnitude * _to.magnitude));
         }
 
@@ -157,7 +158,9 @@ namespace ZaephusEngine {
         public static Vector2Int zero { get { return new Vector2Int(0, 0); } }
         public static Vector2Int one { get { return new Vector2Int(1, 1); } }
         public static Vector2Int right { get { return new Vector2Int(1, 0); } }
+        public static Vector2Int left { get { return new Vector2Int(-1, 0); } }
         public static Vector2Int up { get { return new Vector2Int(0, 1); } }
+        public static Vector2Int down { get { return new Vector2Int(0, -1); } }
 
     }
 

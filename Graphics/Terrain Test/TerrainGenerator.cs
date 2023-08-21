@@ -17,7 +17,7 @@ public class TerrainGenerator {
             vertices = new Vector3[size.x * size.y],
             uvs = new Vector2[size.x * size.y],
             normals = new Vector3[size.x * size.y],
-            triangles = new uint[((size.x-1) * (size.y-1)) * 6]
+            triangles = new int[((size.x-1) * (size.y-1)) * 6]
         };
 
         float[,] noise = GenerateNoiseMap(size.x, size.y, amplitude, octaves);
@@ -31,13 +31,13 @@ public class TerrainGenerator {
                 terrain.uvs[vertexIndex] = new Vector2(x, z);
 
                 if(x < size.x-1 && z < size.y-1) {
-                    terrain.triangles[triangleIndex]     = (uint)(vertexIndex);
-                    terrain.triangles[triangleIndex + 1] = (uint)(vertexIndex + 1);
-                    terrain.triangles[triangleIndex + 2] = (uint)(vertexIndex + size.x + 1);
+                    terrain.triangles[triangleIndex]     = vertexIndex;
+                    terrain.triangles[triangleIndex + 1] = vertexIndex + 1;
+                    terrain.triangles[triangleIndex + 2] = vertexIndex + size.x + 1;
 
-                    terrain.triangles[triangleIndex + 3] = (uint)(vertexIndex);
-                    terrain.triangles[triangleIndex + 4] = (uint)(vertexIndex + size.x + 1);
-                    terrain.triangles[triangleIndex + 5] = (uint)(vertexIndex + size.x);
+                    terrain.triangles[triangleIndex + 3] = vertexIndex;
+                    terrain.triangles[triangleIndex + 4] = vertexIndex + size.x + 1;
+                    terrain.triangles[triangleIndex + 5] = vertexIndex + size.x;
                     triangleIndex += 6;
                 }
 

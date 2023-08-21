@@ -87,7 +87,7 @@ namespace ZaephusEngine {
         }
 
         public static float Angle(Vector3Int _from, Vector3Int _to) {
-            float dot = Vector3Int.Dot(_from, _to);
+            float dot = Dot(_from, _to);
             return MathF.Acos(dot / (_from.magnitude * _to.magnitude));
         }
 
@@ -155,8 +155,11 @@ namespace ZaephusEngine {
         public static Vector3Int zero { get { return new Vector3Int(0, 0, 0); } }
         public static Vector3Int one { get { return new Vector3Int(1, 1, 1); } }
         public static Vector3Int right { get { return new Vector3Int(1, 0, 0); } }
+        public static Vector3Int left { get { return new Vector3Int(-1, 0, 0); } }
         public static Vector3Int up { get { return new Vector3Int(0, 1, 0); } }
+        public static Vector3Int down { get { return new Vector3Int(0, -1, 0); } }
         public static Vector3Int forward { get { return new Vector3Int(0, 0, 1); } }
+        public static Vector3Int back { get { return new Vector3Int(0, 0, -1); } }
 
     }
 

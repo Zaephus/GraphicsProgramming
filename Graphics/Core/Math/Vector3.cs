@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 
 namespace ZaephusEngine {
 
@@ -76,7 +77,7 @@ namespace ZaephusEngine {
         }
 
         public static float Angle(Vector3 _from, Vector3 _to) {
-            float dot = Vector3.Dot(_from, _to);
+            float dot = Dot(_from, _to);
             return MathF.Acos(dot / (_from.magnitude * _to.magnitude));
         }
 
@@ -148,8 +149,11 @@ namespace ZaephusEngine {
         public static Vector3 zero { get { return new Vector3(0, 0, 0); } }
         public static Vector3 one { get { return new Vector3(1, 1, 1); } }
         public static Vector3 right { get { return new Vector3(1, 0, 0); } }
+        public static Vector3 left { get { return new Vector3(-1, 0, 0); } }
         public static Vector3 up { get { return new Vector3(0, 1, 0); } }
+        public static Vector3 down { get { return new Vector3(0, -1, 0); } }
         public static Vector3 forward { get { return new Vector3(0, 0, 1); } }
+        public static Vector3 back { get { return new Vector3(0, 0, -1); } }
 
     }
 
