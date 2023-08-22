@@ -5,40 +5,36 @@ namespace ZaephusEngine {
 
     public class Material {
 
-        public Shader shader;
+        protected Shader shader;
 
-        private bool isInitialized;
+        protected bool isInitialized;
 
-        public Material() : this("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/Fragment.glsl") {}
-        public Material(string _vertexShaderPath, string _fragmentShaderPath) {
-            shader = new Shader(_vertexShaderPath, _fragmentShaderPath);
+        private List<Texture2D> textures = new();
+
+        public Material() : this(Shader.standard) {}
+        public Material(Shader _shader) {
+            shader = _shader;
         }
 
-        public void Initialize() {
+        public virtual void Initialize() {
             shader.Bind();
 
             isInitialized = true;
 
-            // This block initializes the shaders values once.
-            ObjectColour = ObjectColour;
-            AmbientStrength = AmbientStrength;
-            SpecularStrength = SpecularStrength;
-            Shininess = Shininess;
-            DiffuseMap = DiffuseMap;
-            SpecularMap = SpecularMap;
-
             ApplyLighting();
 
             shader.Use();
         }
 
-        public void Render() {
+        public virtual void Render() {
 
             ApplyLighting();
 
             shader.Use();
-            DiffuseMap.Use();
-            SpecularMap.Use();
+
+            foreach(Texture2D texture in textures) {
+                texture.Use();
+            }
 
         }
 
@@ -76,85 +72,96 @@ namespace ZaephusEngine {
         //     Console.WriteLine("Spot Light Setting not defined yet.");
         // }
 
-        private Colour objectColour = Colour.white;
-        public Colour ObjectColour {
-            get {
-                return objectColour;
+        public void SetInt(string _name, int _value) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform1(location, _value);
+        }
+
+        public void SetFloat(string _name, float _value) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform1(location, _value);
+        }
+
+        public void SetBool(string _name, bool _value) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            if(_value) {
+                GL.Uniform1(location, 1);
             }
-            set {
-                objectColour = value;
-                if(isInitialized) {
-                    shader.SetColour("material.colour", objectColour);
-                }
+            else {
+                GL.Uniform1(location, 0);
             }
         }
 
-        private float ambientStrength = 1.0f;
-        public float AmbientStrength {
-            get {
-                return ambientStrength;
-            }
-            set {
-                ambientStrength = value;
-                if(isInitialized) {
-                    shader.SetFloat("material.ambientStrength", ambientStrength);
-                }
+        public void SetVector2(string _name, Vector2 _vector) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform2(location, _vector.x, _vector.y);
+        }
+
+        public void SetVector3(string _name, Vector3 _vector) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform3(location, _vector.x, _vector.y, _vector.z);
+        }
+
+        public void SetVector4(string _name, Vector4 _vector) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform4(location, _vector.x, _vector.y, _vector.z, _vector.w);
+        }
+
+        public void SetVector2Int(string _name, Vector2Int _vector) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform2(location, _vector.x, _vector.y);
+        }
+
+        public void SetVector3Int(string _name, Vector3Int _vector) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform3(location, _vector.x, _vector.y, _vector.z);
+        }
+
+        public void SetColour(string _name, Colour _colour) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform4(location, _colour.R, _colour.G, _colour.B, _colour.A);
+        }
+
+        public void SetQuaternion(string _name, Quaternion _quaternion) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform4(location, _quaternion.x, _quaternion.y, _quaternion.z, _quaternion.w);
+        }
+
+        public unsafe void SetMatrix4x4(string _name, ref Matrix4x4 _matrix) {
+            shader.Use();
+            int location = shader.GetUniformLocation(_name);
+            fixed(float* matrixPtr = &_matrix.m00) {
+                GL.UniformMatrix4(location, 1, true, matrixPtr);
             }
         }
 
-        private float specularStrength = 1.0f;
-        public float SpecularStrength {
-            get {
-                return specularStrength;
-            }
-            set {
-                specularStrength = value;
-                if(isInitialized) {
-                    shader.SetFloat("material.specularStrength", specularStrength);
-                }
-            }
-        }
+        public void SetTexture2D(string _name, Texture2D _texture) {
+            shader.Use();
 
-        private float shininess = 32.0f;
-        public float Shininess {
-            get {
-                return shininess;
-            }
-            set {
-                shininess = value;
-                if(isInitialized) {
-                    shader.SetFloat("material.shininess", shininess);
-                }
-            }
-        }
-        // TODO: Add all texture types.
-        // Multiple texture support, height maps, reflection maps.
-        private Texture2D diffuseMap = new Texture2D(Colour.white);
-        public Texture2D DiffuseMap {
-            get {
-                return diffuseMap;
-            }
-            set {
-                diffuseMap = value;
-                if(isInitialized) {
-                    diffuseMap.Bind(TextureUnit.Texture0);
-                    shader.SetInt("material.diffuseMap", 0);
-                }
-            }
-        }
+            int unit = textures.IndexOf(textures.Find(item => item.name == _name));
 
-        private Texture2D specularMap = new Texture2D(Colour.white);
-        public Texture2D SpecularMap {
-            get {
-                return specularMap;
+            if(unit < 0) {
+                unit = textures.Count;
             }
-            set {
-                specularMap = value;
-                if(isInitialized) {
-                    specularMap.Bind(TextureUnit.Texture1);
-                    shader.SetInt("material.specularMap", 1);
-                }
-            }
+
+            _texture.Bind(unit);
+            shader.SetInt(_name, unit);
+            _texture.name = _name;
+            textures.Add(_texture);
+
+            int location = shader.GetUniformLocation(_name);
+            GL.Uniform1(location, unit);
+
         }
 
     }

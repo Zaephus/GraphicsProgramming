@@ -75,7 +75,7 @@ namespace ZaephusEngine {
         }
 
         public Matrix4x4() {
-            this = Matrix4x4.identity;
+            this = identity;
         }
 
         public Matrix4x4(float[,] _matrix) {
@@ -197,88 +197,88 @@ namespace ZaephusEngine {
                 return;
             }
 
-            Matrix3x3 a00 = new Matrix3x3(
+            Matrix3x3 a00 = new(
                 m11, m12, m13,
                 m21, m22, m23,
                 m31, m32, m33
             );
-            Matrix3x3 a01 = new Matrix3x3(
+            Matrix3x3 a01 = new(
                 m10, m12, m13,
                 m20, m22, m23,
                 m30, m32, m33
             );
-            Matrix3x3 a02 = new Matrix3x3(
+            Matrix3x3 a02 = new(
                 m10, m11, m13,
                 m20, m21, m23,
                 m30, m31, m33
             );
-            Matrix3x3 a03 = new Matrix3x3(
+            Matrix3x3 a03 = new(
                 m10, m11, m12,
                 m20, m21, m22,
                 m30, m31, m32
             );
-            Matrix3x3 a10 = new Matrix3x3(
+            Matrix3x3 a10 = new(
                 m01, m02, m03,
                 m21, m22, m23,
                 m31, m32, m33
             );
-            Matrix3x3 a11 = new Matrix3x3(
+            Matrix3x3 a11 = new(
                 m00, m02, m03,
                 m20, m22, m23,
                 m30, m32, m33
             );
-            Matrix3x3 a12 = new Matrix3x3(
+            Matrix3x3 a12 = new(
                 m00, m01, m03,
                 m20, m21, m23,
                 m30, m31, m33
             );
-            Matrix3x3 a13 = new Matrix3x3(
+            Matrix3x3 a13 = new(
                 m00, m01, m02,
                 m20, m21, m22,
                 m30, m31, m32
             );
-            Matrix3x3 a20 = new Matrix3x3(
+            Matrix3x3 a20 = new(
                 m01, m02, m03,
                 m11, m12, m13,
                 m31, m32, m33
             );
-            Matrix3x3 a21 = new Matrix3x3(
+            Matrix3x3 a21 = new(
                 m00, m02, m03,
                 m10, m12, m13,
                 m30, m32, m33
             );
-            Matrix3x3 a22 = new Matrix3x3(
+            Matrix3x3 a22 = new(
                 m00, m01, m03,
                 m10, m11, m13,
                 m30, m31, m33
             );
-            Matrix3x3 a23 = new Matrix3x3(
+            Matrix3x3 a23 = new(
                 m00, m01, m02,
                 m10, m11, m12,
                 m30, m31, m32
             );
-            Matrix3x3 a30 = new Matrix3x3(
+            Matrix3x3 a30 = new(
                 m01, m02, m03,
                 m11, m12, m13,
                 m21, m22, m23
             );
-            Matrix3x3 a31 = new Matrix3x3(
+            Matrix3x3 a31 = new(
                 m00, m02, m03,
                 m10, m12, m13,
                 m20, m22, m23
             );
-            Matrix3x3 a32 = new Matrix3x3(
+            Matrix3x3 a32 = new(
                 m00, m01, m03,
                 m10, m11, m13,
                 m20, m21, m23
             );
-            Matrix3x3 a33 = new Matrix3x3(
+            Matrix3x3 a33 = new(
                 m00, m01, m02,
                 m10, m11, m12,
                 m20, m21, m22
             );
 
-            Matrix4x4 adjugate = new Matrix4x4(
+            Matrix4x4 adjugate = new(
                 a00.determinant, -a01.determinant, a02.determinant, -a03.determinant,
                 -a10.determinant, a11.determinant, -a12.determinant, a13.determinant,
                 a20.determinant, -a21.determinant, a22.determinant, -a23.determinant,
@@ -286,7 +286,7 @@ namespace ZaephusEngine {
             );
 
             adjugate.Transpose();
-            this = (adjugate / determinant);
+            this = adjugate / determinant;
             
         }
 
@@ -344,21 +344,21 @@ namespace ZaephusEngine {
 
             return new Matrix4x4(
                 new Vector4(
-                    (_q.w * _q.w + _q.x * _q.x - _q.y * _q.y - _q.z * _q.z),
-                    (2* _q.x * _q.y - 2 * _q.w * _q.z),
-                    (2* _q.x * _q.z + 2 * _q.w * _q.y),
+                    (_q.w * _q.w) + (_q.x * _q.x) - (_q.y * _q.y) - (_q.z * _q.z),
+                    (2 * _q.x * _q.y) - (2 * _q.w * _q.z),
+                    (2 * _q.x * _q.z) + (2 * _q.w * _q.y),
                     0.0f
                 ),
                 new Vector4(
-                    (2* _q.x * _q.y + 2 * _q.w * _q.z),
-                    (_q.w * _q.w - _q.x * _q.x + _q.y * _q.y - _q.z * _q.z),
-                    (2* _q.y * _q.z - 2 * _q.w * _q.x),
+                    (2 * _q.x * _q.y) + (2 * _q.w * _q.z),
+                    (_q.w * _q.w) - (_q.x * _q.x) + (_q.y * _q.y) - (_q.z * _q.z),
+                    (2 * _q.y * _q.z) - (2 * _q.w * _q.x),
                     0.0f
                 ),
                 new Vector4(
-                    (2* _q.x * _q.z - 2 * _q.w * _q.y),
-                    (2* _q.y * _q.z + 2 * _q.w * _q.x),
-                    (_q.w * _q.w - _q.x * _q.x - _q.y * _q.y + _q.z * _q.z),
+                    (2 * _q.x * _q.z) - (2 * _q.w * _q.y),
+                    (2 * _q.y * _q.z) + (2 * _q.w * _q.x),
+                    (_q.w * _q.w) - (_q.x * _q.x) - (_q.y * _q.y) + (_q.z * _q.z),
                     0.0f
                 ),
                 new Vector4(0.0f, 0.0f, 0.0f, 1.0f)
@@ -371,7 +371,7 @@ namespace ZaephusEngine {
         }
 
         public override bool Equals(object _other) {
-            if(!(_other is Matrix4x4)) {
+            if(_other is not Matrix4x4) {
                 return false;
             }
             return Equals((Matrix4x4)_other);
@@ -417,31 +417,31 @@ namespace ZaephusEngine {
         public static Matrix4x4 operator*(Matrix4x4 _lhs, Matrix4x4 _rhs) {
             return new Matrix4x4(
                 new Vector4(
-                    (_lhs.m00 * _rhs.m00 + _lhs.m01 * _rhs.m10 + _lhs.m02 * _rhs.m20 + _lhs.m03 * _rhs.m30),
-                    (_lhs.m00 * _rhs.m01 + _lhs.m01 * _rhs.m11 + _lhs.m02 * _rhs.m21 + _lhs.m03 * _rhs.m31),
-                    (_lhs.m00 * _rhs.m02 + _lhs.m01 * _rhs.m12 + _lhs.m02 * _rhs.m22 + _lhs.m03 * _rhs.m32),
-                    (_lhs.m00 * _rhs.m03 + _lhs.m01 * _rhs.m13 + _lhs.m02 * _rhs.m23 + _lhs.m03 * _rhs.m33)
+                    (_lhs.m00 * _rhs.m00) + (_lhs.m01 * _rhs.m10) + (_lhs.m02 * _rhs.m20) + (_lhs.m03 * _rhs.m30),
+                    (_lhs.m00 * _rhs.m01) + (_lhs.m01 * _rhs.m11) + (_lhs.m02 * _rhs.m21) + (_lhs.m03 * _rhs.m31),
+                    (_lhs.m00 * _rhs.m02) + (_lhs.m01 * _rhs.m12) + (_lhs.m02 * _rhs.m22) + (_lhs.m03 * _rhs.m32),
+                    (_lhs.m00 * _rhs.m03) + (_lhs.m01 * _rhs.m13) + (_lhs.m02 * _rhs.m23) + (_lhs.m03 * _rhs.m33)
                 ),
 
                 new Vector4(
-                    (_lhs.m10 * _rhs.m00 + _lhs.m11 * _rhs.m10 + _lhs.m12 * _rhs.m20 + _lhs.m13 * _rhs.m30),
-                    (_lhs.m10 * _rhs.m01 + _lhs.m11 * _rhs.m11 + _lhs.m12 * _rhs.m21 + _lhs.m13 * _rhs.m31),
-                    (_lhs.m10 * _rhs.m02 + _lhs.m11 * _rhs.m12 + _lhs.m12 * _rhs.m22 + _lhs.m13 * _rhs.m32),
-                    (_lhs.m10 * _rhs.m03 + _lhs.m11 * _rhs.m13 + _lhs.m12 * _rhs.m23 + _lhs.m13 * _rhs.m33)
+                    (_lhs.m10 * _rhs.m00) + (_lhs.m11 * _rhs.m10) + (_lhs.m12 * _rhs.m20) + (_lhs.m13 * _rhs.m30),
+                    (_lhs.m10 * _rhs.m01) + (_lhs.m11 * _rhs.m11) + (_lhs.m12 * _rhs.m21) + (_lhs.m13 * _rhs.m31),
+                    (_lhs.m10 * _rhs.m02) + (_lhs.m11 * _rhs.m12) + (_lhs.m12 * _rhs.m22) + (_lhs.m13 * _rhs.m32),
+                    (_lhs.m10 * _rhs.m03) + (_lhs.m11 * _rhs.m13) + (_lhs.m12 * _rhs.m23) + (_lhs.m13 * _rhs.m33)
                 ),
 
                 new Vector4(
-                    (_lhs.m20 * _rhs.m00 + _lhs.m21 * _rhs.m10 + _lhs.m22 * _rhs.m20 + _lhs.m23 * _rhs.m30),
-                    (_lhs.m20 * _rhs.m01 + _lhs.m21 * _rhs.m11 + _lhs.m22 * _rhs.m21 + _lhs.m23 * _rhs.m31),
-                    (_lhs.m20 * _rhs.m02 + _lhs.m21 * _rhs.m12 + _lhs.m22 * _rhs.m22 + _lhs.m23 * _rhs.m32),
-                    (_lhs.m20 * _rhs.m03 + _lhs.m21 * _rhs.m13 + _lhs.m22 * _rhs.m23 + _lhs.m23 * _rhs.m33)
+                    (_lhs.m20 * _rhs.m00) + (_lhs.m21 * _rhs.m10) + (_lhs.m22 * _rhs.m20) + (_lhs.m23 * _rhs.m30),
+                    (_lhs.m20 * _rhs.m01) + (_lhs.m21 * _rhs.m11) + (_lhs.m22 * _rhs.m21) + (_lhs.m23 * _rhs.m31),
+                    (_lhs.m20 * _rhs.m02) + (_lhs.m21 * _rhs.m12) + (_lhs.m22 * _rhs.m22) + (_lhs.m23 * _rhs.m32),
+                    (_lhs.m20 * _rhs.m03) + (_lhs.m21 * _rhs.m13) + (_lhs.m22 * _rhs.m23) + (_lhs.m23 * _rhs.m33)
                 ),
 
                 new Vector4(
-                    (_lhs.m30 * _rhs.m00 + _lhs.m31 * _rhs.m10 + _lhs.m32 * _rhs.m20 + _lhs.m33 * _rhs.m30),
-                    (_lhs.m30 * _rhs.m01 + _lhs.m31 * _rhs.m11 + _lhs.m32 * _rhs.m21 + _lhs.m33 * _rhs.m31),
-                    (_lhs.m30 * _rhs.m02 + _lhs.m31 * _rhs.m12 + _lhs.m32 * _rhs.m22 + _lhs.m33 * _rhs.m32),
-                    (_lhs.m30 * _rhs.m03 + _lhs.m31 * _rhs.m13 + _lhs.m32 * _rhs.m23 + _lhs.m33 * _rhs.m33)
+                    (_lhs.m30 * _rhs.m00) + (_lhs.m31 * _rhs.m10) + (_lhs.m32 * _rhs.m20) + (_lhs.m33 * _rhs.m30),
+                    (_lhs.m30 * _rhs.m01) + (_lhs.m31 * _rhs.m11) + (_lhs.m32 * _rhs.m21) + (_lhs.m33 * _rhs.m31),
+                    (_lhs.m30 * _rhs.m02) + (_lhs.m31 * _rhs.m12) + (_lhs.m32 * _rhs.m22) + (_lhs.m33 * _rhs.m32),
+                    (_lhs.m30 * _rhs.m03) + (_lhs.m31 * _rhs.m13) + (_lhs.m32 * _rhs.m23) + (_lhs.m33 * _rhs.m33)
                 )
             );
         }
@@ -451,18 +451,18 @@ namespace ZaephusEngine {
 
         public static Vector4 operator*(Matrix4x4 _m, Vector4 _v) {
             return new Vector4(
-                (_m.m00 * _v.x + _m.m01 * _v.y + _m.m02 * _v.z + _m.m03 * _v.w),
-                (_m.m10 * _v.x + _m.m11 * _v.y + _m.m12 * _v.z + _m.m13 * _v.w),
-                (_m.m20 * _v.x + _m.m21 * _v.y + _m.m22 * _v.z + _m.m23 * _v.w),
-                (_m.m30 * _v.x + _m.m31 * _v.y + _m.m32 * _v.z + _m.m33 * _v.w)
+                (_m.m00 * _v.x) + (_m.m01 * _v.y) + (_m.m02 * _v.z) + (_m.m03 * _v.w),
+                (_m.m10 * _v.x) + (_m.m11 * _v.y) + (_m.m12 * _v.z) + (_m.m13 * _v.w),
+                (_m.m20 * _v.x) + (_m.m21 * _v.y) + (_m.m22 * _v.z) + (_m.m23 * _v.w),
+                (_m.m30 * _v.x) + (_m.m31 * _v.y) + (_m.m32 * _v.z) + (_m.m33 * _v.w)
             );
         }
 
         public static Vector3 operator*(Matrix4x4 _m, Vector3 _v) {
             Vector3 vec = new Vector3(
-                (_m.m00 * _v.x + _m.m01 * _v.y + _m.m02 * _v.z + _m.m03),
-                (_m.m10 * _v.x + _m.m11 * _v.y + _m.m12 * _v.z + _m.m13),
-                (_m.m20 * _v.x + _m.m21 * _v.y + _m.m22 * _v.z + _m.m23)
+                (_m.m00 * _v.x) + (_m.m01 * _v.y) + (_m.m02 * _v.z) + _m.m03,
+                (_m.m10 * _v.x) + (_m.m11 * _v.y) + (_m.m12 * _v.z) + _m.m13,
+                (_m.m20 * _v.x) + (_m.m21 * _v.y) + (_m.m22 * _v.z) + _m.m23
             );
             return vec;
             

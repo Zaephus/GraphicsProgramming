@@ -56,10 +56,10 @@ namespace ZaephusEngine {
                 skybox = new GameObject(new MeshRenderer(Primitives.Cube) {
                     cullFaceMode = CullFaceMode.Front,
                     renderOrder = RenderOrder.Late,
-                    material = new Material("Core/Graphics/Shaders/SkyboxVertex.glsl", "Core/Graphics/Shaders/SkyboxFragment.glsl") { ObjectColour = Colour.green }
+                    material = new Material(new Shader("Core/Graphics/Shaders/SkyboxVertex.glsl", "Core/Graphics/Shaders/SkyboxFragment.glsl"))
                 });
-                skybox.GetComponent<MeshRenderer>().material.shader.SetColour("topColour", mainColour);
-                skybox.GetComponent<MeshRenderer>().material.shader.SetColour("botColour", secondColour);
+                skybox.GetComponent<MeshRenderer>().material.SetColour("topColour", mainColour);
+                skybox.GetComponent<MeshRenderer>().material.SetColour("botColour", secondColour);
                 // These colours get overwritten, and a black colour is sent every frame.
                 // These colours need to be applied every frame.
             }
@@ -69,8 +69,8 @@ namespace ZaephusEngine {
         protected override void Update(float _dt) {
             if(backgroundType == BackgroundType.Skybox) {
                 skybox.transform.position = transform.position;
-                skybox.GetComponent<MeshRenderer>().material.shader.SetColour("topColour", mainColour);
-                skybox.GetComponent<MeshRenderer>().material.shader.SetColour("botColour", secondColour);
+                skybox.GetComponent<MeshRenderer>().material.SetColour("topColour", mainColour);
+                skybox.GetComponent<MeshRenderer>().material.SetColour("botColour", secondColour);
             }
         }
 

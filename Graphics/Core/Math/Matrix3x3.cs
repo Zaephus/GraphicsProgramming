@@ -58,7 +58,7 @@ namespace ZaephusEngine {
         }
 
         public Matrix3x3() {
-            this = Matrix3x3.identity;
+            this = identity;
         }
 
         public Matrix3x3(float[,] _matrix) {
@@ -142,7 +142,6 @@ namespace ZaephusEngine {
             }
         }
 
-        // TODO: Add inverse matrix.
         public Matrix3x3 inverse {
             get {
                 Matrix3x3 i = this;
@@ -177,7 +176,7 @@ namespace ZaephusEngine {
             );
             adjugate.Transpose();
 
-            this = (adjugate / determinant);
+            this = adjugate / determinant;
             
         }
 
@@ -212,7 +211,7 @@ namespace ZaephusEngine {
         }
 
         public override bool Equals(object _other) {
-            if(!(_other is Matrix3x3)) {
+            if(_other is not Matrix3x3) {
                 return false;
             }
             return Equals((Matrix3x3)_other);
@@ -256,21 +255,21 @@ namespace ZaephusEngine {
         public static Matrix3x3 operator*(Matrix3x3 _lhs, Matrix3x3 _rhs) {
             return new Matrix3x3(
                 new Vector3(
-                    (_lhs.m00 * _rhs.m00 + _lhs.m01 * _rhs.m10 + _lhs.m02 * _rhs.m20),
-                    (_lhs.m00 * _rhs.m01 + _lhs.m01 * _rhs.m11 + _lhs.m02 * _rhs.m21),
-                    (_lhs.m00 * _rhs.m02 + _lhs.m01 * _rhs.m12 + _lhs.m02 * _rhs.m22)
+                    (_lhs.m00 * _rhs.m00) + (_lhs.m01 * _rhs.m10) + (_lhs.m02 * _rhs.m20),
+                    (_lhs.m00 * _rhs.m01) + (_lhs.m01 * _rhs.m11) + (_lhs.m02 * _rhs.m21),
+                    (_lhs.m00 * _rhs.m02) + (_lhs.m01 * _rhs.m12) + (_lhs.m02 * _rhs.m22)
                 ),
 
                 new Vector3(
-                    (_lhs.m10 * _rhs.m00 + _lhs.m11 * _rhs.m10 + _lhs.m12 * _rhs.m20),
-                    (_lhs.m10 * _rhs.m01 + _lhs.m11 * _rhs.m11 + _lhs.m12 * _rhs.m21),
-                    (_lhs.m10 * _rhs.m02 + _lhs.m11 * _rhs.m12 + _lhs.m12 * _rhs.m22)
+                    (_lhs.m10 * _rhs.m00) + (_lhs.m11 * _rhs.m10) + (_lhs.m12 * _rhs.m20),
+                    (_lhs.m10 * _rhs.m01) + (_lhs.m11 * _rhs.m11) + (_lhs.m12 * _rhs.m21),
+                    (_lhs.m10 * _rhs.m02) + (_lhs.m11 * _rhs.m12) + (_lhs.m12 * _rhs.m22)
                 ),
 
                 new Vector3(
-                    (_lhs.m20 * _rhs.m00 + _lhs.m21 * _rhs.m10 + _lhs.m22 * _rhs.m20),
-                    (_lhs.m20 * _rhs.m01 + _lhs.m21 * _rhs.m11 + _lhs.m22 * _rhs.m21),
-                    (_lhs.m20 * _rhs.m02 + _lhs.m21 * _rhs.m12 + _lhs.m22 * _rhs.m22)
+                    (_lhs.m20 * _rhs.m00) + (_lhs.m21 * _rhs.m10) + (_lhs.m22 * _rhs.m20),
+                    (_lhs.m20 * _rhs.m01) + (_lhs.m21 * _rhs.m11) + (_lhs.m22 * _rhs.m21),
+                    (_lhs.m20 * _rhs.m02) + (_lhs.m21 * _rhs.m12) + (_lhs.m22 * _rhs.m22)
                 )
             );
         }
@@ -279,9 +278,9 @@ namespace ZaephusEngine {
 
         public static Vector3 operator*(Matrix3x3 _m, Vector3 _v) {
             return new Vector3(
-                (_m.m00 * _v.x + _m.m01 * _v.y + _m.m02 * _v.z),
-                (_m.m10 * _v.x + _m.m11 * _v.y + _m.m12 * _v.z),
-                (_m.m20 * _v.x + _m.m21 * _v.y + _m.m22 * _v.z)
+                (_m.m00 * _v.x) + (_m.m01 * _v.y) + (_m.m02 * _v.z),
+                (_m.m10 * _v.x) + (_m.m11 * _v.y) + (_m.m12 * _v.z),
+                (_m.m20 * _v.x) + (_m.m21 * _v.y) + (_m.m22 * _v.z)
             );
         }
 

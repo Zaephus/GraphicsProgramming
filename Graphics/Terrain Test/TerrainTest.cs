@@ -7,11 +7,11 @@ using Math = ZaephusEngine.Math;
 
 public class TerrainTest : Game {
 
-    private Camera camera = new Camera {
+    private Camera camera = new() {
         projectionType = Camera.ProjectionType.Perspective
     };
 
-    private TerrainGenerator generator = new TerrainGenerator {
+    private TerrainGenerator generator = new() {
         baseY = 0.0f,
         amplitude = 1.6f,
         octaves = 5,
@@ -19,17 +19,16 @@ public class TerrainTest : Game {
         size = new Vector2Int(1000, 1000)
     };
 
-    private DirectionalLight sun = new DirectionalLight(Colour.white);
+    private DirectionalLight sun = new(Colour.white);
 
-    private GameObject terrain = new GameObject(new MeshRenderer());
-    private Material terrainMat = new Material("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/TerrainFragment.glsl") {
-        ObjectColour = Colour.white,
-        AmbientStrength = 0.1f,
-        SpecularStrength = 0.1f,
-        Shininess = 1.0f
-    };
+    private GameObject terrain = new(new MeshRenderer());
+    private Material terrainMat = new(new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/TerrainFragment.glsl"));
 
     protected override void Start() {
+
+        terrainMat.SetFloat("material.ambientStrength", 0.1f);
+        terrainMat.SetFloat("material.specularStrength", 0.1f);
+        terrainMat.SetFloat("material.shininess", 1.0f);
 
         camera.AddComponent(new CameraController());
         camera.transform.position = new Vector3(2f, 2.5f, 6f);

@@ -4,11 +4,6 @@ using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ZaephusEngine {
 
-    // TODO: Add Render Initialization stack.
-    // Once a renderer is created, it should be added to a initialization stack,
-    // that get's resolved before every update cycle.
-    // This way it is possible to create renderers at any time.
-
     public class Game {
 
         public static Action InitCall;

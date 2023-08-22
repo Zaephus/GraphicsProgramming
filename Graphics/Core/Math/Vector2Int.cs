@@ -52,14 +52,14 @@ namespace ZaephusEngine {
 
         public Vector2Int normalized {
             get {
-                Vector2Int norm = new Vector2Int(x, y);
+                Vector2Int norm = new(x, y);
                 norm.Normalize();
                 return norm;
             }
         }
 
         public void Normalize() {
-            this = this / (int)MathF.Round(magnitude);
+            this /= (int)MathF.Round(magnitude);
         }
 
         public void Rotate(float _rad) {
@@ -92,7 +92,7 @@ namespace ZaephusEngine {
         }
 
         public override bool Equals(object _other) {
-            if(!(_other is Vector2Int)) {
+            if(_other is not Vector2Int) {
                 return false;
             }
             return Equals((Vector2Int)_other);

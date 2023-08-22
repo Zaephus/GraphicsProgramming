@@ -60,14 +60,14 @@ namespace ZaephusEngine {
 
         public Vector3Int normalized {
             get {
-                Vector3Int norm = new Vector3Int(x, y, z);
+                Vector3Int norm = new(x, y, z);
                 norm.Normalize();
                 return norm;
             }
         }
 
         public void Normalize() {
-            this = this / (int)MathF.Round(magnitude);
+            this /= (int)MathF.Round(magnitude);
         }
 
         public static float Distance(Vector3Int _lhs, Vector3Int _rhs) {

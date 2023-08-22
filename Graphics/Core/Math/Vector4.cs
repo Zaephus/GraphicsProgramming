@@ -66,7 +66,7 @@ namespace ZaephusEngine {
 
         public Vector4 normalized {
             get {
-                Vector4 norm = new Vector4(x, y, z, w);
+                Vector4 norm = new(x, y, z, w);
                 norm.Normalize();
                 return norm;
             }
@@ -82,7 +82,7 @@ namespace ZaephusEngine {
         }
 
         public override bool Equals(object _other) {
-            if(!(_other is Vector4)) {
+            if(_other is not Vector4) {
                 return false;
             }
             return Equals((Vector4)_other);

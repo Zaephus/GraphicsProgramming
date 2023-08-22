@@ -1,29 +1,27 @@
 
 using ZaephusEngine;
 using OpenTK.Windowing.Common;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using Window = ZaephusEngine.Window;
 
 public class AssignmentOne : Game {
 
-    private Camera camera = new Camera {
+    private Camera camera = new() {
         projectionType = Camera.ProjectionType.Perspective,
         backgroundType = Camera.BackgroundType.Skybox,
         mainColour = Colour.blue,
         secondColour = Colour.cyan
     };
     
-    private GameObject colouredCube = new GameObject(new MeshRenderer(Primitives.Cube));
-    private GameObject texturedCube = new GameObject(new MeshRenderer(Primitives.Cube));
+    private GameObject colouredCube = new(new MeshRenderer(Primitives.Cube));
+    private GameObject texturedCube = new(new MeshRenderer(Primitives.Cube));
 
-    private PointLight whiteLight = new PointLight(Colour.white, 20.0f);
-    private PointLight blueLight = new PointLight(Colour.blue, 100.0f);
+    private PointLight whiteLight = new(Colour.white, 20.0f);
+    private PointLight blueLight = new(Colour.blue, 100.0f);
 
-    private Material cubeMat1 = new Material {
+    private StandardMaterial cubeMat1 = new() {
         ObjectColour = Colour.white,
         AmbientStrength = 0.1f
     };
-    private Material cubeMat2 = new Material {
+    private StandardMaterial cubeMat2 = new() {
         DiffuseMap = new Texture2D("Resources/Textures/Crate.png"),
         SpecularMap = new Texture2D("Resources/Textures/Crate_Specular.png"),
         AmbientStrength = 0.1f
@@ -56,7 +54,5 @@ public class AssignmentOne : Game {
         colouredCube.transform.Rotate(10.0f * _dt, 10.0f * _dt, 0.0f);
         texturedCube.transform.Rotate(10.0f * _dt, 10.0f * _dt, 0.0f);
     }
-
-    protected override void Exit() {}
 
 }

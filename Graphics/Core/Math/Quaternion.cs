@@ -55,7 +55,7 @@ namespace ZaephusEngine {
         public static Quaternion Normalize(Quaternion _q) {
             float mag = _q.magnitude;
             if(mag == 0) { // TODO: Add Epsilon value.
-                return Quaternion.identity;
+                return identity;
             }
             return new Quaternion(
                 _q.x / mag,
@@ -132,7 +132,7 @@ namespace ZaephusEngine {
         }
 
         public override bool Equals(object _other) {
-            if(!(_other is Quaternion)) {
+            if(_other is not Quaternion) {
                 return false;
             }
             return Equals((Quaternion)_other);

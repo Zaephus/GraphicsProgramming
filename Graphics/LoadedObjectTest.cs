@@ -10,7 +10,7 @@ public class LoadedObjectTest : Game {
 
     private DirectionalLight sun = new DirectionalLight(Colour.white);
 
-    private Material redMat = new Material {
+    private StandardMaterial redMat = new StandardMaterial {
         ObjectColour = Colour.red,
         AmbientStrength = 0.1f
     };

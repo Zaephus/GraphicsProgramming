@@ -4,7 +4,7 @@ namespace ZaephusEngine {
 
     public class Shader : IDisposable {
 
-        public int handle;
+        private int handle;
 
         private string vertexPath;
         private string fragmentPath;
@@ -69,11 +69,9 @@ namespace ZaephusEngine {
 
         private int CreateShader(string _path, ShaderType _type) {
 
-            int shaderPointer = 0;
-
             string source = File.ReadAllText(_path);
 
-            shaderPointer = GL.CreateShader(_type);
+            int shaderPointer = GL.CreateShader(_type);
             GL.ShaderSource(shaderPointer, source);
 
             GL.CompileShader(shaderPointer);
@@ -87,6 +85,10 @@ namespace ZaephusEngine {
 
             return shaderPointer;
 
+        }
+
+        public int GetUniformLocation(string _name) {
+            return GL.GetUniformLocation(handle, _name);
         }
 
         public void SetInt(string _name, int _value) {
@@ -161,6 +163,8 @@ namespace ZaephusEngine {
                 GL.UniformMatrix4(location, 1, true, matrixPtr);
             }
         }
+
+        public static Shader standard { get { return new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/Fragment.glsl"); } }
 
     }
 

@@ -50,14 +50,14 @@ namespace ZaephusEngine {
 
         public Vector3 normalized {
             get {
-                Vector3 norm = new Vector3(x, y, z);
+                Vector3 norm = new(x, y, z);
                 norm.Normalize();
                 return norm;
             }
         }
 
         public void Normalize() {
-            this = this / magnitude;
+            this /= magnitude;
         }
 
         public static float Distance(Vector3 _lhs, Vector3 _rhs) {
@@ -86,7 +86,7 @@ namespace ZaephusEngine {
         }
 
         public override bool Equals(object _other) {
-            if(!(_other is Vector3)) {
+            if(_other is not Vector3) {
                 return false;
             }
             return Equals((Vector3)_other);

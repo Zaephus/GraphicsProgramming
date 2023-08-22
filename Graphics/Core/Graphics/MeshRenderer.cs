@@ -109,19 +109,19 @@ namespace ZaephusEngine {
             }
 
             Matrix4x4 model = gameObject.transform.objectMatrix;
-            material.shader.SetMatrix4x4("modelMatrix", ref model);
+            material.SetMatrix4x4("modelMatrix", ref model);
 
             Matrix4x4 view = Camera.activeCamera.ViewMatrix;
-            material.shader.SetMatrix4x4("viewMatrix", ref view);
+            material.SetMatrix4x4("viewMatrix", ref view);
 
             Matrix4x4 projection = Camera.activeCamera.ProjectionMatrix;
-            material.shader.SetMatrix4x4("projectionMatrix", ref projection);
+            material.SetMatrix4x4("projectionMatrix", ref projection);
 
             Matrix4x4 normalMatrix = model.inverse.transposed;
-            material.shader.SetMatrix4x4("normalMatrix", ref normalMatrix);
+            material.SetMatrix4x4("normalMatrix", ref normalMatrix);
 
             Vector3 camPos = Camera.activeCamera.transform.position;
-            material.shader.SetVector3("viewPosition", camPos);
+            material.SetVector3("viewPosition", camPos);
 
             material.Render();
 
