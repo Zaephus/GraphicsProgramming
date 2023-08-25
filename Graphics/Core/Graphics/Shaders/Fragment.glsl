@@ -71,7 +71,8 @@ void main() {
         lightResult += CalcPointLight(pointLights[i], norm, fragPosition, viewDirection);
     }
 
-    fragColour = lightResult * material.colour * texture(material.diffuseMap, uv);
+    // fragColour = lightResult * material.colour * texture(material.diffuseMap, uv);
+    fragColour = material.colour;
 
 }
 

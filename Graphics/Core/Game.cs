@@ -1,5 +1,6 @@
 
 using System.Diagnostics;
+using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace ZaephusEngine {
@@ -64,6 +65,7 @@ namespace ZaephusEngine {
             while(GLFW.WindowShouldClose(window.WindowPtr) == false) {
 
                 double currentTime = stopwatch.ElapsedMilliseconds * 0.001f;
+                // TODO: Fix delta time variable calculation.
                 double dt = currentTime - lastTime;
                 
                 OnUpdate((float)dt);

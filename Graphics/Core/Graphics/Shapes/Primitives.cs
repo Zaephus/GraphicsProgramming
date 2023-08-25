@@ -2,7 +2,13 @@
 
 namespace ZaephusEngine {
 
-    public class Primitives {
+    public static class Primitives {
+
+        static Primitives() {
+            cube = Cube;
+        }
+
+        public static Mesh cube;
 
         public static Mesh Cube {
             get {

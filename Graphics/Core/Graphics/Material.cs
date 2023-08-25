@@ -5,6 +5,8 @@ namespace ZaephusEngine {
 
     public class Material {
 
+        public CullFaceMode cullFaceMode = CullFaceMode.Back;
+
         protected Shader shader;
 
         protected bool isInitialized;
@@ -14,6 +16,8 @@ namespace ZaephusEngine {
         public Material() : this(Shader.standard) {}
         public Material(Shader _shader) {
             shader = _shader;
+            Console.WriteLine("Material Created");
+            Game.InitCall += Initialize;
         }
 
         public virtual void Initialize() {
@@ -24,6 +28,10 @@ namespace ZaephusEngine {
             ApplyLighting();
 
             shader.Use();
+
+            Console.WriteLine("Material Initialized");
+
+            Game.InitCall -= Initialize;
         }
 
         public virtual void Render() {
@@ -35,6 +43,8 @@ namespace ZaephusEngine {
             foreach(Texture2D texture in textures) {
                 texture.Use();
             }
+
+            GL.CullFace(cullFaceMode);
 
         }
 

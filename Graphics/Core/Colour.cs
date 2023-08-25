@@ -102,6 +102,15 @@ namespace ZaephusEngine {
         public static implicit operator Colour(Assimp.Color4D _c) {
             return new Colour(_c.R, _c.G, _c.B, _c.A);
         }
+        
+        public static Colour RandomColour() {
+            return new Colour(
+                Random.Range(0.0f, 1.0f),
+                Random.Range(0.0f, 1.0f),
+                Random.Range(0.0f, 1.0f),
+                Random.Range(0.0f, 1.0f)
+            );
+        }
 
         public static Colour red { get { return new Colour(1, 0, 0, 1); } }
         public static Colour green { get { return new Colour(0, 1, 0, 1); } }

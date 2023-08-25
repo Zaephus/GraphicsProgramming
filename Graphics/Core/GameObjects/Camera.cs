@@ -58,6 +58,7 @@ namespace ZaephusEngine {
                     renderOrder = RenderOrder.Late,
                     material = new Material(new Shader("Core/Graphics/Shaders/SkyboxVertex.glsl", "Core/Graphics/Shaders/SkyboxFragment.glsl"))
                 });
+                skybox.GetComponent<MeshRenderer>().material.cullFaceMode = CullFaceMode.Front;
                 skybox.GetComponent<MeshRenderer>().material.SetColour("topColour", mainColour);
                 skybox.GetComponent<MeshRenderer>().material.SetColour("botColour", secondColour);
                 // These colours get overwritten, and a black colour is sent every frame.

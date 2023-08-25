@@ -11,21 +11,23 @@ public class AssignmentOne : Game {
         secondColour = Colour.cyan
     };
     
-    private GameObject colouredCube = new(new MeshRenderer(Primitives.Cube));
-    private GameObject texturedCube = new(new MeshRenderer(Primitives.Cube));
+    // private GameObject colouredCube = new(new MeshRenderer(Primitives.cube));
+    // private GameObject texturedCube = new(new MeshRenderer(Primitives.cube));
+
+    private GameObject[] cubes = new GameObject[1000];
 
     private PointLight whiteLight = new(Colour.white, 20.0f);
     private PointLight blueLight = new(Colour.blue, 100.0f);
 
     private StandardMaterial cubeMat1 = new() {
-        ObjectColour = Colour.white,
+        ObjectColour = Colour.green,
         AmbientStrength = 0.1f
     };
-    private StandardMaterial cubeMat2 = new() {
-        DiffuseMap = new Texture2D("Resources/Textures/Crate.png"),
-        SpecularMap = new Texture2D("Resources/Textures/Crate_Specular.png"),
-        AmbientStrength = 0.1f
-    };
+    // private StandardMaterial cubeMat2 = new() {
+    //     DiffuseMap = new Texture2D("Resources/Textures/Crate.png"),
+    //     SpecularMap = new Texture2D("Resources/Textures/Crate_Specular.png"),
+    //     AmbientStrength = 0.1f
+    // };
 
     protected override void Start() {
 
@@ -33,17 +35,27 @@ public class AssignmentOne : Game {
         camera.transform.position = new Vector3(0.0f, 0.0f, 3.0f);
         // camera.transform.Rotate(0.0f, 30.0f, 0.0f);
 
-        colouredCube.transform.position = new Vector3(0.0f, -0.75f, 0.0f);
-        colouredCube.transform.rotation = Quaternion.FromEuler(0, -25, 0);
+        for(int i = 0; i < cubes.Length; i++) {
+            cubes[i] = new GameObject(new MeshRenderer(Primitives.cube) {
+                material = new StandardMaterial() {
+                    ObjectColour = Colour.RandomColour(),
+                    AmbientStrength = 0.6f
+                }
+                // material = cubeMat1
+            });
+            cubes[i].transform.position = Vector3.RandomVector(-50.0f, 50.0f);
+        }
 
-        texturedCube.transform.position = new Vector3(0.0f, 0.75f, 0.0f);
-        texturedCube.transform.rotation = Quaternion.FromEuler(0, -25, 0);
+        // colouredCube.transform.position = new Vector3(0.0f, -0.75f, 0.0f);
+        // colouredCube.transform.rotation = Quaternion.FromEuler(0, -25, 0);
 
-        colouredCube.GetComponent<MeshRenderer>().material = cubeMat1;
-        texturedCube.GetComponent<MeshRenderer>().material = cubeMat2;
+        // texturedCube.transform.position = new Vector3(0.0f, 0.75f, 0.0f);
+        // texturedCube.transform.rotation = Quaternion.FromEuler(0, -25, 0);
+
+        // colouredCube.GetComponent<MeshRenderer>().material = cubeMat1;
+        // texturedCube.GetComponent<MeshRenderer>().material = cubeMat2;
 
         whiteLight.transform.position = new Vector3(1.6f, 0.0f, 0.0f);
-
         blueLight.transform.position = new Vector3(-0.3f, 0.0f, 1.2f);
 
         window.CursorState = CursorState.Grabbed;
@@ -51,8 +63,8 @@ public class AssignmentOne : Game {
     }
 
     protected override void Update(float _dt) {
-        colouredCube.transform.Rotate(10.0f * _dt, 10.0f * _dt, 0.0f);
-        texturedCube.transform.Rotate(10.0f * _dt, 10.0f * _dt, 0.0f);
+        // colouredCube.transform.Rotate(10.0f * _dt, 10.0f * _dt, 0.0f);
+        // texturedCube.transform.Rotate(10.0f * _dt, 10.0f * _dt, 0.0f);
     }
 
 }
