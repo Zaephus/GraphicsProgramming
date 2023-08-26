@@ -46,7 +46,8 @@ namespace ZaephusEngine {
         private TextureUnit textureUnit;
 
         public Texture2D(string _path) {
-            StbImage.stbi_set_flip_vertically_on_load(1);
+            // TODO: Expose Flip On Load variable.
+            StbImage.stbi_set_flip_vertically_on_load(0);
 
             using(Stream stream = File.OpenRead(_path)) {
                 ImageResult image = ImageResult.FromStream(stream, ColorComponents.RedGreenBlueAlpha);

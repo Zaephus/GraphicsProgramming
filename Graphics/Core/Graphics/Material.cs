@@ -16,7 +16,7 @@ namespace ZaephusEngine {
         public Material() : this(Shader.standard) {}
         public Material(Shader _shader) {
             shader = _shader;
-            Console.WriteLine("Material Created");
+            // Console.WriteLine("Material created");
             Game.InitCall += Initialize;
         }
 
@@ -29,7 +29,7 @@ namespace ZaephusEngine {
 
             shader.Use();
 
-            Console.WriteLine("Material Initialized");
+            // Console.WriteLine("Material initialized");
 
             Game.InitCall -= Initialize;
         }
@@ -53,29 +53,29 @@ namespace ZaephusEngine {
         }
 
         private void ApplyLighting() {
-            shader.SetInt("dirLightNum", LightUtility.dirLights.Count);
+            SetInt("dirLightNum", LightUtility.dirLights.Count);
             for(int i = 0; i < LightUtility.dirLights.Count; i++) {
                 SetDirLight(LightUtility.dirLights[i], i);
             }
 
-            shader.SetInt("pointLightNum", LightUtility.pointLights.Count);
+            SetInt("pointLightNum", LightUtility.pointLights.Count);
             for(int i = 0; i < LightUtility.pointLights.Count; i++) {
                 SetPointLight(LightUtility.pointLights[i], i);
             }
         }
 
         private void SetDirLight(DirectionalLight _light, int _index) {
-            shader.SetColour($"dirLights[{_index}].colour", _light.colour);
-            shader.SetVector3($"dirLights[{_index}].direction", _light.transform.forward);
+            SetColour($"dirLights[{_index}].colour", _light.colour);
+            SetVector3($"dirLights[{_index}].direction", _light.transform.forward);
         }
 
         private void SetPointLight(PointLight _light, int _index) {
-            shader.SetColour($"pointLights[{_index}].colour", _light.colour);
-            shader.SetVector3($"pointLights[{_index}].position", _light.transform.position);
+            SetColour($"pointLights[{_index}].colour", _light.colour);
+            SetVector3($"pointLights[{_index}].position", _light.transform.position);
 
-            shader.SetFloat($"pointLights[{_index}].constant", _light.constantAttenuation);
-            shader.SetFloat($"pointLights[{_index}].linear", _light.linearAttenuation);
-            shader.SetFloat($"pointLights[{_index}].quadratic", _light.quadraticAttenuation);
+            SetFloat($"pointLights[{_index}].constant", _light.constantAttenuation);
+            SetFloat($"pointLights[{_index}].linear", _light.linearAttenuation);
+            SetFloat($"pointLights[{_index}].quadratic", _light.quadraticAttenuation);
         }
 
         // private void SetSpotLight(Light _light, int _index) {
@@ -165,7 +165,6 @@ namespace ZaephusEngine {
             }
 
             _texture.Bind(unit);
-            shader.SetInt(_name, unit);
             _texture.name = _name;
             textures.Add(_texture);
 

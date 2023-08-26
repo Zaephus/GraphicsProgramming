@@ -32,7 +32,7 @@ namespace ZaephusEngine {
         public float fovY = 45.0f;
         public float camSize = 0.0f;
         public float nearPlane = 0.1f;
-        public float farPlane = 100.0f;
+        public float farPlane = 1000.0f;
 
         public BackgroundType backgroundType = BackgroundType.SolidColour;
 
@@ -53,8 +53,7 @@ namespace ZaephusEngine {
             GL.ClearColor(mainColour);
             
             if(backgroundType == BackgroundType.Skybox) {
-                skybox = new GameObject(new MeshRenderer(Primitives.Cube) {
-                    cullFaceMode = CullFaceMode.Front,
+                skybox = new GameObject(new MeshRenderer(Primitives.cube) {
                     renderOrder = RenderOrder.Late,
                     material = new Material(new Shader("Core/Graphics/Shaders/SkyboxVertex.glsl", "Core/Graphics/Shaders/SkyboxFragment.glsl"))
                 });

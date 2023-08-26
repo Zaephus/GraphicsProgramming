@@ -6,22 +6,61 @@ namespace ZaephusEngine {
 
     public class MeshRenderer : Component {
 
-        public Material material = null;
+        // public Material material = null;
 
-        private Mesh m_mesh = null;
-        public Mesh mesh {
+        // private Mesh m_mesh = null;
+        // public Mesh mesh {
+        //     get {
+        //         return m_mesh;
+        //     }
+        //     set {
+        //         m_mesh = value;
+        //         if(isInitialized) {
+        //             Start();
+        //         }
+        //     }
+        // }
+
+        public Material[] materials;
+        public Material material {
             get {
-                return m_mesh;
+                if(materials != null) {
+                    return materials[0];
+                }
+                else {
+                    return null;
+                }
             }
             set {
-                m_mesh = value;
-                if(isInitialized) {
-                    Start();
+                if(materials == null) {
+                    materials = new Material[] { value };
+                }
+                else {
+                    materials[0] = value;
                 }
             }
         }
 
-        public CullFaceMode cullFaceMode = CullFaceMode.Back;
+        public Mesh[] meshes;
+        public Mesh mesh {
+            get {
+                if(meshes != null) {
+                    return meshes[0];
+                }
+                else {
+                    return null;
+                }
+            }
+            set {
+                if(meshes == null) {
+                    meshes = new Mesh[] { value };
+                }
+                else {
+                    meshes[0] = value;
+                }
+            }
+        }
+
         public RenderOrder renderOrder = RenderOrder.Normal;
 
         protected int vertexArrayObject;
@@ -31,14 +70,15 @@ namespace ZaephusEngine {
         private bool isInitialized = false;
 
         public MeshRenderer() : this(null, null) {} 
-        public MeshRenderer(Mesh _mesh) : this(_mesh, null) {}
-        public MeshRenderer((Mesh, Material) _model) : this(_model.Item1, _model.Item2) {}
-        public MeshRenderer(Mesh _mesh, Material _material) {
+        public MeshRenderer(Mesh _mesh) : this(new Mesh[] {_mesh}, null) {}
+        public MeshRenderer((Mesh[], Material[]) _model) : this(_model.Item1, _model.Item2) {}
+        public MeshRenderer(Mesh[] _meshes, Material[] _materials) {
 
-            mesh = _mesh;
-            material = _material;
+            meshes = _meshes;
+            materials = _materials;
 
             // TODO: Change render order to int value instead of enum.
+            // TODO: Move render call to material class.
             switch(renderOrder) {
                 case RenderOrder.Early:
                     Game.EarlyRenderCall += Render;
@@ -54,55 +94,7 @@ namespace ZaephusEngine {
         }
 
         public override unsafe void Start() {
-            
-            // vertexArrayObject = GL.GenVertexArray();
-            // vertexBufferObject = GL.GenBuffer();
-            // elementBufferObject = GL.GenBuffer();
-
-            // GL.BindVertexArray(vertexArrayObject);
-            // GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferObject);
-            // GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBufferObject);
-
-            // Vertex[] vertexArray = mesh.VertexArray;
-
-            // GL.BufferData(BufferTarget.ArrayBuffer, vertexArray.Length * sizeof(Vertex), vertexArray, BufferUsageHint.DynamicDraw);
-            // GL.BufferData(BufferTarget.ElementArrayBuffer, mesh.triangles.Length * sizeof(uint), mesh.triangles, BufferUsageHint.DynamicDraw);
-
-            // // Vertex Position
-            // GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(Vertex), 0);
-            // GL.EnableVertexAttribArray(0);
-
-            // // Vertex Colour
-            // GL.VertexAttribPointer(1, 4, VertexAttribPointerType.Float, false, sizeof(Vertex), 3 * sizeof(float));
-            // GL.EnableVertexAttribArray(1);
-
-            // // UV's
-            // GL.VertexAttribPointer(2, 2, VertexAttribPointerType.Float, false, sizeof(Vertex), 7 * sizeof(float));
-            // GL.EnableVertexAttribArray(2);
-
-            // // Normals
-            // GL.VertexAttribPointer(3, 3, VertexAttribPointerType.Float, false, sizeof(Vertex), 9 * sizeof(float));
-            // GL.EnableVertexAttribArray(3);
-
-            // // Tangents
-            // GL.VertexAttribPointer(4, 3, VertexAttribPointerType.Float, false, sizeof(Vertex), 12 * sizeof(float));
-            // GL.EnableVertexAttribArray(4);
-
-            // // Bi Tangents
-            // GL.VertexAttribPointer(5, 3, VertexAttribPointerType.Float, false, sizeof(Vertex), 15 * sizeof(float));
-            // GL.EnableVertexAttribArray(5);
-
-            // mesh.Initialize();
-
-            // if(!isInitialized) {
-            //     if(material == null) {
-            //         material = new Material();
-            //     }
-            //     // material.Initialize();
-            // }
-            
             isInitialized = true;
-
         }
 
         protected void Render() {
@@ -111,28 +103,32 @@ namespace ZaephusEngine {
                 return;
             }
 
-            if(material != null) {
-                Matrix4x4 model = gameObject.transform.objectMatrix;
-                material.SetMatrix4x4("modelMatrix", ref model);
+            for(int i = 0; i < meshes.Length; i++) {
 
-                Matrix4x4 view = Camera.activeCamera.ViewMatrix;
-                material.SetMatrix4x4("viewMatrix", ref view);
+                if(materials.Length > i && materials[i] != null) {
 
-                Matrix4x4 projection = Camera.activeCamera.ProjectionMatrix;
-                material.SetMatrix4x4("projectionMatrix", ref projection);
+                    Matrix4x4 model = gameObject.transform.objectMatrix;
+                    materials[i].SetMatrix4x4("modelMatrix", ref model);
 
-                Matrix4x4 normalMatrix = model.inverse.transposed;
-                material.SetMatrix4x4("normalMatrix", ref normalMatrix);
+                    Matrix4x4 view = Camera.activeCamera.ViewMatrix;
+                    materials[i].SetMatrix4x4("viewMatrix", ref view);
 
-                Vector3 camPos = Camera.activeCamera.transform.position;
-                material.SetVector3("viewPosition", camPos);
+                    Matrix4x4 projection = Camera.activeCamera.ProjectionMatrix;
+                    materials[i].SetMatrix4x4("projectionMatrix", ref projection);
 
-                material.Render();
+                    Matrix4x4 normalMatrix = model.inverse.transposed;
+                    materials[i].SetMatrix4x4("normalMatrix", ref normalMatrix);
+
+                    Vector3 camPos = Camera.activeCamera.transform.position;
+                    materials[i].SetVector3("viewPosition", camPos);
+
+                    materials[i].Render();
+
+                }
+
+                meshes[i]?.Render();
+                
             }
-
-            // GL.BindVertexArray(vertexArrayObject);
-            // GL.DrawElements(PrimitiveType.Triangles, mesh.triangles.Length, DrawElementsType.UnsignedInt, 0);
-            mesh?.Render();
 
         }
 

@@ -6,7 +6,7 @@ public class LoadedObjectTest : Game {
     private Camera camera = new Camera {
         projectionType = Camera.ProjectionType.Perspective
     };
-    private GameObject dagger = new GameObject(new MeshRenderer(Mesh.Load("Resources/Models/SM_KnightsDagger/SM_KnightsDagger.obj")));
+    private GameObject dagger = new GameObject(new MeshRenderer(Mesh.Load("Resources/Models/SM_KnightsDagger/SM_KnightsDagger.obj", true)));
 
     private DirectionalLight sun = new DirectionalLight(Colour.white);
 

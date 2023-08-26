@@ -7,7 +7,7 @@ public class LoadedSphereTest : Game {
         projectionType = Camera.ProjectionType.Perspective,
         mainColour = Colour.blue
     };
-    private GameObject sphere = new GameObject(new MeshRenderer(Mesh.Load("Resources/Models/uv_sphere.obj")));
+    private GameObject sphere = new GameObject(new MeshRenderer(Mesh.Load("Resources/Models/uv_sphere.obj", false)));
 
     private DirectionalLight sun = new DirectionalLight(Colour.white);
 

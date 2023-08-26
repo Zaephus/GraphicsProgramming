@@ -44,8 +44,6 @@ namespace ZaephusEngine {
 
         public unsafe void Initialize() {
 
-            Console.WriteLine("Mesh Initialized");
-
             vertexArrayObject = GL.GenVertexArray();
             vertexBufferObject = GL.GenBuffer();
             elementBufferObject = GL.GenBuffer();
@@ -87,6 +85,7 @@ namespace ZaephusEngine {
         }
 
         public void Render() {
+            GL.BindVertexArray(vertexArrayObject);
             GL.DrawElements(PrimitiveType.Triangles, triangles.Length, DrawElementsType.UnsignedInt, 0);
         }
 
@@ -116,7 +115,7 @@ namespace ZaephusEngine {
 
         // TODO: Make Load only return a mesh.
         // Maybe with a delegate?
-        public static (Mesh, Material) Load(string _path) {
+        public static (Mesh[], Material[]) Load(string _path, bool _includeMaterial) {
 
             AssimpContext importer = new();
             importer.SetConfig(new NormalSmoothingAngleConfig(66.0f));
@@ -133,53 +132,66 @@ namespace ZaephusEngine {
                 return (null, null);
             }
 
-            // TODO: Add support for loading a model with multiple meshes.
-            Assimp.Mesh loadedMesh = scene.Meshes[0];            
-            Mesh mesh = new() {
-                vertices      = Array.ConvertAll(loadedMesh.Vertices.ToArray(),                     item => (Vector3)item),
-                vertexColours = Array.ConvertAll(loadedMesh.VertexColorChannels[0].ToArray(),       item => (Colour)item),
-                uvs           = Array.ConvertAll(loadedMesh.TextureCoordinateChannels[0].ToArray(), item => (Vector2)(Vector3)item),
-                normals       = Array.ConvertAll(loadedMesh.Normals.ToArray(),                      item => (Vector3)item),
-                tangents      = Array.ConvertAll(loadedMesh.Tangents.ToArray(),                     item => (Vector3)item),
-                biTangents    = Array.ConvertAll(loadedMesh.BiTangents.ToArray(),                   item => (Vector3)item),
+            Mesh[] meshes = new Mesh[scene.MeshCount];
+            for(int i = 0; i < meshes.Length; i++) {
 
-                triangles = loadedMesh.GetIndices()
-            };
+                Assimp.Mesh loadedMesh = scene.Meshes[i];            
+                meshes[i] = new() {
+                    vertices      = Array.ConvertAll(loadedMesh.Vertices.ToArray(),                     item => (Vector3)item),
+                    vertexColours = Array.ConvertAll(loadedMesh.VertexColorChannels[0].ToArray(),       item => (Colour)item),
+                    uvs           = Array.ConvertAll(loadedMesh.TextureCoordinateChannels[0].ToArray(), item => (Vector2)(Vector3)item),
+                    normals       = Array.ConvertAll(loadedMesh.Normals.ToArray(),                      item => (Vector3)item),
+                    tangents      = Array.ConvertAll(loadedMesh.Tangents.ToArray(),                     item => (Vector3)item),
+                    biTangents    = Array.ConvertAll(loadedMesh.BiTangents.ToArray(),                   item => (Vector3)item),
 
-            // TODO: Add support for loading a model with multiple materials.
+                    triangles = loadedMesh.GetIndices()
+                };
+
+            }
 
             if(scene.MaterialCount <= 0) {
                 Console.WriteLine("Model did not contain a material.");
-                return (mesh, new Material());
+                return (meshes, null);
+            }
+            if(!_includeMaterial) {
+                return (meshes, null);
             }
 
             // TODO: Fix ambient strength.
             // TODO: Load all other textures.
             // TODO: Add support for embedded textures.
-            Assimp.Material loadedMat = scene.Materials[0];
-            StandardMaterial mat = new() {
-                ObjectColour = loadedMat.ColorDiffuse,
-                AmbientStrength = (loadedMat.ColorAmbient.R + loadedMat.ColorAmbient.G + loadedMat.ColorAmbient.B) / 3,
-                SpecularStrength = (loadedMat.ColorSpecular.R + loadedMat.ColorSpecular.G + loadedMat.ColorSpecular.B) / 3,
-                Shininess = loadedMat.Shininess
-            };
 
-            if(loadedMat.TextureDiffuse.FilePath != null) {
-                string diffusePath = Path.Combine(new FileInfo(_path).Directory.FullName, loadedMat.TextureDiffuse.FilePath);
-                if(File.Exists(diffusePath)) {
-                    mat.DiffuseMap = new Texture2D(diffusePath);
-                    // TODO: Object colour with diffuse texture.
-                    mat.ObjectColour = Colour.white;
+            StandardMaterial[] materials = new StandardMaterial[scene.MaterialCount]; 
+            for(int i = 0; i < materials.Length; i++) {
+
+                Assimp.Material loadedMat = scene.Materials[i];
+                StandardMaterial mat = new() {
+                    ObjectColour = loadedMat.ColorDiffuse,
+                    AmbientStrength = (loadedMat.ColorAmbient.R + loadedMat.ColorAmbient.G + loadedMat.ColorAmbient.B) / 3,
+                    SpecularStrength = (loadedMat.ColorSpecular.R + loadedMat.ColorSpecular.G + loadedMat.ColorSpecular.B) / 3,
+                    Shininess = loadedMat.Shininess
+                };
+
+                if(loadedMat.TextureDiffuse.FilePath != null) {
+                    string diffusePath = Path.Combine(new FileInfo(_path).Directory.FullName, loadedMat.TextureDiffuse.FilePath);
+                    if(File.Exists(diffusePath)) {
+                        mat.DiffuseMap = new Texture2D(diffusePath);
+                        // TODO: Object colour with diffuse texture.
+                        mat.ObjectColour = Colour.white;
+                    }
                 }
-            }
-            if(loadedMat.TextureSpecular.FilePath != null) {
-                string specularPath = Path.Combine(new FileInfo(_path).Directory.FullName, loadedMat.TextureSpecular.FilePath);
-                if(File.Exists(specularPath)) {
-                    mat.SpecularMap = new Texture2D(specularPath);
+                if(loadedMat.TextureSpecular.FilePath != null) {
+                    string specularPath = Path.Combine(new FileInfo(_path).Directory.FullName, loadedMat.TextureSpecular.FilePath);
+                    if(File.Exists(specularPath)) {
+                        mat.SpecularMap = new Texture2D(specularPath);
+                    }
                 }
+
+                materials[i] = mat;
+                
             }
 
-            return (mesh, mat);
+            return (meshes, materials);
 
         }
 

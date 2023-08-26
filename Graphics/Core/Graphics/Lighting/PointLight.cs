@@ -27,7 +27,7 @@ namespace ZaephusEngine {
         }
 
         protected override void Start() {
-            AddComponent(new MeshRenderer(Primitives.Cube) {
+            AddComponent(new MeshRenderer(Primitives.cube) {
                 material = new StandardMaterial() { ObjectColour = lightColour }
             });
             LightUtility.pointLights.Add(this);
