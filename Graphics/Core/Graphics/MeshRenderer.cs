@@ -6,21 +6,6 @@ namespace ZaephusEngine {
 
     public class MeshRenderer : Component {
 
-        // public Material material = null;
-
-        // private Mesh m_mesh = null;
-        // public Mesh mesh {
-        //     get {
-        //         return m_mesh;
-        //     }
-        //     set {
-        //         m_mesh = value;
-        //         if(isInitialized) {
-        //             Start();
-        //         }
-        //     }
-        // }
-
         public Material[] materials;
         public Material material {
             get {
@@ -71,7 +56,7 @@ namespace ZaephusEngine {
 
         public MeshRenderer() : this(null, null) {} 
         public MeshRenderer(Mesh _mesh) : this(new Mesh[] {_mesh}, null) {}
-        public MeshRenderer((Mesh[], Material[]) _model) : this(_model.Item1, _model.Item2) {}
+        public MeshRenderer(Model _model) : this(_model.meshes, _model.materials) {}
         public MeshRenderer(Mesh[] _meshes, Material[] _materials) {
 
             meshes = _meshes;
