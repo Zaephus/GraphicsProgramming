@@ -36,11 +36,23 @@
             ]
         },
         {
+            "label": "copy primitives",
+            "command": "xcopy",
+            "type": "process",
+            "args": [
+                "${workspaceFolder}\\Core\\Graphics\\Primitives",
+                "${workspaceFolder}\\bin\\Debug\\net7.0\\Core\\Graphics\\Primitives\\",
+                "/e",
+                "/y"
+            ]
+        },
+        {
             "label": "build",
             "dependsOn": [
                 "build project",
                 "copy resources",
-                "copy shaders"
+                "copy shaders",
+                "copy primitives"
             ]
         }
     ]

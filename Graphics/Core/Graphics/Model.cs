@@ -9,6 +9,28 @@ namespace ZaephusEngine {
         public Mesh[] meshes = null;
         public Material[] materials = null;
 
+        public Mesh mesh {
+            get {
+                if(meshes[0] == null) {
+                    return null;
+                }
+                else {
+                    return meshes[0];
+                }
+            }
+        }
+
+        public Material material {
+            get {
+                if(materials[0] == null) {
+                    return null;
+                }
+                else {
+                    return materials[0];
+                }
+            }
+        }
+
         // TODO: Convert dictionary key from path to hash.
         private static Dictionary<string, Model> loadedModels = new();
 
@@ -105,6 +127,8 @@ namespace ZaephusEngine {
                 materials[i] = mat;
                 
             }
+
+            importer.Dispose();
 
             return new Model(meshes, materials);
 

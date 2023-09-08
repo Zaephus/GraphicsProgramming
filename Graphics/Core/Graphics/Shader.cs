@@ -92,6 +92,7 @@ namespace ZaephusEngine {
         }
 
         public static Shader standard { get { return new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/Fragment.glsl"); } }
+        public static Shader test { get { return new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/TestFragment.glsl"); } }
 
     }
 

@@ -72,7 +72,7 @@ void main() {
     }
 
     // fragColour = lightResult * material.colour * texture(material.diffuseMap, uv);
-    fragColour = vec4(fragPosition, 1.0);
+    fragColour = vec4(uv, 0.0, 1.0);
 
 }
 

@@ -54,6 +54,8 @@ namespace ZaephusEngine {
 
         private bool isInitialized = false;
 
+        private static readonly StandardMaterial standardMaterial = new();
+
         public MeshRenderer() : this(null, null) {} 
         public MeshRenderer(Mesh _mesh) : this(new Mesh[] {_mesh}, null) {}
         public MeshRenderer(Model _model) : this(_model.meshes, _model.materials) {}
@@ -88,37 +90,41 @@ namespace ZaephusEngine {
                 return;
             }
 
+            if(materials == null || materials[0] == null) {
+                RenderMaterial(standardMaterial);
+            }
+
             for(int i = 0; i < meshes.Length; i++) {
-
-                if(materials.Length > i && materials[i] != null) {
-
-                    Matrix4x4 model = gameObject.transform.objectMatrix;
-                    materials[i].SetMatrix4x4("modelMatrix", ref model);
-
-                    Matrix4x4 view = Camera.activeCamera.ViewMatrix;
-                    materials[i].SetMatrix4x4("viewMatrix", ref view);
-
-                    Matrix4x4 projection = Camera.activeCamera.ProjectionMatrix;
-                    materials[i].SetMatrix4x4("projectionMatrix", ref projection);
-
-                    Matrix4x4 normalMatrix = model.inverse.transposed;
-                    materials[i].SetMatrix4x4("normalMatrix", ref normalMatrix);
-
-                    Vector3 camPos = Camera.activeCamera.transform.position;
-                    materials[i].SetVector3("viewPosition", camPos);
-
-                    materials[i].Render();
-
+                if(materials != null && materials.Length > i && materials[i] != null) {
+                    RenderMaterial(materials[i]);
                 }
 
                 meshes[i]?.Render();
-                
             }
 
         }
 
         public override void Exit() {
             material?.Dispose();
+        }
+
+        private void RenderMaterial(Material _material) {
+            Matrix4x4 model = gameObject.transform.objectMatrix;
+            _material.SetMatrix4x4("modelMatrix", ref model);
+
+            Matrix4x4 view = Camera.activeCamera.ViewMatrix;
+            _material.SetMatrix4x4("viewMatrix", ref view);
+
+            Matrix4x4 projection = Camera.activeCamera.ProjectionMatrix;
+            _material.SetMatrix4x4("projectionMatrix", ref projection);
+
+            Matrix4x4 normalMatrix = model.inverse.transposed;
+            _material.SetMatrix4x4("normalMatrix", ref normalMatrix);
+
+            Vector3 camPos = Camera.activeCamera.transform.position;
+            _material.SetVector3("viewPosition", camPos);
+
+            _material.Render();
         }
 
     }
