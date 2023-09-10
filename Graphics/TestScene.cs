@@ -13,7 +13,7 @@ public class TestScene : Game {
 
     private DirectionalLight sun = new(Colour.white);
 
-    private GameObject test = new(new MeshRenderer(Primitives.sphere));
+    private GameObject test = new(new MeshRenderer(Primitives.cube));
 
     private StandardMaterial greenMat = new() {
         ObjectColour = Colour.green,

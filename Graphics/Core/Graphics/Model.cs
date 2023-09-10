@@ -129,6 +129,8 @@ namespace ZaephusEngine {
             }
 
             importer.Dispose();
+            logStream.Detach();
+            logStream.Dispose();
 
             return new Model(meshes, materials);
 
