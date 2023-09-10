@@ -2,9 +2,9 @@
 
 namespace ZaephusEngine {
 
-    public class StandardMaterial : Material {
+    public class LitMaterial : Material {
 
-        public StandardMaterial() : base() {}
+        public LitMaterial() : base() {}
 
         public override void Initialize() {
             base.Initialize();

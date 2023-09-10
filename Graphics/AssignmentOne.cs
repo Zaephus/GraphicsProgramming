@@ -21,7 +21,7 @@ public class AssignmentOne : Game {
     private PointLight whiteLight = new(Colour.white, 10.0f);
     private PointLight blueLight = new(Colour.white, 10.0f);
 
-    private StandardMaterial cubeMat1 = new() {
+    private LitMaterial cubeMat1 = new() {
         ObjectColour = Colour.green,
         AmbientStrength = 0.8f
     };

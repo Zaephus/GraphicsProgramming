@@ -1,6 +1,4 @@
 
-using System.Buffers;
-using OpenTK.Graphics.OpenGL4;
 
 namespace ZaephusEngine {
 
@@ -54,7 +52,7 @@ namespace ZaephusEngine {
 
         private bool isInitialized = false;
 
-        private static readonly StandardMaterial standardMaterial = new();
+        private static readonly LitMaterial standardMaterial = new();
 
         public MeshRenderer() : this(null, null) {} 
         public MeshRenderer(Mesh _mesh) : this(new Mesh[] {_mesh}, null) {}

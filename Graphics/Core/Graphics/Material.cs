@@ -5,15 +5,16 @@ namespace ZaephusEngine {
 
     public class Material {
 
-        public CullFaceMode cullFaceMode = CullFaceMode.Back;
+        public RenderFace renderFace = RenderFace.Front;
 
         protected Shader shader;
 
         protected bool isInitialized;
+        protected bool isLit = true;
 
         private List<Texture2D> textures = new();
 
-        public Material() : this(Shader.standard) {}
+        public Material() : this(Shader.lit) {}
         public Material(Shader _shader) {
             shader = _shader;
         }
@@ -23,7 +24,9 @@ namespace ZaephusEngine {
 
             isInitialized = true;
 
-            ApplyLighting();
+            if(isLit) {
+                ApplyLighting();
+            }
 
             shader.Use();
         }
@@ -35,7 +38,9 @@ namespace ZaephusEngine {
                 Initialize();
             }
 
-            ApplyLighting();
+            if(isLit) {
+                ApplyLighting();
+            }
 
             shader.Use();
 
@@ -43,12 +48,35 @@ namespace ZaephusEngine {
                 texture.Use();
             }
 
-            GL.CullFace(cullFaceMode);
+            HandleFaceCulling();
 
         }
 
         public void Dispose() {
             shader.Dispose();
+        }
+
+        private void HandleFaceCulling() {
+            if(renderFace == RenderFace.All) {
+                GL.Disable(EnableCap.CullFace);
+            }
+            else if(!GL.IsEnabled(EnableCap.CullFace)) {
+                GL.Enable(EnableCap.CullFace);
+            }
+
+            switch(renderFace) {
+                case RenderFace.Front:
+                    GL.CullFace(CullFaceMode.Back);
+                    break;
+
+                case RenderFace.Back:
+                    GL.CullFace(CullFaceMode.Front);
+                    break;
+                
+                case RenderFace.None:
+                    GL.CullFace(CullFaceMode.FrontAndBack);
+                    break;
+            }
         }
 
         private void ApplyLighting() {
@@ -82,18 +110,30 @@ namespace ZaephusEngine {
         // }
 
         public void SetInt(string _name, int _value) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform1(location, _value);
         }
 
         public void SetFloat(string _name, float _value) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform1(location, _value);
         }
 
         public void SetBool(string _name, bool _value) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             if(_value) {
@@ -105,48 +145,80 @@ namespace ZaephusEngine {
         }
 
         public void SetVector2(string _name, Vector2 _vector) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform2(location, _vector.x, _vector.y);
         }
 
         public void SetVector3(string _name, Vector3 _vector) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform3(location, _vector.x, _vector.y, _vector.z);
         }
 
         public void SetVector4(string _name, Vector4 _vector) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform4(location, _vector.x, _vector.y, _vector.z, _vector.w);
         }
 
         public void SetVector2Int(string _name, Vector2Int _vector) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform2(location, _vector.x, _vector.y);
         }
 
         public void SetVector3Int(string _name, Vector3Int _vector) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform3(location, _vector.x, _vector.y, _vector.z);
         }
 
         public void SetColour(string _name, Colour _colour) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform4(location, _colour.R, _colour.G, _colour.B, _colour.A);
         }
 
         public void SetQuaternion(string _name, Quaternion _quaternion) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             GL.Uniform4(location, _quaternion.x, _quaternion.y, _quaternion.z, _quaternion.w);
         }
 
         public unsafe void SetMatrix4x4(string _name, ref Matrix4x4 _matrix) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
             int location = shader.GetUniformLocation(_name);
             fixed(float* matrixPtr = &_matrix.m00) {
@@ -155,6 +227,10 @@ namespace ZaephusEngine {
         }
 
         public void SetTexture2D(string _name, Texture2D _texture) {
+            if(!isInitialized) {
+                Initialize();
+            }
+
             shader.Use();
 
             int unit = textures.IndexOf(textures.Find(item => item.name == _name));

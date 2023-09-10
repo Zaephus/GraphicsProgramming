@@ -28,7 +28,7 @@ namespace ZaephusEngine {
 
         protected override void Start() {
             AddComponent(new MeshRenderer(Primitives.cube) {
-                material = new StandardMaterial() { ObjectColour = lightColour }
+                material = new LitMaterial() { ObjectColour = lightColour }
             });
             LightUtility.pointLights.Add(this);
             transform.scale = Vector3.one * 0.15f;

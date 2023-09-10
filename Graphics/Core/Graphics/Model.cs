@@ -98,11 +98,11 @@ namespace ZaephusEngine {
             // TODO: Load all other textures.
             // TODO: Add support for embedded textures.
 
-            StandardMaterial[] materials = new StandardMaterial[scene.MaterialCount]; 
+            Material[] materials = new Material[scene.MaterialCount]; 
             for(int i = 0; i < materials.Length; i++) {
 
                 Assimp.Material loadedMat = scene.Materials[i];
-                StandardMaterial mat = new() {
+                LitMaterial mat = new() {
                     ObjectColour = loadedMat.ColorDiffuse,
                     AmbientStrength = (loadedMat.ColorAmbient.R + loadedMat.ColorAmbient.G + loadedMat.ColorAmbient.B) / 3,
                     SpecularStrength = (loadedMat.ColorSpecular.R + loadedMat.ColorSpecular.G + loadedMat.ColorSpecular.B) / 3,

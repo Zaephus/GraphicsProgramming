@@ -91,7 +91,8 @@ namespace ZaephusEngine {
             return GL.GetUniformLocation(handle, _name);
         }
 
-        public static Shader standard { get { return new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/Fragment.glsl"); } }
+        public static Shader lit { get { return new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/Fragment.glsl"); } }
+        public static Shader unlit { get { return new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/UnlitFragment.glsl"); } }
         public static Shader test { get { return new Shader("Core/Graphics/Shaders/Vertex.glsl", "Core/Graphics/Shaders/TestFragment.glsl"); } }
 
     }

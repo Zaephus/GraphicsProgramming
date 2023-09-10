@@ -11,7 +11,7 @@ public class LoadedSphereTest : Game {
 
     private DirectionalLight sun = new DirectionalLight(Colour.white);
 
-    private StandardMaterial redMat = new StandardMaterial {
+    private LitMaterial redMat = new LitMaterial {
         ObjectColour = Colour.red,
         AmbientStrength = 0.1f
     };
