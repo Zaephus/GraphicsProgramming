@@ -16,8 +16,6 @@ namespace ZaephusEngine {
         public Material() : this(Shader.standard) {}
         public Material(Shader _shader) {
             shader = _shader;
-            // Console.WriteLine("Material created");
-            Game.InitCall += Initialize;
         }
 
         public virtual void Initialize() {
@@ -28,13 +26,14 @@ namespace ZaephusEngine {
             ApplyLighting();
 
             shader.Use();
-
-            // Console.WriteLine("Material initialized");
-
-            Game.InitCall -= Initialize;
         }
 
         public virtual void Render() {
+            
+            // Initializes a material only if it is actually used.
+            if(!isInitialized) {
+                Initialize();
+            }
 
             ApplyLighting();
 

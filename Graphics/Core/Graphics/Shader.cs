@@ -63,7 +63,7 @@ namespace ZaephusEngine {
 
         ~Shader() {
             if(!isDisposed && isBound) {
-                Console.WriteLine("GPU resource leak! Did you forget to call Dispose()?");
+                Console.WriteLine("GPU resource leak! Did you forget to call Dispose?");
             }
         }
 
