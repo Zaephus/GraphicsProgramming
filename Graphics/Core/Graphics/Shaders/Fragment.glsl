@@ -53,7 +53,7 @@ vec4 CalcPointLight(PointLight _light, vec3 _normal, vec3 _fragPos, vec3 _viewDi
 void main() {
 
     vec3 norm = normalize(normal);
-    vec3 viewDirection = normalize(viewPosition - fragPosition);
+    vec3 viewDirection = normalize(fragPosition - viewPosition);
 
     vec4 lightResult;
 

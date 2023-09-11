@@ -27,8 +27,8 @@ public class TestScene : Game {
     };
 
     private LitMaterial cubeMat2 = new() {
-        DiffuseMap = new Texture2D("Resources/Textures/Crate.png"),
-        SpecularMap = new Texture2D("Resources/Textures/Crate_Specular.png"),
+        DiffuseMap = new Texture2D("Resources\\Textures\\Crate.png"),
+        SpecularMap = new Texture2D("Resources\\Textures\\Crate_Specular.png"),
         AmbientStrength = 0.8f
     };
 
@@ -48,9 +48,7 @@ public class TestScene : Game {
         // capsule.GetComponent<MeshRenderer>().material = cubeMat2;
 
         // sphere.GetComponent<MeshRenderer>().material = cubeMat2;
-        // sphere.transform.position = new Vector3(1.0f, 0.0f, 0.0f);
-
-        // Console.WriteLine(windmill.GetComponent<MeshRenderer>().materials.GetType());
+        // sphere.transform.position = new Vector3(1.0f, 0.0f, 0.0f)
 
         windmill.GetComponent<MeshRenderer>().material.renderFace = RenderFace.All;
         windmill.GetComponent<MeshRenderer>().material.SetFloat("material.ambientStrength", 0.6f);

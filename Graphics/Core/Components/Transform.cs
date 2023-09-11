@@ -27,9 +27,9 @@ namespace ZaephusEngine {
             rotation *= Quaternion.FromAxisAngle(_axis, _deg * Math.Deg2Rad);
         }
 
-        public Vector3 right { get { return rotation * Vector3.right; } }
-        public Vector3 forward { get { return rotation * Vector3.forward; } }
-        public Vector3 up { get { return rotation * Vector3.up; } }
+        public Vector3 right   { get { return (rotation * Vector3.right).normalized; } }
+        public Vector3 forward { get { return (rotation * Vector3.forward).normalized; } }
+        public Vector3 up      { get { return (rotation * Vector3.up).normalized; } }
 
     }
 

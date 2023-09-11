@@ -53,7 +53,7 @@ namespace ZaephusEngine {
             GL.ClearColor(mainColour);
             
             if(backgroundType == BackgroundType.Skybox) {
-                skybox = new GameObject(new MeshRenderer(Primitives.sphere) {
+                skybox = new GameObject(new MeshRenderer(Primitives.cube) {
                     renderOrder = RenderOrder.Late,
                     material = new Material(new Shader("Core/Graphics/Shaders/SkyboxVertex.glsl", "Core/Graphics/Shaders/SkyboxFragment.glsl"))
                 });

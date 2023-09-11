@@ -49,10 +49,23 @@ uniform vec3 viewPosition;
 uniform vec4 topColour;
 uniform vec4 botColour;
 
+float map(float value, float min1, float max1, float min2, float max2) {
+    return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+}
+
 void main() {
 
     vec3 viewDirection = normalize(fragPosition - viewPosition);
 
-    fragColour = mix(botColour, topColour, viewDirection.y);
+    vec4 lightResult;
+
+    for(int i = 0; i < MAX_DIR_LIGHTS; i++) {
+        if(i >= dirLightNum) {
+            break;
+        }
+        lightResult += dirLights[i].colour * max(pow(dot(-viewDirection, dirLights[i].direction), 128), 0.0);
+    }
+
+    fragColour = mix(botColour, topColour, abs(viewDirection.y)) + lightResult;
 
 }

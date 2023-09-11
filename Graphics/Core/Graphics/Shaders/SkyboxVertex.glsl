@@ -24,7 +24,7 @@ uniform mat4 normalMatrix;
 void main() {
     vec4 pos = projectionMatrix * viewMatrix * modelMatrix * vec4(inPosition, 1.0);
     gl_Position = pos.xyww;
-    fragPosition = vec3(modelMatrix * vec4(inPosition.x, inPosition.y, 1.0, 1.0));
+    fragPosition = vec3(modelMatrix * vec4(inPosition, 1.0));
 
     vertexColour = inVertexColour;
     uv = inUV;
