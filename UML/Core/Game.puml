@@ -1,6 +1,5 @@
 @startuml
 class Game {
-    + {static} isInitialized : bool = false
     + <<unsafe>> Run() : void
 }
 class "Action`1"<T> {

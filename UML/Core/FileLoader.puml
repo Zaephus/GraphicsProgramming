@@ -1,5 +1,0 @@
-@startuml
-class FileLoader <<static>> {
-    + {static} LoadModel(_path:string) : (Mesh, Material)
-}
-@enduml

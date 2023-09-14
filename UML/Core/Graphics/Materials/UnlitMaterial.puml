@@ -1,0 +1,9 @@
+@startuml
+class UnlitMaterial {
+    + UnlitMaterial()
+    + <<override>> Initialize() : void
+}
+Material <|-- UnlitMaterial
+UnlitMaterial --> "ObjectColour" Colour
+UnlitMaterial --> "DiffuseMap" Texture2D
+@enduml

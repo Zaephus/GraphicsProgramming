@@ -1,5 +1,8 @@
 @startuml
 class Mesh {
+    + Mesh()
+    + <<unsafe>> Initialize() : void
+    + Render() : void
     + RecalculateNormals() : void
 }
 @enduml

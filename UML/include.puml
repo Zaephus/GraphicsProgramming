@@ -1,13 +1,21 @@
-@startuml test
-class LoadedObjectTest {
-}
-Game <|-- LoadedObjectTest
+@startuml
 class LoadedSphereTest {
 }
 Game <|-- LoadedSphereTest
+class TestScene {
+}
+Game <|-- TestScene
+class LoadedObjectTest {
+}
+Game <|-- LoadedObjectTest
 class AssignmentOne {
 }
 Game <|-- AssignmentOne
+class Noise2d <<static>> {
+    {static} Noise2d()
+    + {static} Reseed() : void
+    + {static} Noise(_x:float, _y:float) : float
+}
 class TerrainTest {
 }
 Game <|-- TerrainTest
@@ -19,10 +27,19 @@ class TerrainGenerator {
     + Generate() : Mesh
 }
 TerrainGenerator o-> "size" Vector2Int
-class Noise2d <<static>> {
-    {static} Noise2d()
-    + {static} Reseed() : void
-    + {static} Noise(_x:float, _y:float) : float
+class ExtensionMethods <<static>> {
+    + {static} Map(_value:float, _inputMin:float, _inputMax:float, _outputMin:float, _outputMax:float) : float
+}
+enum RenderOrder {
+    Early= 0,
+    Normal= 1,
+    Late= 2,
+}
+enum RenderFace {
+    All= 0,
+    Front= 1,
+    Back= 2,
+    None= 3,
 }
 abstract class Component {
     + Initialize(_gameObject:GameObject) : void
@@ -31,9 +48,33 @@ abstract class Component {
     + <<virtual>> Exit() : void
 }
 Component --> "gameObject" GameObject
-class FileLoader <<static>> {
-    + {static} LoadModel(_path:string) : (Mesh, Material)
+class Colour <<struct>> {
+    + R : float
+    + G : float
+    + B : float
+    + A : float
+    + Colour()
+    + Colour(_r:float, _g:float, _b:float)
+    + Colour(_r:float, _g:float, _b:float, _a:float)
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Colour) : bool
+    + <<override>> ToString() : string
+    + {static} RandomColour() : Colour
 }
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Colour>" <|-- Colour
+Colour --> "red" Colour
+Colour --> "green" Colour
+Colour --> "blue" Colour
+Colour --> "white" Colour
+Colour --> "black" Colour
+Colour --> "yellow" Colour
+Colour --> "cyan" Colour
+Colour --> "magenta" Colour
+Colour --> "grey" Colour
+Colour --> "brown" Colour
 class Window {
     + {static} <<readonly>> width : int = 1400
     + {static} <<readonly>> height : int = 800
@@ -59,7 +100,6 @@ class GameObject {
 }
 GameObject o-> "transform" Transform
 class Game {
-    + {static} isInitialized : bool = false
     + <<unsafe>> Run() : void
 }
 class "Action`1"<T> {
@@ -71,84 +111,81 @@ Game --> "EarlyRenderCall" Action
 Game --> "RenderCall" Action
 Game --> "LateRenderCall" Action
 Game --> "ExitCall" Action
-class Colour <<struct>> {
-    + R : float
-    + G : float
-    + B : float
-    + A : float
-    + Colour()
-    + Colour(_r:float, _g:float, _b:float)
-    + Colour(_r:float, _g:float, _b:float, _a:float)
-    + <<override>> GetHashCode() : int
-    + <<override>> Equals(_other:object) : bool
-    + Equals(_other:Colour) : bool
-    + <<override>> ToString() : string
-}
-class "IEquatable`1"<T> {
-}
-"IEquatable`1" "<Colour>" <|-- Colour
-Colour --> "red" Colour
-Colour --> "green" Colour
-Colour --> "blue" Colour
-Colour --> "white" Colour
-Colour --> "black" Colour
-Colour --> "yellow" Colour
-Colour --> "cyan" Colour
-Colour --> "magenta" Colour
-Colour --> "grey" Colour
-Colour --> "brown" Colour
-class ExtensionMethods <<static>> {
-    + {static} Map(_value:float, _inputMin:float, _inputMax:float, _outputMin:float, _outputMax:float) : float
-}
-class Material {
-    + Material()
-    + Material(_vertexShaderPath:string, _fragmentShaderPath:string)
-    + Initialize() : void
-    + Render() : void
+class Shader {
+    + Shader(_vertexPath:string, _fragmentPath:string)
+    + Bind() : void
+    + Use() : void
     + Dispose() : void
-    + AmbientStrength : float <<get>> <<set>>
-    + SpecularStrength : float <<get>> <<set>>
-    + Shininess : float <<get>> <<set>>
+    + GetUniformLocation(_name:string) : int
 }
-Material --> "shader" Shader
-Material --> "ObjectColour" Colour
-Material --> "DiffuseMap" Texture2D
-Material --> "SpecularMap" Texture2D
-class Mesh {
-    + RecalculateNormals() : void
+IDisposable <|-- Shader
+Shader --> "lit" Shader
+Shader --> "unlit" Shader
+Shader --> "test" Shader
+class Vertex <<struct>> {
+    + Vertex(_pos:Vector3)
+    + Vertex(_pos:Vector3, _col:Colour)
+    + Vertex(_pos:Vector3, _col:Colour, _uv:Vector2, _normal:Vector3, _tan:Vector3, _biTan:Vector3)
 }
+Vertex --> "vertexPosition" Vector3
+Vertex --> "vertexColour" Colour
+Vertex --> "UV" Vector2
+Vertex --> "normal" Vector3
+Vertex --> "tangent" Vector3
+Vertex --> "biTangent" Vector3
 class MeshRenderer {
     + MeshRenderer()
     + MeshRenderer(_mesh:Mesh)
-    + MeshRenderer(_model:(Mesh, Material))
-    + MeshRenderer(_mesh:Mesh, _material:Material)
+    + MeshRenderer(_model:Model)
+    + MeshRenderer(_meshes:Mesh[], _materials:Material[])
     + <<override>> <<unsafe>> Start() : void
     + <<override>> Exit() : void
 }
 Component <|-- MeshRenderer
 MeshRenderer --> "material" Material
 MeshRenderer --> "mesh" Mesh
-MeshRenderer o-> "cullFaceMode" CullFaceMode
 MeshRenderer o-> "renderOrder" RenderOrder
+class Model {
+    + Model()
+    + Model(_meshes:Mesh[], _materials:Material[])
+    + {static} Load(_path:string, _saveModel:bool) : Model
+}
+Model --> "mesh" Mesh
+Model --> "material" Material
 enum TextureFilter {
     Linear,
     Point,
 }
 class Texture2D {
+    + name : string
     + generateMipmap : bool = true
     + Texture2D(_path:string)
     + Texture2D()
     + Texture2D(_c:Colour)
-    + Bind(_unit:TextureUnit) : void
+    + Bind(_unit:int) : void
     + Use() : void
 }
 Texture2D --> "textureFilter" TextureFilter
 Texture2D o-> "wrapMode" TextureWrapMode
-class Shader {
-    + handle : int
-    + Shader(_vertexPath:string, _fragmentPath:string)
-    + Bind() : void
-    + Use() : void
+class Primitives <<static>> {
+    {static} Primitives()
+}
+Primitives --> "capsule" Mesh
+Primitives --> "cube" Mesh
+Primitives --> "cylinder" Mesh
+Primitives --> "quad" Mesh
+Primitives --> "sphere" Mesh
+class Mesh {
+    + Mesh()
+    + <<unsafe>> Initialize() : void
+    + Render() : void
+    + RecalculateNormals() : void
+}
+class Material {
+    + Material()
+    + Material(_shader:Shader)
+    + <<virtual>> Initialize() : void
+    + <<virtual>> Render() : void
     + Dispose() : void
     + SetInt(_name:string, _value:int) : void
     + SetFloat(_name:string, _value:float) : void
@@ -161,50 +198,14 @@ class Shader {
     + SetColour(_name:string, _colour:Colour) : void
     + SetQuaternion(_name:string, _quaternion:Quaternion) : void
     + <<unsafe>> SetMatrix4x4(_name:string, _matrix:Matrix4x4) : void
+    + SetTexture2D(_name:string, _texture:Texture2D) : void
 }
-IDisposable <|-- Shader
-class Vertex <<struct>> {
-    + Vertex(_pos:Vector3)
-    + Vertex(_pos:Vector3, _col:Colour)
-    + Vertex(_pos:Vector3, _col:Colour, _uv:Vector2, _normal:Vector3, _tan:Vector3, _biTan:Vector3)
-}
-Vertex --> "vertexPosition" Vector3
-Vertex --> "vertexColour" Colour
-Vertex --> "UV" Vector2
-Vertex --> "normal" Vector3
-Vertex --> "tangent" Vector3
-Vertex --> "biTangent" Vector3
-enum RenderOrder {
-    Early= 0,
-    Normal= 1,
-    Late= 2,
-}
-class Transform {
-    + Rotate(_xDeg:float, _yDeg:float, _zDeg:float) : void
-    + Rotate(_eulerAnglesDeg:Vector3) : void
-    + Rotate(_q:Quaternion) : void
-    + RotateAround(_axis:Vector3, _deg:float) : void
-}
-Component <|-- Transform
-Transform o-> "position" Vector3
-Transform o-> "rotation" Quaternion
-Transform o-> "scale" Vector3
-Transform --> "objectMatrix" Matrix4x4
-Transform --> "right" Vector3
-Transform --> "forward" Vector3
-Transform --> "up" Vector3
-class CameraController {
-    + rotateSpeed : float = 30.0f
-    + moveSpeed : float = 7.0f
-    + <<override>> Start() : void
-    + <<override>> Update(_dt:float) : void
-}
-Component <|-- CameraController
+Material o-> "renderFace" RenderFace
 class Camera {
     + fovY : float = 45.0f
     + camSize : float = 0.0f
     + nearPlane : float = 0.1f
-    + farPlane : float = 100.0f
+    + farPlane : float = 1000.0f
     + Camera()
 }
 enum ProjectionType {
@@ -225,38 +226,27 @@ Camera o-> "mainColour" Colour
 Camera o-> "secondColour" Colour
 Camera +-- ProjectionType
 Camera +-- BackgroundType
-class Matrix3x3 <<struct>> {
-    + m00 : float
-    + m01 : float
-    + m02 : float
-    + m10 : float
-    + m11 : float
-    + m12 : float
-    + m20 : float
-    + m21 : float
-    + m22 : float
-    + Matrix3x3()
-    + Matrix3x3(_matrix:float[,])
-    + Matrix3x3(_m00:float, _m01:float, _m02:float, _m10:float, _m11:float, _m12:float, _m20:float, _m21:float, _m22:float)
-    + Matrix3x3(_row0:Vector3, _row1:Vector3, _row2:Vector3)
-    + GetRow(_index:int) : Vector3
-    + GetColumn(_index:int) : Vector3
-    + Invert() : void
-    + Transpose() : void
-    + determinant : float <<get>>
-    + <<override>> GetHashCode() : int
-    + <<override>> Equals(_other:object) : bool
-    + Equals(_other:Matrix3x3) : bool
-    + <<override>> ToString() : string
+class CameraController {
+    + rotateSpeed : float = 30.0f
+    + moveSpeed : float = 7.0f
+    + <<override>> Start() : void
+    + <<override>> Update(_dt:float) : void
 }
-class "IEquatable`1"<T> {
+Component <|-- CameraController
+class Transform {
+    + Rotate(_xDeg:float, _yDeg:float, _zDeg:float) : void
+    + Rotate(_eulerAnglesDeg:Vector3) : void
+    + Rotate(_q:Quaternion) : void
+    + RotateAround(_axis:Vector3, _deg:float) : void
 }
-"IEquatable`1" "<Matrix3x3>" <|-- Matrix3x3
-Matrix3x3 --> "inverse" Matrix3x3
-Matrix3x3 --> "transposed" Matrix3x3
-Matrix3x3 --> "zero" Matrix3x3
-Matrix3x3 --> "one" Matrix3x3
-Matrix3x3 --> "identity" Matrix3x3
+Component <|-- Transform
+Transform o-> "position" Vector3
+Transform o-> "rotation" Quaternion
+Transform o-> "scale" Vector3
+Transform --> "objectMatrix" Matrix4x4
+Transform --> "right" Vector3
+Transform --> "forward" Vector3
+Transform --> "up" Vector3
 class Vector3 <<struct>> {
     + x : float
     + y : float
@@ -282,18 +272,69 @@ Vector3 --> "normalized" Vector3
 Vector3 --> "zero" Vector3
 Vector3 --> "one" Vector3
 Vector3 --> "right" Vector3
+Vector3 --> "left" Vector3
 Vector3 --> "up" Vector3
+Vector3 --> "down" Vector3
 Vector3 --> "forward" Vector3
-class Math <<static>> {
-    + <<const>> epsilon : float
-    + {static} Deg2Rad : float <<get>>
-    + {static} Rad2Deg : float <<get>>
-    + {static} Clamp(_value:float, _min:float, _max:float) : float
-    + {static} Clamp(_value:int, _min:int, _max:int) : int
-    + {static} Clamp01(_value:float) : float
-    + {static} Lerp(_a:float, _b:float, _t:float) : float
-    + {static} LerpUnclamped(_a:float, _b:float, _t:float) : float
+Vector3 --> "back" Vector3
+class Quaternion <<struct>> {
+    + x : float
+    + y : float
+    + z : float
+    + w : float
+    + Quaternion(_x:float, _y:float, _z:float, _w:float)
+    + magnitude : float <<get>>
+    + {static} Normalize(_q:Quaternion) : Quaternion
+    + Normalize() : void
+    + {static} Dot(_lhs:Quaternion, _rhs:Quaternion) : float
+    + {static} FromAxisAngle(_axis:Vector3, _angleRad:float) : Quaternion
+    + {static} FromEuler(_xDeg:float, _yDeg:float, _zDeg:float) : Quaternion
+    + {static} FromEuler(_eulerDeg:Vector3) : Quaternion
+    + ToEuler() : Vector3
+    + {static} ToEuler(_q:Quaternion) : Vector3
+    + {static} AngleBetween(_lhs:Quaternion, _rhs:Quaternion) : float
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Quaternion) : bool
+    + <<override>> ToString() : string
 }
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Quaternion>" <|-- Quaternion
+Quaternion --> "normalized" Quaternion
+Quaternion --> "identity" Quaternion
+class Vector3Int <<struct>> {
+    + x : int
+    + y : int
+    + z : int
+    + Vector3Int(_x:float, _y:float)
+    + Vector3Int(_x:float, _y:float, _z:float)
+    + Vector3Int(_x:int, _y:int)
+    + Vector3Int(_x:int, _y:int, _z:int)
+    + magnitude : float <<get>>
+    + Normalize() : void
+    + {static} Distance(_lhs:Vector3Int, _rhs:Vector3Int) : float
+    + {static} Dot(_lhs:Vector3Int, _rhs:Vector3Int) : float
+    + {static} Cross(_lhs:Vector3Int, _rhs:Vector3Int) : Vector3Int
+    + {static} Angle(_from:Vector3Int, _to:Vector3Int) : float
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Vector3Int) : bool
+    + <<override>> ToString() : string
+    + {static} RandomVector(_minInclusive:int, _maxInclusive:int) : Vector3Int
+}
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Vector3Int>" <|-- Vector3Int
+Vector3Int --> "normalized" Vector3Int
+Vector3Int --> "zero" Vector3Int
+Vector3Int --> "one" Vector3Int
+Vector3Int --> "right" Vector3Int
+Vector3Int --> "left" Vector3Int
+Vector3Int --> "up" Vector3Int
+Vector3Int --> "down" Vector3Int
+Vector3Int --> "forward" Vector3Int
+Vector3Int --> "back" Vector3Int
 class Matrix4x4 <<struct>> {
     + m00 : float
     + m01 : float
@@ -358,61 +399,6 @@ class "IEquatable`1"<T> {
 Vector4 --> "normalized" Vector4
 Vector4 --> "zero" Vector4
 Vector4 --> "one" Vector4
-class Vector3Int <<struct>> {
-    + x : int
-    + y : int
-    + z : int
-    + Vector3Int(_x:float, _y:float)
-    + Vector3Int(_x:float, _y:float, _z:float)
-    + Vector3Int(_x:int, _y:int)
-    + Vector3Int(_x:int, _y:int, _z:int)
-    + magnitude : float <<get>>
-    + Normalize() : void
-    + {static} Distance(_lhs:Vector3Int, _rhs:Vector3Int) : float
-    + {static} Dot(_lhs:Vector3Int, _rhs:Vector3Int) : float
-    + {static} Cross(_lhs:Vector3Int, _rhs:Vector3Int) : Vector3Int
-    + {static} Angle(_from:Vector3Int, _to:Vector3Int) : float
-    + <<override>> GetHashCode() : int
-    + <<override>> Equals(_other:object) : bool
-    + Equals(_other:Vector3Int) : bool
-    + <<override>> ToString() : string
-    + {static} RandomVector(_minInclusive:int, _maxInclusive:int) : Vector3Int
-}
-class "IEquatable`1"<T> {
-}
-"IEquatable`1" "<Vector3Int>" <|-- Vector3Int
-Vector3Int --> "normalized" Vector3Int
-Vector3Int --> "zero" Vector3Int
-Vector3Int --> "one" Vector3Int
-Vector3Int --> "right" Vector3Int
-Vector3Int --> "up" Vector3Int
-Vector3Int --> "forward" Vector3Int
-class Vector2 <<struct>> {
-    + x : float
-    + y : float
-    + Vector2(_x:float, _y:float)
-    + magnitude : float <<get>>
-    + squaredMagnitude : float <<get>>
-    + Normalize() : void
-    + Rotate(_rad:float) : void
-    + {static} Distance(_lhs:Vector2, _rhs:Vector2) : float
-    + {static} Dot(_lhs:Vector2, _rhs:Vector2) : float
-    + {static} Cross(_lhs:Vector2, _rhs:Vector2) : float
-    + {static} Angle(_from:Vector2, _to:Vector2) : float
-    + <<override>> GetHashCode() : int
-    + <<override>> Equals(_other:object) : bool
-    + Equals(_other:Vector2) : bool
-    + <<override>> ToString() : string
-    + {static} RandomVector(_minInclusive:float, _maxExclusive:float) : Vector2
-}
-class "IEquatable`1"<T> {
-}
-"IEquatable`1" "<Vector2>" <|-- Vector2
-Vector2 --> "normalized" Vector2
-Vector2 --> "zero" Vector2
-Vector2 --> "one" Vector2
-Vector2 --> "right" Vector2
-Vector2 --> "up" Vector2
 class Vector2Int <<struct>> {
     + x : int
     + y : int
@@ -438,37 +424,83 @@ Vector2Int --> "normalized" Vector2Int
 Vector2Int --> "zero" Vector2Int
 Vector2Int --> "one" Vector2Int
 Vector2Int --> "right" Vector2Int
+Vector2Int --> "left" Vector2Int
 Vector2Int --> "up" Vector2Int
-class Random <<static>> {
-    + {static} Range(_minInclusive:float, _maxExclusive:float) : float
-    + {static} Range(_minInclusive:int, _maxInclusive:int) : int
-}
-class Quaternion <<struct>> {
-    + x : float
-    + y : float
-    + z : float
-    + w : float
-    + Quaternion(_x:float, _y:float, _z:float, _w:float)
-    + magnitude : float <<get>>
-    + {static} Normalize(_q:Quaternion) : Quaternion
-    + Normalize() : void
-    + {static} Dot(_lhs:Quaternion, _rhs:Quaternion) : float
-    + {static} FromAxisAngle(_axis:Vector3, _angleRad:float) : Quaternion
-    + {static} FromEuler(_xDeg:float, _yDeg:float, _zDeg:float) : Quaternion
-    + {static} FromEuler(_eulerDeg:Vector3) : Quaternion
-    + ToEuler() : Vector3
-    + {static} ToEuler(_q:Quaternion) : Vector3
-    + {static} AngleBetween(_lhs:Quaternion, _rhs:Quaternion) : float
+Vector2Int --> "down" Vector2Int
+class Matrix3x3 <<struct>> {
+    + m00 : float
+    + m01 : float
+    + m02 : float
+    + m10 : float
+    + m11 : float
+    + m12 : float
+    + m20 : float
+    + m21 : float
+    + m22 : float
+    + Matrix3x3()
+    + Matrix3x3(_matrix:float[,])
+    + Matrix3x3(_m00:float, _m01:float, _m02:float, _m10:float, _m11:float, _m12:float, _m20:float, _m21:float, _m22:float)
+    + Matrix3x3(_row0:Vector3, _row1:Vector3, _row2:Vector3)
+    + GetRow(_index:int) : Vector3
+    + GetColumn(_index:int) : Vector3
+    + Invert() : void
+    + Transpose() : void
+    + determinant : float <<get>>
     + <<override>> GetHashCode() : int
     + <<override>> Equals(_other:object) : bool
-    + Equals(_other:Quaternion) : bool
+    + Equals(_other:Matrix3x3) : bool
     + <<override>> ToString() : string
 }
 class "IEquatable`1"<T> {
 }
-"IEquatable`1" "<Quaternion>" <|-- Quaternion
-Quaternion --> "normalized" Quaternion
-Quaternion --> "identity" Quaternion
+"IEquatable`1" "<Matrix3x3>" <|-- Matrix3x3
+Matrix3x3 --> "inverse" Matrix3x3
+Matrix3x3 --> "transposed" Matrix3x3
+Matrix3x3 --> "zero" Matrix3x3
+Matrix3x3 --> "one" Matrix3x3
+Matrix3x3 --> "identity" Matrix3x3
+class Random <<static>> {
+    + {static} Range(_minInclusive:float, _maxExclusive:float) : float
+    + {static} Range(_minInclusive:int, _maxInclusive:int) : int
+}
+class Math <<static>> {
+    + <<const>> epsilon : float
+    + {static} Deg2Rad : float <<get>>
+    + {static} Rad2Deg : float <<get>>
+    + {static} Clamp(_value:float, _min:float, _max:float) : float
+    + {static} Clamp(_value:int, _min:int, _max:int) : int
+    + {static} Clamp01(_value:float) : float
+    + {static} Lerp(_a:float, _b:float, _t:float) : float
+    + {static} LerpUnclamped(_a:float, _b:float, _t:float) : float
+}
+class Vector2 <<struct>> {
+    + x : float
+    + y : float
+    + Vector2(_x:float, _y:float)
+    + magnitude : float <<get>>
+    + squaredMagnitude : float <<get>>
+    + Normalize() : void
+    + Rotate(_rad:float) : void
+    + {static} Distance(_lhs:Vector2, _rhs:Vector2) : float
+    + {static} Dot(_lhs:Vector2, _rhs:Vector2) : float
+    + {static} Cross(_lhs:Vector2, _rhs:Vector2) : float
+    + {static} Angle(_from:Vector2, _to:Vector2) : float
+    + <<override>> GetHashCode() : int
+    + <<override>> Equals(_other:object) : bool
+    + Equals(_other:Vector2) : bool
+    + <<override>> ToString() : string
+    + {static} RandomVector(_minInclusive:float, _maxExclusive:float) : Vector2
+}
+class "IEquatable`1"<T> {
+}
+"IEquatable`1" "<Vector2>" <|-- Vector2
+Vector2 --> "normalized" Vector2
+Vector2 --> "zero" Vector2
+Vector2 --> "one" Vector2
+Vector2 --> "right" Vector2
+Vector2 --> "left" Vector2
+Vector2 --> "up" Vector2
+Vector2 --> "down" Vector2
 class DirectionalLight {
     + DirectionalLight(_c:Colour)
 }
@@ -478,7 +510,7 @@ class PointLight {
     + constantAttenuation : float
     + linearAttenuation : float
     + quadraticAttenuation : float
-    + PointLight(_c:Colour, _range:float)
+    + PointLight(_colour:Colour, _range:float)
 }
 Light <|-- PointLight
 class LightUtility <<static>> {
@@ -492,7 +524,22 @@ class Light {
 }
 GameObject <|-- Light
 Light --> "colour" Colour
-class Primitives {
+class LitMaterial {
+    + LitMaterial()
+    + <<override>> Initialize() : void
+    + AmbientStrength : float <<get>> <<set>>
+    + SpecularStrength : float <<get>> <<set>>
+    + Shininess : float <<get>> <<set>>
 }
-Primitives --> "Cube" Mesh
+Material <|-- LitMaterial
+LitMaterial --> "ObjectColour" Colour
+LitMaterial --> "DiffuseMap" Texture2D
+LitMaterial --> "SpecularMap" Texture2D
+class UnlitMaterial {
+    + UnlitMaterial()
+    + <<override>> Initialize() : void
+}
+Material <|-- UnlitMaterial
+UnlitMaterial --> "ObjectColour" Colour
+UnlitMaterial --> "DiffuseMap" Texture2D
 @enduml

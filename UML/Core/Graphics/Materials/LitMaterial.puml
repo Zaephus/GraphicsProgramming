@@ -1,0 +1,13 @@
+@startuml
+class LitMaterial {
+    + LitMaterial()
+    + <<override>> Initialize() : void
+    + AmbientStrength : float <<get>> <<set>>
+    + SpecularStrength : float <<get>> <<set>>
+    + Shininess : float <<get>> <<set>>
+}
+Material <|-- LitMaterial
+LitMaterial --> "ObjectColour" Colour
+LitMaterial --> "DiffuseMap" Texture2D
+LitMaterial --> "SpecularMap" Texture2D
+@enduml

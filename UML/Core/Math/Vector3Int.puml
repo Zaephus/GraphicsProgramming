@@ -26,6 +26,9 @@ Vector3Int --> "normalized" Vector3Int
 Vector3Int --> "zero" Vector3Int
 Vector3Int --> "one" Vector3Int
 Vector3Int --> "right" Vector3Int
+Vector3Int --> "left" Vector3Int
 Vector3Int --> "up" Vector3Int
+Vector3Int --> "down" Vector3Int
 Vector3Int --> "forward" Vector3Int
+Vector3Int --> "back" Vector3Int
 @enduml

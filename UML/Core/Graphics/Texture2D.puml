@@ -4,11 +4,12 @@ enum TextureFilter {
     Point,
 }
 class Texture2D {
+    + name : string
     + generateMipmap : bool = true
     + Texture2D(_path:string)
     + Texture2D()
     + Texture2D(_c:Colour)
-    + Bind(_unit:TextureUnit) : void
+    + Bind(_unit:int) : void
     + Use() : void
 }
 Texture2D --> "textureFilter" TextureFilter

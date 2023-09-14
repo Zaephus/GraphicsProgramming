@@ -11,6 +11,7 @@ class Colour <<struct>> {
     + <<override>> Equals(_other:object) : bool
     + Equals(_other:Colour) : bool
     + <<override>> ToString() : string
+    + {static} RandomColour() : Colour
 }
 class "IEquatable`1"<T> {
 }

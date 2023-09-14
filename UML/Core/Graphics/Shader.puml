@@ -1,21 +1,13 @@
 @startuml
 class Shader {
-    + handle : int
     + Shader(_vertexPath:string, _fragmentPath:string)
     + Bind() : void
     + Use() : void
     + Dispose() : void
-    + SetInt(_name:string, _value:int) : void
-    + SetFloat(_name:string, _value:float) : void
-    + SetBool(_name:string, _value:bool) : void
-    + SetVector2(_name:string, _vector:Vector2) : void
-    + SetVector3(_name:string, _vector:Vector3) : void
-    + SetVector4(_name:string, _vector:Vector4) : void
-    + SetVector2Int(_name:string, _vector:Vector2Int) : void
-    + SetVector3Int(_name:string, _vector:Vector3Int) : void
-    + SetColour(_name:string, _colour:Colour) : void
-    + SetQuaternion(_name:string, _quaternion:Quaternion) : void
-    + <<unsafe>> SetMatrix4x4(_name:string, _matrix:Matrix4x4) : void
+    + GetUniformLocation(_name:string) : int
 }
 IDisposable <|-- Shader
+Shader --> "lit" Shader
+Shader --> "unlit" Shader
+Shader --> "test" Shader
 @enduml

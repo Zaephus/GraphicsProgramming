@@ -1,0 +1,10 @@
+@startuml
+class Primitives <<static>> {
+    {static} Primitives()
+}
+Primitives --> "capsule" Mesh
+Primitives --> "cube" Mesh
+Primitives --> "cylinder" Mesh
+Primitives --> "quad" Mesh
+Primitives --> "sphere" Mesh
+@enduml

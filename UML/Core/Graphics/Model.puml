@@ -1,0 +1,9 @@
+@startuml
+class Model {
+    + Model()
+    + Model(_meshes:Mesh[], _materials:Material[])
+    + {static} Load(_path:string, _saveModel:bool) : Model
+}
+Model --> "mesh" Mesh
+Model --> "material" Material
+@enduml

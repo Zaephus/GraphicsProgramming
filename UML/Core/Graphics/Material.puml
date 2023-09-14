@@ -1,16 +1,22 @@
 @startuml
 class Material {
     + Material()
-    + Material(_vertexShaderPath:string, _fragmentShaderPath:string)
-    + Initialize() : void
-    + Render() : void
+    + Material(_shader:Shader)
+    + <<virtual>> Initialize() : void
+    + <<virtual>> Render() : void
     + Dispose() : void
-    + AmbientStrength : float <<get>> <<set>>
-    + SpecularStrength : float <<get>> <<set>>
-    + Shininess : float <<get>> <<set>>
+    + SetInt(_name:string, _value:int) : void
+    + SetFloat(_name:string, _value:float) : void
+    + SetBool(_name:string, _value:bool) : void
+    + SetVector2(_name:string, _vector:Vector2) : void
+    + SetVector3(_name:string, _vector:Vector3) : void
+    + SetVector4(_name:string, _vector:Vector4) : void
+    + SetVector2Int(_name:string, _vector:Vector2Int) : void
+    + SetVector3Int(_name:string, _vector:Vector3Int) : void
+    + SetColour(_name:string, _colour:Colour) : void
+    + SetQuaternion(_name:string, _quaternion:Quaternion) : void
+    + <<unsafe>> SetMatrix4x4(_name:string, _matrix:Matrix4x4) : void
+    + SetTexture2D(_name:string, _texture:Texture2D) : void
 }
-Material --> "shader" Shader
-Material --> "ObjectColour" Colour
-Material --> "DiffuseMap" Texture2D
-Material --> "SpecularMap" Texture2D
+Material o-> "renderFace" RenderFace
 @enduml

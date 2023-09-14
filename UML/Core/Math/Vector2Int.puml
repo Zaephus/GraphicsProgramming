@@ -24,5 +24,7 @@ Vector2Int --> "normalized" Vector2Int
 Vector2Int --> "zero" Vector2Int
 Vector2Int --> "one" Vector2Int
 Vector2Int --> "right" Vector2Int
+Vector2Int --> "left" Vector2Int
 Vector2Int --> "up" Vector2Int
+Vector2Int --> "down" Vector2Int
 @enduml
