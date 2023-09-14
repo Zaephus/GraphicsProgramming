@@ -63,7 +63,7 @@ void main() {
         if(i >= dirLightNum) {
             break;
         }
-        lightResult += dirLights[i].colour * max(pow(dot(-viewDirection, dirLights[i].direction), 128), 0.0);
+        lightResult += dirLights[i].colour * max(pow(max(dot(-viewDirection, dirLights[i].direction), 0.0), 128), 0.0);
     }
 
     fragColour = mix(botColour, topColour, abs(viewDirection.y)) + lightResult;
