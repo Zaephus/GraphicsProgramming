@@ -109,9 +109,9 @@ class Vertex <<struct>> {
     + tangent : Vector3
     + biTangent : Vector3
 }
-Vertex --> Vector3
-Vertex --> Vector2
-Vertex --> Colour
+Vertex -up-> Vector3
+Vertex -up-> Vector2
+Vertex -down-> Colour
 
 class MeshRenderer {
     + MeshRenderer()
@@ -122,18 +122,21 @@ class MeshRenderer {
     + mesh : Mesh
     + renderOrder : RenderOrder
 }
-Component <|-- MeshRenderer
-MeshRenderer --> Material
-MeshRenderer --> Mesh
-MeshRenderer o-> RenderOrder
+Component <|-right- MeshRenderer
+MeshRenderer -down-> Material
+MeshRenderer -right-> Mesh
+MeshRenderer o-up-> RenderOrder
 
 class Model {
+    + material : Material
+    + mesh : Mesh
+    
     + Model()
     
     + {static} Load() : Model
 }
-Model --> Mesh
-Model --> Material
+Model -up-> Mesh
+Model -left-> Material
 
 enum TextureFilter {
     Linear,
@@ -192,7 +195,7 @@ class Material {
     
     + renderFace : RenderFace
 }
-Material o-> RenderFace
+Material o-left-> RenderFace
 
 class Camera {
     + fovY : float
@@ -214,8 +217,8 @@ class Camera {
 GameObject <|-- Camera
 Camera --> Matrix4x4
 Camera o-> Colour
-Camera +-> ProjectionType
-Camera +-> BackgroundType
+Camera +-right-> ProjectionType
+Camera +-left-> BackgroundType
 
 enum ProjectionType {
     Perspective = 0,
@@ -233,7 +236,7 @@ class CameraController {
     + <<override>> Start() : void
     + <<override>> Update() : void
 }
-Component <|-- CameraController
+Component <|-left- CameraController
 
 class Transform {
     + Rotate() : void
@@ -453,7 +456,7 @@ class Math <<static>> {
 class DirectionalLight {
     + DirectionalLight()
 }
-Light <|-- DirectionalLight
+Light <|-down- DirectionalLight
 
 class PointLight {
     + range : float <<get>> <<set>>
@@ -462,14 +465,15 @@ class PointLight {
     + quadraticAttenuation : float
     + PointLight()
 }
-Light <|-- PointLight
+Light <|-left- PointLight
 
 class LightUtility <<static>> {}
-LightUtility o-> DirectionalLight
-LightUtility o-> PointLight
+LightUtility o-right-> DirectionalLight
+LightUtility o-up-> PointLight
 
 class Light {
     + Light()
+    + colour : Colour
 }
 GameObject <|-- Light
 Light --> Colour
