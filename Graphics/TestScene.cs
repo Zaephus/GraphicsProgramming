@@ -5,7 +5,8 @@ using OpenTK.Windowing.Common;
 public class TestScene : Game {
 
     private Camera camera = new() {
-        projectionType = Camera.ProjectionType.Perspective,
+        projectionType = Camera.ProjectionType.Orthographic,
+        camSize = 5.0f,
         backgroundType = Camera.BackgroundType.Skybox,
         mainColour = Colour.blue,
         secondColour = Colour.cyan
@@ -16,10 +17,12 @@ public class TestScene : Game {
     // private GameObject capsule = new(new MeshRenderer(Primitives.capsule));
     // private GameObject sphere = new(new MeshRenderer(Primitives.sphere));
     private GameObject cube = new(new MeshRenderer(Primitives.cube));
+    private GameObject cube2 = new(new MeshRenderer(Primitives.cube));
+    private GameObject cube3 = new(new MeshRenderer(Primitives.cube));
     // private GameObject quad = new(new MeshRenderer(Primitives.quad));
     // private GameObject cylinder = new(new MeshRenderer(Primitives.cylinder));
 
-    private GameObject windmill = new(new MeshRenderer(Model.Load("Resources\\Models\\M_Windmill_Var2_4 v2.fbx")));
+    // private GameObject windmill = new(new MeshRenderer(Model.Load("Resources\\Models\\M_Windmill_Var2_4 v2.fbx")));
 
     private LitMaterial greenMat = new() {
         ObjectColour = Colour.green,
@@ -40,7 +43,7 @@ public class TestScene : Game {
 
     protected override void Start() {
 
-        camera.AddComponent(new CameraController());
+        // camera.AddComponent(new CameraController());
         camera.transform.position = new Vector3(0.0f, 0.0f, 3.0f);
 
         sun.transform.rotation = Quaternion.FromEuler(120.0f, 20.0f, -20.0f);
@@ -50,12 +53,17 @@ public class TestScene : Game {
         // sphere.GetComponent<MeshRenderer>().material = cubeMat2;
         // sphere.transform.position = new Vector3(1.0f, 0.0f, 0.0f)
 
-        windmill.GetComponent<MeshRenderer>().material.renderFace = RenderFace.All;
-        windmill.GetComponent<MeshRenderer>().material.SetFloat("material.ambientStrength", 0.6f);
-        windmill.GetComponent<MeshRenderer>().materials[1] = windmillMat;
+        // windmill.GetComponent<MeshRenderer>().material.renderFace = RenderFace.All;
+        // windmill.GetComponent<MeshRenderer>().material.SetFloat("material.ambientStrength", 0.6f);
+        // windmill.GetComponent<MeshRenderer>().materials[1] = windmillMat;
 
         // cube.GetComponent<MeshRenderer>().material = windmillMat;
-        cube.transform.position = new Vector3(2.0f, 0.0f, 0.0f);
+        cube.transform.position = new Vector3(1.0f, 0.0f, -1.0f);
+        cube.GetComponent<MeshRenderer>().material = greenMat;
+        cube2.transform.position = new Vector3(-1.5f, -0.5f, -5.0f);
+        cube2.GetComponent<MeshRenderer>().material = greenMat;
+        cube3.transform.position = new Vector3(0.75f, 0.5f, -15.0f);
+        cube3.GetComponent<MeshRenderer>().material = greenMat;
 
         // quad.GetComponent<MeshRenderer>().material = cubeMat2;
         // quad.transform.position = new Vector3(3.0f, 0.0f, 0.0f);
@@ -64,7 +72,7 @@ public class TestScene : Game {
         // cylinder.transform.position = new Vector3(4.0f, 0.0f, 0.0f);
 
 
-        window.CursorState = CursorState.Grabbed;
+        // window.CursorState = CursorState.Grabbed;
 
     }
 

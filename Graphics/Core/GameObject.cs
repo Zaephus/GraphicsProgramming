@@ -56,6 +56,10 @@ namespace ZaephusEngine {
             return _component;
         }
 
+        public void RemoveComponent(Component _component) {
+            components.Remove(_component);
+        }
+
         public void RemoveComponentOfType<T>() where T : Component {
             foreach(Component c in components) {
                 if(c.GetType() == typeof(T)) {

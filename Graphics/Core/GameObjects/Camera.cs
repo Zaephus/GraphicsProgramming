@@ -82,12 +82,12 @@ namespace ZaephusEngine {
             }
         }
 
-        private Matrix4x4 CalculatePerspectiveProjection(float _fovY, float _aspect, float _near, float _far) {
+        private static Matrix4x4 CalculatePerspectiveProjection(float _fovY, float _aspect, float _near, float _far) {
 
             float fovY = _fovY * Math.Deg2Rad;
 
             if(fovY <= 0 || fovY > MathF.PI) {
-                throw new ArgumentOutOfRangeException(nameof(fovY));
+                throw new ArgumentOutOfRangeException(nameof(_fovY));
             }
 
             if(_aspect <= 0) {
@@ -120,7 +120,7 @@ namespace ZaephusEngine {
 
         }
 
-        private Matrix4x4 CalculateOrthoGraphicProjection(float _sizeY, float _aspect, float _near, float _far) {
+        private static Matrix4x4 CalculateOrthoGraphicProjection(float _sizeY, float _aspect, float _near, float _far) {
 
             if(_sizeY <= 0) {
                 throw new ArgumentOutOfRangeException(nameof(_sizeY));

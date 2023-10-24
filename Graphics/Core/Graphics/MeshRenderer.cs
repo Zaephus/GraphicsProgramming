@@ -46,10 +46,6 @@ namespace ZaephusEngine {
 
         public RenderOrder renderOrder = RenderOrder.Normal;
 
-        protected int vertexArrayObject;
-        protected int vertexBufferObject;
-        protected int elementBufferObject;
-
         private bool isInitialized = false;
 
         private static readonly LitMaterial standardMaterial = new();
