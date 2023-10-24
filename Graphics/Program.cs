@@ -13,5 +13,8 @@
 // TerrainTest terrainTest = new TerrainTest();
 // terrainTest.Run();
 
-TestScene testScene = new();
-testScene.Run();
+// TestScene testScene = new();
+// testScene.Run();
+
+ScenicScene scenicScene = new();
+scenicScene.Run();

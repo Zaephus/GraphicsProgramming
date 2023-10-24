@@ -14,16 +14,15 @@ public class AssignmentOne : Game {
     // private GameObject colouredCube = new(new MeshRenderer(Mesh.Load("Resources\\Models\\uv_sphere.obj", false)));
     // private GameObject texturedCube = new(new MeshRenderer(Primitives.cube));
 
-    private GameObject backpack = new(new MeshRenderer(Model.Load("Resources/Models/backpack/backpack.obj")));
+    // private GameObject backpack = new(new MeshRenderer(Model.Load("Resources/Models/backpack/backpack.obj")));
 
-    // private GameObject[] cubes = new GameObject[1000];
+    private GameObject[] cubes = new GameObject[50000];
 
     private PointLight whiteLight = new(Colour.white, 10.0f);
     private PointLight blueLight = new(Colour.white, 10.0f);
 
-    private LitMaterial cubeMat1 = new() {
-        ObjectColour = Colour.green,
-        AmbientStrength = 0.8f
+    private UnlitMaterial cubeMat1 = new() {
+        ObjectColour = Colour.green
     };
     // private StandardMaterial cubeMat2 = new() {
     //     DiffuseMap = new Texture2D("Resources/Textures/Crate.png"),
@@ -37,16 +36,15 @@ public class AssignmentOne : Game {
         camera.transform.position = new Vector3(0.0f, 0.0f, 3.0f);
         // camera.transform.Rotate(0.0f, 30.0f, 0.0f);
 
-        // for(int i = 0; i < cubes.Length; i++) {
-        //     cubes[i] = new GameObject(new MeshRenderer(Primitives.cube) {
-        //         // material = new StandardMaterial() {
-        //         //     ObjectColour = Colour.RandomColour(),
-        //         //     AmbientStrength = 1.0f
-        //         // }
-        //         material = cubeMat1
-        //     });
-        //     cubes[i].transform.position = Vector3.RandomVector(-50.0f, 50.0f);
-        // }
+        for(int i = 0; i < cubes.Length; i++) {
+            cubes[i] = new GameObject(new MeshRenderer(Primitives.cube) {
+                // material = new UnlitMaterial() {
+                //     ObjectColour = Colour.RandomColour()
+                // }
+                material = cubeMat1
+            });
+            cubes[i].transform.position = Vector3.RandomVector(-50.0f, 50.0f);
+        }
 
         // colouredCube.transform.position = new Vector3(0.0f, -0.75f, 0.0f);
         // colouredCube.transform.rotation = Quaternion.FromEuler(0, -25, 0);
